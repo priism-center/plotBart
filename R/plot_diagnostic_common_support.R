@@ -9,7 +9,7 @@
 #' @return ggplot object
 #' @export
 #'
-#' @import ggplot2 dplyr
+#' @import ggplot2 dplyr patchwork
 plot_diagnostic_common_support <- function(.model, .rule = c('none', 'sd', 'chi')){
 
   if (!is(.model, "bartcFit")) stop(".model must be of class bartcFit")
