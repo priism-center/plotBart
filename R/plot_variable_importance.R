@@ -32,7 +32,7 @@ plot_variable_importance <- function(.model, confounders, out = 'all'){
     mutate(Variable = names(importance)) %>% 
     dplyr::select(Variable, value) %>% 
     rename(Importance = value) %>% 
-    arrange(desc(value)) 
+    arrange(desc(Importance)) 
   
   # plot variable importance
   importance_table_plt <- importance_table %>% slice(1:20)
