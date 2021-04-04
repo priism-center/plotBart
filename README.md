@@ -6,8 +6,9 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-plotBart is a supplemental plotting package to bartCause and
-thinkCausal.
+plotBart is a supplemental plotting package to
+[bartCause](https://github.com/vdorie/bartCause) and
+[thinkCausal](https://github.com/gperrett/thinkCausal_dev).
 
 ## Installation
 
@@ -22,7 +23,6 @@ devtools::install_github("joemarlo/plotBart")
 ## Dev to-do
 
 -   Remove Shiny code from functions
--   Ensure common api for all functions (e.g. .model argument)
 -   Write examples
 -   Write vignette?
 -   Remove functions from thinkCausal repo
