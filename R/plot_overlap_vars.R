@@ -27,7 +27,8 @@
 plot_overlap_vars <- function(.data, treatment_col, confounder_cols, plt_type = c("Histogram", "Density")){
 
   # coerce 01 to logical
-  if (length(setdiff(unique(.data[[treatment_col]]), 0:1)) == 0){
+  treat_levels <- as.character(unique(.data[[treatment_col]]))
+  if (length(setdiff(treat_levels, as.character(0:1))) == 0){
     .data[[treatment_col]] <- dplyr::recode(.data[[treatment_col]], `0` = FALSE, `1` = TRUE)
   }
   if (!is.logical(.data[[treatment_col]])) stop("treatment_col must be logical")
