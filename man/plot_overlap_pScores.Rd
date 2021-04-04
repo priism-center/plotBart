@@ -4,10 +4,24 @@
 \alias{plot_overlap_pScores}
 \title{Plot the overlap via propensity score method}
 \usage{
-plot_overlap_pScores(.data, plt_type)
+plot_overlap_pScores(
+  .data,
+  treatment_col,
+  response_col,
+  confounder_cols,
+  plt_type = c("Histogram", "Density")
+)
 }
 \arguments{
-\item{.data}{dataframe. Typically store$selected_df}
+\item{.data}{dataframe}
+
+\item{treatment_col}{name of the treatment column within .data}
+
+\item{response_col}{name of the response column within .data}
+
+\item{confounder_cols}{character list of column names denoting confounders within .data}
+
+\item{plt_type}{the plot type, one of c('Histogram', 'Density')}
 }
 \value{
 ggplot object
@@ -15,6 +29,24 @@ ggplot object
 \description{
 Plot histograms showing the overlap between propensity scores by treatment status.
 }
+\examples{
+data(lalonde, package = 'arm')
+confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
+model_results <- bartCause::bartc(
+ response = lalonde[['re78']],
+ treatment = lalonde[['treat']],
+ confounders = as.matrix(lalonde[, confounders]),
+ estimand = 'ate',
+ commonSup.rule = 'none'
+)
+plot_overlap_pScores(
+ .data = X,
+ treatment_col = 'treat',
+ response_col = 're78',
+ confounder_cols = c('age', 'educ'),
+ plt_type = 'Histogram'
+)
+}
 \author{
-George Perrett
+George Perrett, Joe Marlo
 }

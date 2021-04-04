@@ -3,8 +3,8 @@
 #' Visualize balance of variables between treatment and control groups.
 #'
 #' @param .data dataframe
-#' @param z_col the column denoted treatment. Must be binary.
-#' @param x_cols character list of column names denoting the X columns of interest
+#' @param treatment_col the column denoted treatment. Must be binary.
+#' @param confounder_cols character list of column names denoting the X columns of interest
 #' @author Joe Marlo
 #'
 #' @return ggplot object
@@ -13,19 +13,19 @@
 #' @import ggplot2 dplyr
 #' @importFrom tidyr pivot_longer
 #'
-#' @example
+#' @examples
 #' data(lalonde, package = 'arm')
 #' plot_balance(lalonde, 'treat', c('re78', 'age', 'educ')) + labs(title = 'My new title')
-plot_balance <- function(.data, z_col, x_cols){
+plot_balance <- function(.data, treatment_col, confounder_cols){
 
-  if (length(table(.data[[z_col]])) != 2) stop("z_col must be binary")
+  if (length(table(.data[[treatment_col]])) != 2) stop("treatment_col must be binary")
 
   p <- .data %>%
-    dplyr::select(all_of(c(x_cols, z_col))) %>%
-    pivot_longer(cols = -z_col) %>%
+    dplyr::select(all_of(c(confounder_cols, treatment_col))) %>%
+    pivot_longer(cols = -treatment_col) %>%
     group_by(name) %>%
     mutate(value = base::scale(value)[,1]) %>%
-    group_by(across(c('name', z_col))) %>%
+    group_by(across(c('name', treatment_col))) %>%
     summarize(mean = mean(value, na.rm = TRUE),
               .groups = 'drop') %>%
     group_by(name) %>%

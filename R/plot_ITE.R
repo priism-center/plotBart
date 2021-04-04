@@ -2,14 +2,24 @@
 #'
 #' Returns a ggplot ITE plot
 #'
-#' @param .model a model produced by bartCause::bartc(). Typically store$model_results
+#' @param .model a model produced by bartCause::bartc()
 #' @author George Perrett, Joe Marlo
 #'
 #' @return ggplot object
 #' @export
 #'
 #' @import ggplot2 bartCause
-#'
+#' @examples
+#' data(lalonde, package = 'arm')
+#' confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
+#' model_results <- bartCause::bartc(
+#'  response = lalonde[['re78']],
+#'  treatment = lalonde[['treat']],
+#'  confounders = as.matrix(lalonde[, confounders]),
+#'  estimand = 'ate',
+#'  commonSup.rule = 'none'
+#' )
+#' plot_ITE(model_results)
 plot_ITE <- function(.model){
 
   if (!is(.model, "bartcFit")) stop("Model must be of class bartcFit")

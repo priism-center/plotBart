@@ -2,14 +2,26 @@
 #'
 #' Returns a ggplot common support plot
 #'
-#' @param .model a model produced by bartCause::bartc(). Typically store$model_results
-#' @param .rule
+#' @param .model a model produced by bartCause::bartc()
+#' @param .rule one of c('none', 'sd', 'chi') denoting which rule to use to identify lack of support
 #' @author George Perrett, Joe Marlo
 #'
 #' @return ggplot object
 #' @export
 #'
 #' @import ggplot2 dplyr patchwork
+#'
+#' @examples
+#' data(lalonde, package = 'arm')
+#' confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
+#' model_results <- bartCause::bartc(
+#'  response = lalonde[['re78']],
+#'  treatment = lalonde[['treat']],
+#'  confounders = as.matrix(lalonde[, confounders]),
+#'  estimand = 'ate',
+#'  commonSup.rule = 'none'
+#' )
+#' plot_diagnostic_common_support(model_results)
 plot_diagnostic_common_support <- function(.model, .rule = c('none', 'sd', 'chi')){
 
   if (!is(.model, "bartcFit")) stop(".model must be of class bartcFit")

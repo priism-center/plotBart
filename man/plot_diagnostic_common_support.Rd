@@ -7,13 +7,27 @@
 plot_diagnostic_common_support(.model, .rule = c("none", "sd", "chi"))
 }
 \arguments{
-\item{.model}{a model produced by bartCause::bartc(). Typically store$model_results}
+\item{.model}{a model produced by bartCause::bartc()}
+
+\item{.rule}{one of c('none', 'sd', 'chi') denoting which rule to use to identify lack of support}
 }
 \value{
 ggplot object
 }
 \description{
 Returns a ggplot common support plot
+}
+\examples{
+data(lalonde, package = 'arm')
+confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
+model_results <- bartCause::bartc(
+ response = lalonde[['re78']],
+ treatment = lalonde[['treat']],
+ confounders = as.matrix(lalonde[, confounders]),
+ estimand = 'ate',
+ commonSup.rule = 'none'
+)
+plot_diagnostic_common_support(model_results)
 }
 \author{
 George Perrett, Joe Marlo

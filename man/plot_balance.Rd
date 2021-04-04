@@ -4,20 +4,24 @@
 \alias{plot_balance}
 \title{Plot the balance}
 \usage{
-plot_balance(.data, z_col, x_cols)
+plot_balance(.data, treatment_col, confounder_cols)
 }
 \arguments{
 \item{.data}{dataframe}
 
-\item{z_col}{the column denoted treatment. Must be binary.}
+\item{treatment_col}{the column denoted treatment. Must be binary.}
 
-\item{x_cols}{character list of column names denoting the X columns of interest}
+\item{confounder_cols}{character list of column names denoting the X columns of interest}
 }
 \value{
 ggplot object
 }
 \description{
 Visualize balance of variables between treatment and control groups.
+}
+\examples{
+data(lalonde, package = 'arm')
+plot_balance(lalonde, 'treat', c('re78', 'age', 'educ')) + labs(title = 'My new title')
 }
 \author{
 Joe Marlo

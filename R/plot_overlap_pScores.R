@@ -2,71 +2,92 @@
 #'
 #' Plot histograms showing the overlap between propensity scores by treatment status.
 #'
-#' @param .data dataframe. Typically store$selected_df
-#' @author George Perrett
+#' @param .data dataframe
+#' @param treatment_col name of the treatment column within .data
+#' @param response_col name of the response column within .data
+#' @param confounder_cols character list of column names denoting confounders within .data
+#' @param plt_type the plot type, one of c('Histogram', 'Density')
+#' @author George Perrett, Joe Marlo
 #'
 #' @return ggplot object
 #' @export
 #'
 #' @import ggplot2 dplyr
 #' @importFrom tidyr pivot_longer
-plot_overlap_pScores <- function(.data, plt_type) {
+#'
+#' @examples
+#' data(lalonde, package = 'arm')
+#' confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
+#' model_results <- bartCause::bartc(
+#'  response = lalonde[['re78']],
+#'  treatment = lalonde[['treat']],
+#'  confounders = as.matrix(lalonde[, confounders]),
+#'  estimand = 'ate',
+#'  commonSup.rule = 'none'
+#' )
+#' plot_overlap_pScores(
+#'  .data = X,
+#'  treatment_col = 'treat',
+#'  response_col = 're78',
+#'  confounder_cols = c('age', 'educ'),
+#'  plt_type = 'Histogram'
+#')
+plot_overlap_pScores <- function(.data, treatment_col, response_col, confounder_cols, plt_type = c("Histogram", "Density")) {
 
-  # pull the response, treatment, and confounders variables out of the df
-  response_v <- .data[, 2]
-  treatment_v <- .data[, 1]
+  if (length(table(.data[[treatment_col]])) != 2) stop("treatment_col must be binary")
+
+  # run the Bart model
   confounders_mat <- as.matrix(.data[, 3:ncol(.data)])
-  dim.red_results <- bartCause::bartc(response = response_v,
-                                      treatment = treatment_v,
-                                      confounders = confounders_mat)
+  dim.red_results <- bartCause::bartc(response = .data[[response_col]],
+                                      treatment = .data[[treatment_col]],
+                                      confounders = as.matrix(.data[confounder_cols]))
 
   # pull the propensity scores
   pscores <- dim.red_results$p.score
 
-  # pivot the data
-  dat_pivoted <- .data %>%
-    rename(Z = starts_with("Z")) %>%
-    dplyr::select(Z) %>%
-    mutate(pscores = pscores,
-           Z = as.logical(Z))
+  # clean and combine data into new dataframe
+  dat <- .data[treatment_col]
+  colnames(dat) <- "Z"
+  dat$Z <- as.logical(dat$Z)
+  dat$pscores <- pscores
 
+  if (plt_type == 'Histogram'){
 
-  if(plt_type == 'Histogram'){
-  # plot it
-  p <- ggplot() +
-    geom_hline(yintercept = 0, linetype = 'dashed', color = 'grey60') +
-    geom_histogram(data = dat_pivoted %>% filter(Z == 1),
-                   aes(x = pscores, y = ..count.., fill = Z),
-                   alpha = 0.8) +
-    geom_histogram(data = dat_pivoted %>% filter(Z == 0),
-                   aes(x = pscores, y = -..count.., fill = Z),
-                   alpha = 0.8) +
-    scale_y_continuous(labels = function(brk) abs(brk)) +
-    # scale_x_continuous(labels = seq(0, 1, .1)) +
-    scale_fill_manual(values = c('#bd332a', '#262991')) +
-    labs(title = "Overlap by treatment status",
-         subtitle = 'Informative subtitle to go here',
-         x = NULL,y = 'Count',
-         fill = "Treatment")
-  }
-
-  else{
     p <- ggplot() +
       geom_hline(yintercept = 0, linetype = 'dashed', color = 'grey60') +
-      geom_density(data = dat_pivoted %>% filter(Z == 1),
-                     aes(x = pscores, y = ..density.., fill = Z),
+      geom_histogram(data = dat %>% filter(Z == 1),
+                     aes(x = pscores, y = ..count.., fill = Z),
                      alpha = 0.8) +
-      geom_density(data = dat_pivoted %>% filter(Z == 0),
-                     aes(x = pscores, y = -..density.., fill = Z),
+      geom_histogram(data = dat %>% filter(Z == 0),
+                     aes(x = pscores, y = -..count.., fill = Z),
                      alpha = 0.8) +
-      scale_y_continuous(labels = function(brk) abs(brk)) +
-      # scale_x_continuous(labels = seq(0, 1, .1)) +
+      scale_y_continuous(labels = function(lbl) abs(lbl)) +
       scale_fill_manual(values = c('#bd332a', '#262991')) +
       labs(title = "Overlap by treatment status",
            subtitle = 'Informative subtitle to go here',
-           x = NULL,y = 'Count',
+           x = NULL,
+           y = 'Count',
            fill = "Treatment")
-  }
+
+    } else if (plt_type == 'Density') {
+
+      p <- ggplot() +
+        geom_hline(yintercept = 0, linetype = 'dashed', color = 'grey60') +
+        geom_density(data = dat %>% filter(Z == 1),
+                       aes(x = pscores, y = ..density.., fill = Z),
+                       alpha = 0.8) +
+        geom_density(data = dat %>% filter(Z == 0),
+                       aes(x = pscores, y = -..density.., fill = Z),
+                       alpha = 0.8) +
+        scale_y_continuous(labels = function(lbl) abs(lbl)) +
+        scale_fill_manual(values = c('#bd332a', '#262991')) +
+        labs(title = "Overlap by treatment status",
+             subtitle = 'Data should ideally be balanced across the x axis',
+             x = NULL,
+             y = 'Count',
+             fill = "Treatment")
+
+    } else stop("plt_type must be 'Histogram or 'Density'")
 
   return(p)
 }

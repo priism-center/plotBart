@@ -57,8 +57,9 @@ dim(tmp)
 plot_balance(X, 'treat', c('re78', 'age', 'educ'))
 plot_cate_test(model_results,  c('age', 'educ'))
 plot_ITE(model_results)
-# plot_cate_test(model_results, confounders_mat)
+plot_cate_test(model_results, confounders_mat)
 plot_diagnostic_common_support(model_results)
+plot_overlap_pScores(.data = X, treatment_col = 'treat', response_col = 're78', confounder_cols = c('age', 'educ'), plt_type = 'Histogram')
 plot_trace(model_results)
 
 
@@ -72,4 +73,5 @@ model_results <- bartCause::bartc(
   estimand = 'ate',
   commonSup.rule = 'none'
 )
+
 

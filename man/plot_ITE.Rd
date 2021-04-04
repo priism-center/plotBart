@@ -7,13 +7,25 @@
 plot_ITE(.model)
 }
 \arguments{
-\item{.model}{a model produced by bartCause::bartc(). Typically store$model_results}
+\item{.model}{a model produced by bartCause::bartc()}
 }
 \value{
 ggplot object
 }
 \description{
 Returns a ggplot ITE plot
+}
+\examples{
+data(lalonde, package = 'arm')
+confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
+model_results <- bartCause::bartc(
+ response = lalonde[['re78']],
+ treatment = lalonde[['treat']],
+ confounders = as.matrix(lalonde[, confounders]),
+ estimand = 'ate',
+ commonSup.rule = 'none'
+)
+plot_ITE(model_results)
 }
 \author{
 George Perrett, Joe Marlo

@@ -11,7 +11,7 @@
 #' @import ggplot2 dplyr bartCause
 #' @importFrom tidyr pivot_longer
 #'
-#' @example
+#' @examples
 #' data(lalonde, package = 'arm')
 #' confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 #' model_results <- bartCause::bartc(
