@@ -7,17 +7,17 @@
 plot_balance(.data, z_col, x_cols)
 }
 \arguments{
+\item{.data}{dataframe}
+
 \item{z_col}{the column denoted treatment. Must be binary.}
 
-\item{x_cols}{character list of column names denoting the X columns of interest.}
-
-\item{X}{dataframe}
+\item{x_cols}{character list of column names denoting the X columns of interest}
 }
 \value{
 ggplot object
 }
 \description{
-Visualize balance of variables between treatment and control groups."
+Visualize balance of variables between treatment and control groups.
 }
 \author{
 Joe Marlo

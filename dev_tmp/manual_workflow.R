@@ -51,9 +51,25 @@ model_results <- bartCause::bartc(
 
 # functions to test -------------------------------------------------------
 
+tmp <- model_results$data.rsp@x %>% as.data.frame()
+dim(tmp)
 
 plot_balance(X, 'treat', c('re78', 'age', 'educ'))
+plot_cate_test(model_results,  c('age', 'educ'))
 plot_ITE(model_results)
 # plot_cate_test(model_results, confounders_mat)
 plot_diagnostic_common_support(model_results)
 plot_trace(model_results)
+
+
+# example flow ------------------------------------------------------------
+data(lalonde, package = 'arm')
+confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
+model_results <- bartCause::bartc(
+  response = lalonde[['re78']],
+  treatment = lalonde[['treat']],
+  confounders = as.matrix(lalonde[, confounders]),
+  estimand = 'ate',
+  commonSup.rule = 'none'
+)
+

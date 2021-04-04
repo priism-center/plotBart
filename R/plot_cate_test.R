@@ -2,14 +2,26 @@
 #'
 #' Fit single regression tree on bartc() icates to produce variable importance plot & conditional effects plots.
 #'
-#' @param .model a model produced by bartCause::bartc(). Typically store$model_results
-#' @param confounders matrix of confounders
+#' @param .model a model produced by bartCause::bartc()
+#' @param confounders a character list of column names which should be considered the confounders. Must match the column names used to original fit .model.
 #' @author George Perrett, Joe Marlo
 #' @return a list containing variable importance plot & plots for each conditional effect
 #' @export
 #'
 #' @import ggplot2 dplyr bartCause
 #' @importFrom tidyr pivot_longer
+#'
+#' @example
+#' data(lalonde, package = 'arm')
+#' confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
+#' model_results <- bartCause::bartc(
+#'  response = lalonde[['re78']],
+#'  treatment = lalonde[['treat']],
+#'  confounders = as.matrix(lalonde[, confounders]),
+#'  estimand = 'ate',
+#'  commonSup.rule = 'none'
+#' )
+#' plot_cate_test(model_results,  c('age', 'educ'))
 plot_cate_test <- function(.model, confounders){
 
   # TODO: we need a smarter way to make these plots; it takes forever
@@ -17,7 +29,11 @@ plot_cate_test <- function(.model, confounders){
   # they want to see?
 
   if (!is(.model, "bartcFit")) stop(".model must be of class bartcFit")
-  if (!is.matrix(confounders)) stop("confounders must be of class matrix")
+
+  # pull data from model
+  .data <- as.data.frame(.model$data.rsp@x)
+  if (!all(confounders %in% colnames(.data))) stop("confounders must be within the original data used to fit .model")
+  confounders <- as.matrix(.data[, confounders])
 
   # extract individual conditional effects
   icate <- bartCause::extract(.model , 'icate')

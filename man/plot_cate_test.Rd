@@ -7,9 +7,9 @@
 plot_cate_test(.model, confounders)
 }
 \arguments{
-\item{.model}{a model produced by bartCause::bartc(). Typically store$model_results}
+\item{.model}{a model produced by bartCause::bartc()}
 
-\item{confounders}{matrix of confounders}
+\item{confounders}{a character list of column names which should be considered the confounders. Must match the column names used to original fit .model.}
 }
 \value{
 a list containing variable importance plot & plots for each conditional effect

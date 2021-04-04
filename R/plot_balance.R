@@ -1,10 +1,10 @@
 #' Plot the balance
 #'
-#' Visualize balance of variables between treatment and control groups."
+#' Visualize balance of variables between treatment and control groups.
 #'
-#' @param X dataframe
+#' @param .data dataframe
 #' @param z_col the column denoted treatment. Must be binary.
-#' @param x_cols character list of column names denoting the X columns of interest.
+#' @param x_cols character list of column names denoting the X columns of interest
 #' @author Joe Marlo
 #'
 #' @return ggplot object

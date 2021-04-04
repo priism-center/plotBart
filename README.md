@@ -26,4 +26,3 @@ devtools::install_github("joemarlo/plotBart")
 -   Write examples
 -   Write vignette?
 -   Remove functions from thinkCausal repo
--   
