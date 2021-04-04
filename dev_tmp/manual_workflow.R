@@ -32,6 +32,8 @@ clean_auto_convert_logicals <- function(input_data){
 # setup -------------------------------------------------------------------
 
 X <- read_csv("dev_tmp/lalonde.csv")
+# data(lalonde, package = 'arm')
+# X <- lalonde
 X <- dplyr::select(X, 'treat', 're78', 'age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 X <- clean_auto_convert_logicals(X)
 
@@ -59,9 +61,11 @@ plot_cate_test(model_results,  c('age', 'educ'))
 plot_ITE(model_results)
 plot_cate_test(model_results, confounders_mat)
 plot_diagnostic_common_support(model_results)
+X$treat
 plot_overlap_pScores(.data = X, treatment_col = 'treat', response_col = 're78', confounder_cols = c('age', 'educ'), plt_type = 'Histogram')
 plot_overlap_vars(.data = X, treatment_col = 'treat', confounder_cols = c('age', 'educ'), plt_type = 'Histogram')
 plot_trace(model_results)
+plot_variable_importance(model_results,  c('age', 'educ'))
 
 
 # example flow ------------------------------------------------------------
@@ -75,3 +79,13 @@ model_results <- bartCause::bartc(
   commonSup.rule = 'none'
 )
 
+data(lalonde, package = 'arm')
+confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
+model_results <- bartCause::bartc(
+ response = lalonde[['re78']],
+ treatment = lalonde[['treat']],
+ confounders = as.matrix(lalonde[, confounders]),
+ estimand = 'ate',
+ commonSup.rule = 'none'
+)
+plot_variable_importance(model_results,  c('age', 'educ'))

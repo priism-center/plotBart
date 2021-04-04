@@ -26,3 +26,4 @@ devtools::install_github("joemarlo/plotBart")
 -   Write examples
 -   Write vignette?
 -   Remove functions from thinkCausal repo
+-   Fix issue in plot\_varaible\_importance. See TODO line 46

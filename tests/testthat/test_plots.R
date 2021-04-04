@@ -25,6 +25,7 @@ out_overlap_vars <- plot_overlap_vars(
   plt_type = 'Histogram'
 )
 out_trace <- plot_trace(.model = model_results)
+out_importance <- plot_variable_importance(.model = model_results, c('age', 'educ'))
 
 test_that("plot_balance() output is ggplot object", {
   expect_s3_class(out_balance, 'ggplot')
@@ -43,4 +44,8 @@ test_that("plot_overlap_vars() output is ggplot object", {
 })
 test_that("plot_trace() output is ggplot object", {
   expect_s3_class(out_trace, 'ggplot')
+})
+test_that("plot_variable_importance() output is correct", {
+  expect_s3_class(out_importance[[1]], 'ggplot')
+  expect_s3_class(out_importance[[2]], 'data.frame')
 })

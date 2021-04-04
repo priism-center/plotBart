@@ -10,6 +10,7 @@
 #'
 #' @import ggplot2 dplyr bartCause
 #' @importFrom tidyr pivot_longer
+#' @importFrom stats quantile reorder sd
 #'
 #' @examples
 #' data(lalonde, package = 'arm')

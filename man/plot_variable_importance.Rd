@@ -9,13 +9,27 @@ plot_variable_importance(.model, confounders, out = c("all", "plot", "table"))
 \arguments{
 \item{.model}{a model produced by bartCause::bartc(). Typically store$model_results}
 
-\item{confounders}{matrix of confounders}
+\item{confounders}{a character list of column names which should be considered the confounders. Must match the column names used to original fit .model.}
+
+\item{out}{type of output. One of c('all', 'plot', 'table').}
 }
 \value{
 a list containing variable importance plot & ordered table of confounders by scaled importance
 }
 \description{
 Fit single regression tree on bartc() icates to produce variable importance plot & table.
+}
+\examples{
+data(lalonde, package = 'arm')
+confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
+model_results <- bartCause::bartc(
+ response = lalonde[['re78']],
+ treatment = lalonde[['treat']],
+ confounders = as.matrix(lalonde[, confounders]),
+ estimand = 'ate',
+ commonSup.rule = 'none'
+)
+plot_variable_importance(model_results,  c('age', 'educ'))
 }
 \author{
 George Perrett, Joe Marlo
