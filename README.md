@@ -18,3 +18,12 @@ installing via:
 # install.packages("devtools")
 devtools::install_github("joemarlo/plotBart")
 ```
+
+## Dev to-do
+
+-   Remove Shiny code from functions
+-   Ensure common api for all functions (e.g. .model argument)
+-   Write examples
+-   Write vignette?
+-   Remove functions from thinkCausal repo
+-   

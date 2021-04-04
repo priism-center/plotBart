@@ -4,18 +4,20 @@
 \alias{plot_balance}
 \title{Plot the balance}
 \usage{
-plot_balance(.data, selected_cols)
+plot_balance(.data, z_col, x_cols)
 }
 \arguments{
-\item{selected_cols}{character list of column names to plot. Typically input$analysis_plot_balance_select_var}
+\item{z_col}{the column denoted treatment. Must be binary.}
 
-\item{X}{dataframe formatted with Z, Y, and X variables. Typically store$selected_df}
+\item{x_cols}{character list of column names denoting the X columns of interest.}
+
+\item{X}{dataframe}
 }
 \value{
 ggplot object
 }
 \description{
-Returns a ggplot balance plot
+Visualize balance of variables between treatment and control groups."
 }
 \author{
 Joe Marlo

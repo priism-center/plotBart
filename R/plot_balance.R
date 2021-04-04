@@ -1,9 +1,10 @@
 #' Plot the balance
 #'
-#' Returns a ggplot balance plot
+#' Visualize balance of variables between treatment and control groups."
 #'
-#' @param X dataframe formatted with Z, Y, and X variables. Typically store$selected_df
-#' @param selected_cols character list of column names to plot. Typically input$analysis_plot_balance_select_var
+#' @param X dataframe
+#' @param z_col the column denoted treatment. Must be binary.
+#' @param x_cols character list of column names denoting the X columns of interest.
 #' @author Joe Marlo
 #'
 #' @return ggplot object
@@ -11,30 +12,35 @@
 #'
 #' @import ggplot2 dplyr
 #' @importFrom tidyr pivot_longer
-plot_balance <- function(.data, selected_cols){
+#'
+#' @example
+#' data(lalonde, package = 'arm')
+#' plot_balance(lalonde, 'treat', c('re78', 'age', 'educ')) + labs(title = 'My new title')
+plot_balance <- function(.data, z_col, x_cols){
 
- p <- .data %>%
-  rename(Z = starts_with("Z")) %>%
-  dplyr::select(all_of(c(selected_cols, "Z"))) %>%
-  pivot_longer(cols = -Z) %>%
-  group_by(name) %>%
-  mutate(value = scale(value)[,1]) %>%
-  group_by(name, Z) %>%
-  summarize(mean = mean(value),
-            .groups = 'drop') %>%
-  group_by(name) %>%
-  summarize(diff = mean - lag(mean),
-            .groups = 'drop') %>%
-  na.omit() %>%
-  ggplot(aes(x = diff, y = name, color = abs(diff))) +
-  geom_vline(xintercept = 0, linetype = 'dashed', color = 'gray60') +
-  geom_point(size = 4) +
-  scale_colour_gradient(low = 'gray30', high = 'red3') + #or should color be scaled to finite values?
-  labs(title = 'Treatment and control balance',
-       subtitle = 'Informative subtitle to go here',
-       x = 'Scaled mean difference',
-       y = NULL) +
-  theme(legend.position = 'none')
+  if (length(table(.data[[z_col]])) != 2) stop("z_col must be binary")
+
+  p <- .data %>%
+    dplyr::select(all_of(c(x_cols, z_col))) %>%
+    pivot_longer(cols = -z_col) %>%
+    group_by(name) %>%
+    mutate(value = base::scale(value)[,1]) %>%
+    group_by(across(c('name', z_col))) %>%
+    summarize(mean = mean(value, na.rm = TRUE),
+              .groups = 'drop') %>%
+    group_by(name) %>%
+    summarize(diff = mean - lag(mean),
+              .groups = 'drop') %>%
+    na.omit() %>%
+    ggplot(aes(x = diff, y = name, color = abs(diff))) +
+    geom_vline(xintercept = 0, linetype = 'dashed', color = 'gray60') +
+    geom_point(size = 4) +
+    scale_colour_gradient(low = 'gray30', high = 'red3') +
+    labs(title = 'Treatment and control balance',
+         subtitle = 'Zero indicates perfect balance across treatment and control groups',
+         x = 'Scaled mean difference',
+         y = NULL) +
+    theme(legend.position = 'none')
 
  return(p)
 }
