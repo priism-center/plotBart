@@ -12,21 +12,15 @@
 #' @return ggplot object
 #' @export
 #'
+#' @seealso \code{\link{plot_overlap_vars}}
+#'
 #' @import ggplot2 dplyr
 #' @importFrom tidyr pivot_longer
 #'
 #' @examples
 #' data(lalonde, package = 'arm')
-#' confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
-#' model_results <- bartCause::bartc(
-#'  response = lalonde[['re78']],
-#'  treatment = lalonde[['treat']],
-#'  confounders = as.matrix(lalonde[, confounders]),
-#'  estimand = 'ate',
-#'  commonSup.rule = 'none'
-#' )
 #' plot_overlap_pScores(
-#'  .data = X,
+#'  .data = lalonde,
 #'  treatment_col = 'treat',
 #'  response_col = 're78',
 #'  confounder_cols = c('age', 'educ'),
@@ -34,7 +28,11 @@
 #')
 plot_overlap_pScores <- function(.data, treatment_col, response_col, confounder_cols, plt_type = c("Histogram", "Density")) {
 
-  if (length(table(.data[[treatment_col]])) != 2) stop("treatment_col must be binary")
+  # coerce 01 to logical
+  if (length(setdiff(unique(.data[[treatment_col]]), 0:1)) == 0){
+    .data[[treatment_col]] <- dplyr::recode(.data[[treatment_col]], `0` = FALSE, `1` = TRUE)
+  }
+  if (!is.logical(.data[[treatment_col]])) stop("treatment_col must be logical")
 
   # run the Bart model
   confounders_mat <- as.matrix(.data[, 3:ncol(.data)])
@@ -64,7 +62,7 @@ plot_overlap_pScores <- function(.data, treatment_col, response_col, confounder_
       scale_y_continuous(labels = function(lbl) abs(lbl)) +
       scale_fill_manual(values = c('#bd332a', '#262991')) +
       labs(title = "Overlap by treatment status",
-           subtitle = 'Informative subtitle to go here',
+           subtitle = 'Data should ideally be balanced vertically',
            x = NULL,
            y = 'Count',
            fill = "Treatment")
@@ -82,7 +80,7 @@ plot_overlap_pScores <- function(.data, treatment_col, response_col, confounder_
         scale_y_continuous(labels = function(lbl) abs(lbl)) +
         scale_fill_manual(values = c('#bd332a', '#262991')) +
         labs(title = "Overlap by treatment status",
-             subtitle = 'Data should ideally be balanced across the x axis',
+             subtitle = 'Data should ideally be balanced vertically',
              x = NULL,
              y = 'Count',
              fill = "Treatment")

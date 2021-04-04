@@ -31,7 +31,7 @@ plot_balance <- function(.data, treatment_col, confounder_cols){
     group_by(name) %>%
     summarize(diff = mean - lag(mean),
               .groups = 'drop') %>%
-    na.omit() %>%
+    stats::na.omit() %>%
     ggplot(aes(x = diff, y = name, color = abs(diff))) +
     geom_vline(xintercept = 0, linetype = 'dashed', color = 'gray60') +
     geom_point(size = 4) +

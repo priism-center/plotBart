@@ -4,7 +4,7 @@
 \alias{plot_variable_importance}
 \title{Variable importance of Bayesian Additive Regression Trees}
 \usage{
-plot_variable_importance(.model, confounders, out = "all")
+plot_variable_importance(.model, confounders, out = c("all", "plot", "table"))
 }
 \arguments{
 \item{.model}{a model produced by bartCause::bartc(). Typically store$model_results}

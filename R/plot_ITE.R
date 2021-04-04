@@ -8,7 +8,7 @@
 #' @return ggplot object
 #' @export
 #'
-#' @import ggplot2 bartCause
+#' @import ggplot2 bartCause methods
 #' @examples
 #' data(lalonde, package = 'arm')
 #' confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')

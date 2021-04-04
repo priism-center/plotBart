@@ -31,21 +31,16 @@ Plot histograms showing the overlap between propensity scores by treatment statu
 }
 \examples{
 data(lalonde, package = 'arm')
-confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
-model_results <- bartCause::bartc(
- response = lalonde[['re78']],
- treatment = lalonde[['treat']],
- confounders = as.matrix(lalonde[, confounders]),
- estimand = 'ate',
- commonSup.rule = 'none'
-)
 plot_overlap_pScores(
- .data = X,
+ .data = lalonde,
  treatment_col = 'treat',
  response_col = 're78',
  confounder_cols = c('age', 'educ'),
  plt_type = 'Histogram'
 )
+}
+\seealso{
+\code{\link{plot_overlap_vars}}
 }
 \author{
 George Perrett, Joe Marlo

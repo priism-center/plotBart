@@ -9,7 +9,7 @@
 #' @return ggplot object
 #' @export
 #'
-#' @import ggplot2 dplyr patchwork
+#' @import ggplot2 dplyr patchwork methods
 #'
 #' @examples
 #' data(lalonde, package = 'arm')
@@ -25,6 +25,8 @@
 plot_diagnostic_common_support <- function(.model, .rule = c('none', 'sd', 'chi')){
 
   if (!is(.model, "bartcFit")) stop(".model must be of class bartcFit")
+
+  .rule <- .rule[1]
 
   # create SD plot ----------------------------------------------------------
   # calculate summary stats

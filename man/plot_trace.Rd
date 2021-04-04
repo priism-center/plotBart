@@ -13,7 +13,19 @@ plot_trace(.model)
 ggplot object
 }
 \description{
-Returns a ggplot of the estimated effect (i.e. trace plot).
+Returns a ggplot of the estimated effect over each iteration of the model fit.
+}
+\examples{
+data(lalonde, package = 'arm')
+confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
+model_results <- bartCause::bartc(
+ response = lalonde[['re78']],
+ treatment = lalonde[['treat']],
+ confounders = as.matrix(lalonde[, confounders]),
+ estimand = 'ate',
+ commonSup.rule = 'none'
+)
+plot_trace(.model = model_results)
 }
 \author{
 Joe Marlo, George Perrett

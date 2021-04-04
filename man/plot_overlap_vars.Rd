@@ -4,20 +4,39 @@
 \alias{plot_overlap_vars}
 \title{Plot the overlap of variables}
 \usage{
-plot_overlap_vars(.data, selected_cols, plt_type)
+plot_overlap_vars(
+  .data,
+  treatment_col,
+  confounder_cols,
+  plt_type = c("Histogram", "Density")
+)
 }
 \arguments{
-\item{.data}{dataframe. Typically store$selected_df}
+\item{.data}{dataframe}
 
-\item{selected_cols}{list of columns from .data to plot}
+\item{treatment_col}{name of the treatment column within .data}
 
-\item{plt_type}{input from overlap.type to create either Histogram or Density}
+\item{confounder_cols}{character list of column names denoting confounders within .data}
+
+\item{plt_type}{the plot type, one of c('Histogram', 'Density')}
 }
 \value{
 ggplot object
 }
 \description{
 Plot histograms showing the overlap between variables by treatment status.
+}
+\examples{
+data(lalonde, package = 'arm')
+plot_overlap_vars(
+ .data = lalonde,
+ treatment_col = 'treat',
+ confounder_cols = c('age', 'educ'),
+ plt_type = 'Histogram'
+)
+}
+\seealso{
+\code{\link{plot_overlap_pScores}}
 }
 \author{
 George Perrett, Joe Marlo
