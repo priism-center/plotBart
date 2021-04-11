@@ -31,7 +31,7 @@ plot_diagnostic_common_support <- function(.model, .rule = c('none', 'sd', 'chi'
   # create SD plot ----------------------------------------------------------
   # calculate summary stats
   total <- sum(.model$sd.cf > max(.model$sd.obs) + sd(.model$sd.obs))
-  prop <- total / length(.model$sd.cf)
+  prop <- round(total / length(.model$sd.cf), 5)*100
   sd_test <- paste0(prop, "% of cases would have been removed by the standard deviation common support check")
 
   # plot it
@@ -53,7 +53,7 @@ plot_diagnostic_common_support <- function(.model, .rule = c('none', 'sd', 'chi'
   # Create Chi Sqr plot -----------------------------------------------------
   # calculate summary stats
   total <- sum((.model$sd.cf / .model$sd.obs) ** 2 > 3.841)
-  prop <- total / length(.model$sd.cf)
+  prop <- round(total / length(.model$sd.cf), 5)*100
   chi_test <- paste0(prop, "% of cases would have been removed by the chi squred common support check")
 
   # plot it
