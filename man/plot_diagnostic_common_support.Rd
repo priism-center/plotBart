@@ -4,12 +4,18 @@
 \alias{plot_diagnostic_common_support}
 \title{Plot common support based on the standard deviation rule, chi squared rule or both}
 \usage{
-plot_diagnostic_common_support(.model, .rule = c("none", "sd", "chi"))
+plot_diagnostic_common_support(
+  .model,
+  .rule = c("none", "sd", "chi"),
+  .plot_theme = ggplot2::theme_get
+)
 }
 \arguments{
 \item{.model}{a model produced by bartCause::bartc()}
 
 \item{.rule}{one of c('none', 'sd', 'chi') denoting which rule to use to identify lack of support}
+
+\item{.plot_theme}{a ggplot2 theme function. Defaults the current global theme}
 }
 \value{
 ggplot object
@@ -27,7 +33,7 @@ model_results <- bartCause::bartc(
  estimand = 'ate',
  commonSup.rule = 'none'
 )
-plot_diagnostic_common_support(model_results)
+plot_diagnostic_common_support(model_results, .plot_theme = ggplot2::theme_minimal)
 }
 \author{
 George Perrett, Joe Marlo

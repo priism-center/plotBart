@@ -3,7 +3,7 @@
 library(tidyverse)
 library(bartCause)
 devtools::load_all()
-theme_set(theme_minimal())
+# theme_set(theme_minimal())
 
 
 # functions ---------------------------------------------------------------

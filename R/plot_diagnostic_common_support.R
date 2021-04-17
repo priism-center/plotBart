@@ -4,6 +4,7 @@
 #'
 #' @param .model a model produced by bartCause::bartc()
 #' @param .rule one of c('none', 'sd', 'chi') denoting which rule to use to identify lack of support
+#' @param .plot_theme a ggplot2 theme function. Defaults the current global theme
 #' @author George Perrett, Joe Marlo
 #'
 #' @return ggplot object
@@ -21,8 +22,8 @@
 #'  estimand = 'ate',
 #'  commonSup.rule = 'none'
 #' )
-#' plot_diagnostic_common_support(model_results)
-plot_diagnostic_common_support <- function(.model, .rule = c('none', 'sd', 'chi')){
+#' plot_diagnostic_common_support(model_results, .plot_theme = ggplot2::theme_minimal)
+plot_diagnostic_common_support <- function(.model, .rule = c('none', 'sd', 'chi'), .plot_theme = ggplot2::theme_get){
 
   if (!is(.model, "bartcFit")) stop(".model must be of class bartcFit")
 
@@ -46,6 +47,7 @@ plot_diagnostic_common_support <- function(.model, .rule = c('none', 'sd', 'chi'
          subtitle = paste0("Standard Deviation method: ", sd_test),
          x = NULL, #"Row index",
          y = 'Counterfactual Uncertanty') +
+    .plot_theme() +
     theme(legend.title = element_blank(),
           legend.position = 'bottom')
 
@@ -68,6 +70,7 @@ plot_diagnostic_common_support <- function(.model, .rule = c('none', 'sd', 'chi'
          subtitle = paste0("Chi Squared method: ", chi_test),
          x = "Row index",
          y = 'Counterfactual Uncertanty') +
+    .plot_theme() +
     theme(legend.title = element_blank(),
           legend.position = 'bottom')
 
