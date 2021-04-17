@@ -40,6 +40,7 @@ plot_diagnostic_common_support <- function(.model, .rule = c('none', 'sd', 'chi'
     as_tibble() %>%
     mutate(rownumber = row_number()) %>%
     ggplot(aes(rownumber, value)) +
+    .plot_theme() +
     geom_point(alpha = 0.8)+
     geom_hline(aes(yintercept = max(.model$sd.obs) + sd(.model$sd.obs)),
                color = 'coral3', linetype = 'dashed') +
@@ -47,7 +48,6 @@ plot_diagnostic_common_support <- function(.model, .rule = c('none', 'sd', 'chi'
          subtitle = paste0("Standard Deviation method: ", sd_test),
          x = NULL, #"Row index",
          y = 'Counterfactual Uncertanty') +
-    .plot_theme() +
     theme(legend.title = element_blank(),
           legend.position = 'bottom')
 
@@ -63,6 +63,7 @@ plot_diagnostic_common_support <- function(.model, .rule = c('none', 'sd', 'chi'
     as_tibble() %>%
     mutate(rownumber = row_number()) %>%
     ggplot(aes(rownumber, value)) +
+    .plot_theme() +
     geom_point(alpha = 0.8) +
     geom_hline(aes(color = 'Removal threshold', yintercept = 3.841), linetype = 'dashed') +
     scale_color_manual(values = 'coral3') +
@@ -70,7 +71,6 @@ plot_diagnostic_common_support <- function(.model, .rule = c('none', 'sd', 'chi'
          subtitle = paste0("Chi Squared method: ", chi_test),
          x = "Row index",
          y = 'Counterfactual Uncertanty') +
-    .plot_theme() +
     theme(legend.title = element_blank(),
           legend.position = 'bottom')
 
