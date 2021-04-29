@@ -37,7 +37,7 @@ plot_ITE <- function(.model){
     geom_vline(xintercept = 0, linetype = 'dashed', color = 'grey60') +
     geom_histogram(alpha = 0.8) +
     labs(title = 'Individual Treatment Effects',
-         x = base::toupper(.model$estimand),
+         x = "Individual Conditional Treatment Effects",
          y = 'Frequency')
 
   return(p)
