@@ -23,7 +23,7 @@ knitr::opts_chunk$set(
 
 plotBart is a supplemental plotting package to [bartCause](https://github.com/vdorie/bartCause) and [thinkCausal](https://github.com/gperrett/thinkCausal_dev).
 
-```{r example, message=FALSE, warning=FALSE}
+```{r example, fig.width=8, message=FALSE, warning=FALSE, out.width = "75%", fig.align="center"}
 library(plotBart)
 data(lalonde, package = 'arm')
 confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
@@ -47,7 +47,7 @@ plot_overlap_vars(
   treatment_col = 'treat',
   confounder_cols = confounders,
   plt_type = 'Histogram'
-)
+) + labs(subtitle = 'My informative subtitle')
 ```
 
 

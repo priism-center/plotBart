@@ -33,7 +33,7 @@ model_results <- bartCause::bartc(
 plot_diagnostic_common_support(.model = model_results)
 ```
 
-<img src="man/figures/README-example-1.png" width="100%" />
+<img src="man/figures/README-example-1.png" width="75%" style="display: block; margin: auto;" />
 
 ``` r
 # plot overlap by variable
@@ -42,10 +42,10 @@ plot_overlap_vars(
   treatment_col = 'treat',
   confounder_cols = confounders,
   plt_type = 'Histogram'
-)
+) + labs(subtitle = 'My informative subtitle')
 ```
 
-<img src="man/figures/README-example-2.png" width="100%" />
+<img src="man/figures/README-example-2.png" width="75%" style="display: block; margin: auto;" />
 
 ## Installation
 
