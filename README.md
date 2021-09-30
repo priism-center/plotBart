@@ -4,6 +4,8 @@
 # plotBart
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/joemarlo/plotBart/workflows/R-CMD-check/badge.svg)](https://github.com/joemarlo/plotBart/actions)
 <!-- badges: end -->
 
 plotBart is a supplemental plotting package to

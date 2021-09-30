@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 # plotBart
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/joemarlo/plotBart/workflows/R-CMD-check/badge.svg)](https://github.com/joemarlo/plotBart/actions)
 <!-- badges: end -->
 
 plotBart is a supplemental plotting package to [bartCause](https://github.com/vdorie/bartCause) and [thinkCausal](https://github.com/gperrett/thinkCausal_dev).
