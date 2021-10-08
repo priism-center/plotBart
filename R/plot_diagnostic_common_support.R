@@ -25,7 +25,8 @@
 #' plot_diagnostic_common_support(model_results, .plot_theme = ggplot2::theme_minimal)
 plot_diagnostic_common_support <- function(.model, .rule = c('none', 'sd', 'chi'), .plot_theme = ggplot2::theme_get){
 
-  if (!is(.model, "bartcFit")) stop(".model must be of class bartcFit")
+  # ensure model is a of class bartcFit
+  validate_model(.model)
 
   .rule <- .rule[1]
 

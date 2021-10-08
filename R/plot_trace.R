@@ -23,7 +23,8 @@
 #' plot_trace(.model = model_results)
 plot_trace <- function(.model){
 
-  if (!is(.model, "bartcFit")) stop(".model must be of class bartcFit")
+  # ensure model is a of class bartcFit
+  validate_model(.model)
 
   p <- .model %>%
     bartCause::extract() %>%

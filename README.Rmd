@@ -46,7 +46,6 @@ plot_overlap_vars(
   .data = lalonde,
   treatment_col = 'treat',
   confounder_cols = confounders,
-  plt_type = 'Histogram'
 ) + labs(subtitle = 'My informative subtitle')
 ```
 
@@ -59,11 +58,6 @@ plotBart is currently in development and is available to test by installing via:
 # install.packages("devtools")
 devtools::install_github("joemarlo/plotBart")
 ```
-
-## Dev to-do
-- Write vignette
-- Remove functions from thinkCausal repo
-- Fix issue in plot_variable_importance. See TODO line 46
 
 ### Test coverage
 

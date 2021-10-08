@@ -29,7 +29,8 @@ plot_cate_test <- function(.model, confounders){
   # and the output is messy; can we have the user specify which ones
   # they want to see?
 
-  if (!is(.model, "bartcFit")) stop(".model must be of class bartcFit")
+  # ensure model is a of class bartcFit
+  validate_model(.model)
 
   # pull data from model
   .data <- as.data.frame(.model$data.rsp@x)

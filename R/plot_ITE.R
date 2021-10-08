@@ -22,7 +22,8 @@
 #' plot_ITE(model_results)
 plot_ITE <- function(.model){
 
-  if (!is(.model, "bartcFit")) stop("Model must be of class bartcFit")
+  # ensure model is a of class bartcFit
+  validate_model(.model)
 
   # calculate stats
   ites <- bartCause::extract(.model, 'icate')

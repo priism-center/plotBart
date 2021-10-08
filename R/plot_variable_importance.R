@@ -12,7 +12,7 @@
 #'
 #' @import ggplot2 dplyr bartCause
 #' @importFrom tidyr pivot_longer
-#' @importFrom methods is
+#' @importFrom rpart rpart
 #'
 #' @examples
 #' data(lalonde, package = 'arm')
@@ -27,7 +27,8 @@
 #' plot_variable_importance(model_results,  c('age', 'educ'))
 plot_variable_importance <- function(.model, confounders, out = c('all', 'plot', 'table')){
 
-  if (!methods::is(.model, "bartcFit")) stop(".model must be of class bartcFit")
+  # ensure model is a of class bartcFit
+  validate_model(.model)
 
   out <- out[1]
 
