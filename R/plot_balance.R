@@ -39,7 +39,8 @@ plot_balance <- function(.data, treatment, confounders){
     labs(title = 'Treatment and control balance',
          subtitle = 'Zero indicates perfect balance across treatment and control groups',
          x = 'Scaled mean difference',
-         y = NULL) +
+         y = NULL,
+         color = NULL) +
     theme(legend.position = 'none')
 
  return(p)

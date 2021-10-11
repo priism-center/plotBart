@@ -6,7 +6,7 @@
 #' @param treatment name of the treatment column within .data
 #' @param response name of the response column within .data
 #' @param confounders character list of column names denoting confounders within .data
-#' @param plt_type the plot type, one of c('Histogram', 'Density')
+#' @param plot_type the plot type, one of c('Histogram', 'Density')
 #' @author George Perrett, Joe Marlo
 #'
 #' @return ggplot object
@@ -24,12 +24,12 @@
 #'  treatment = 'treat',
 #'  response = 're78',
 #'  confounders = c('age', 'educ'),
-#'  plt_type = 'histogram'
+#'  plot_type = 'histogram'
 #')
-plot_overlap_pScores <- function(.data, treatment, response, confounders, plt_type = c("histogram", "density")) {
+plot_overlap_pScores <- function(.data, treatment, response, confounders, plot_type = c("histogram", "density")) {
 
-  plt_type <- tolower(plt_type[[1]])
-  if (plt_type %notin% c('histogram', 'density')) stop('plt_type must be one of c("histogram", "density"')
+  plot_type <- tolower(plot_type[[1]])
+  if (plot_type %notin% c('histogram', 'density')) stop('plot_type must be one of c("histogram", "density"')
   if (treatment %notin% colnames(.data)) stop('treatment not found in .data')
   if (response %notin% colnames(.data)) stop('response not found in .data')
   if (any(confounders %notin% colnames(.data))) stop('Not all confounders are found in .data')
@@ -52,7 +52,7 @@ plot_overlap_pScores <- function(.data, treatment, response, confounders, plt_ty
   dat$Z <- as.logical(dat$Z)
   dat$pscores <- pscores
 
-  if (plt_type == 'histogram'){
+  if (plot_type == 'histogram'){
 
     p <- ggplot() +
       geom_hline(yintercept = 0, linetype = 'dashed', color = 'grey60') +
@@ -72,7 +72,7 @@ plot_overlap_pScores <- function(.data, treatment, response, confounders, plt_ty
 
     }
 
-  if (plt_type == 'density') {
+  if (plot_type == 'density') {
 
       p <- ggplot() +
         geom_hline(yintercept = 0, linetype = 'dashed', color = 'grey60') +

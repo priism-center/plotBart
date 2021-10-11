@@ -5,7 +5,7 @@
 #' @param .data dataframe
 #' @param treatment name of the treatment column within .data
 #' @param confounders character list of column names denoting confounders within .data
-#' @param plt_type the plot type, one of c('histogram', 'density'). Defaults to 'histogram'
+#' @param plot_type the plot type, one of c('histogram', 'density'). Defaults to 'histogram'
 #' @author George Perrett, Joe Marlo
 #'
 #' @return ggplot object
@@ -22,12 +22,12 @@
 #'  .data = lalonde,
 #'  treatment = 'treat',
 #'  confounders = c('age', 'educ'),
-#'  plt_type = 'Histogram'
+#'  plot_type = 'Histogram'
 #')
-plot_overlap_vars <- function(.data, treatment, confounders, plt_type = c("histogram", "density")){
+plot_overlap_vars <- function(.data, treatment, confounders, plot_type = c("histogram", "density")){
 
-  plt_type <- tolower(plt_type[1])
-  if (plt_type %notin% c('histogram', 'density')) stop('plt_type must be one of c("histogram", "density"')
+  plot_type <- tolower(plot_type[1])
+  if (plot_type %notin% c('histogram', 'density')) stop('plot_type must be one of c("histogram", "density"')
   if (treatment %notin% colnames(.data)) stop('treatment not found in .data')
   if (any(confounders %notin% colnames(.data))) stop('Not all confounders are found in .data')
 
@@ -41,7 +41,7 @@ plot_overlap_vars <- function(.data, treatment, confounders, plt_type = c("histo
   # pivot the data
   dat_pivoted <- pivot_longer(.data, cols = -Z_treat)
 
-  if (plt_type == 'histogram'){
+  if (plot_type == 'histogram'){
 
     # histograms showing overlaps
     p <- ggplot() +
@@ -63,7 +63,7 @@ plot_overlap_vars <- function(.data, treatment, confounders, plt_type = c("histo
 
   }
 
-  if (plt_type == 'density') {
+  if (plot_type == 'density') {
 
     # density plots showing overlaps
     p <- ggplot() +

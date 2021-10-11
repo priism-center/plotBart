@@ -8,7 +8,7 @@ plot_overlap_vars(
   .data,
   treatment,
   confounders,
-  plt_type = c("histogram", "density")
+  plot_type = c("histogram", "density")
 )
 }
 \arguments{
@@ -18,7 +18,7 @@ plot_overlap_vars(
 
 \item{confounders}{character list of column names denoting confounders within .data}
 
-\item{plt_type}{the plot type, one of c('histogram', 'density'). Defaults to 'histogram'}
+\item{plot_type}{the plot type, one of c('histogram', 'density'). Defaults to 'histogram'}
 }
 \value{
 ggplot object
@@ -32,7 +32,7 @@ plot_overlap_vars(
  .data = lalonde,
  treatment = 'treat',
  confounders = c('age', 'educ'),
- plt_type = 'Histogram'
+ plot_type = 'Histogram'
 )
 }
 \seealso{

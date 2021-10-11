@@ -18,26 +18,26 @@ out_overlap_pscores_hist <- plot_overlap_pScores(
   treatment = 'treat',
   response = 're78',
   confounders = confounders,
-  plt_type = 'histogram'
+  plot_type = 'histogram'
 )
 out_overlap_pscores_density <- plot_overlap_pScores(
   .data = lalonde,
   treatment = 'treat',
   response = 're78',
   confounders = confounders,
-  plt_type = 'density'
+  plot_type = 'density'
 )
 out_overlap_vars_hist <- plot_overlap_vars(
   .data = lalonde,
   treatment = 'treat',
   confounders = confounders,
-  plt_type = 'histogram'
+  plot_type = 'histogram'
 )
 out_overlap_vars_density <- plot_overlap_vars(
   .data = lalonde,
   treatment = 'treat',
   confounders = confounders,
-  plt_type = 'density'
+  plot_type = 'density'
 )
 out_trace <- plot_trace(.model = model_results)
 out_importance <- plot_variable_importance(.model = model_results, c('age', 'educ'))

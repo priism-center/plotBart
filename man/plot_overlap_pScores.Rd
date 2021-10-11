@@ -9,7 +9,7 @@ plot_overlap_pScores(
   treatment,
   response,
   confounders,
-  plt_type = c("histogram", "density")
+  plot_type = c("histogram", "density")
 )
 }
 \arguments{
@@ -21,7 +21,7 @@ plot_overlap_pScores(
 
 \item{confounders}{character list of column names denoting confounders within .data}
 
-\item{plt_type}{the plot type, one of c('Histogram', 'Density')}
+\item{plot_type}{the plot type, one of c('Histogram', 'Density')}
 }
 \value{
 ggplot object
@@ -36,7 +36,7 @@ plot_overlap_pScores(
  treatment = 'treat',
  response = 're78',
  confounders = c('age', 'educ'),
- plt_type = 'histogram'
+ plot_type = 'histogram'
 )
 }
 \seealso{
