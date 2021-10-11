@@ -6,20 +6,20 @@
 \usage{
 plot_overlap_pScores(
   .data,
-  treatment_col,
-  response_col,
-  confounder_cols,
-  plt_type = c("Histogram", "Density")
+  treatment,
+  response,
+  confounders,
+  plt_type = c("histogram", "density")
 )
 }
 \arguments{
 \item{.data}{dataframe}
 
-\item{treatment_col}{name of the treatment column within .data}
+\item{treatment}{name of the treatment column within .data}
 
-\item{response_col}{name of the response column within .data}
+\item{response}{name of the response column within .data}
 
-\item{confounder_cols}{character list of column names denoting confounders within .data}
+\item{confounders}{character list of column names denoting confounders within .data}
 
 \item{plt_type}{the plot type, one of c('Histogram', 'Density')}
 }
@@ -27,16 +27,16 @@ plot_overlap_pScores(
 ggplot object
 }
 \description{
-Plot histograms showing the overlap between propensity scores by treatment status.
+Plot histograms showing the overlap between propensity scores by treatment status. TODO: reference?
 }
 \examples{
 data(lalonde, package = 'arm')
 plot_overlap_pScores(
  .data = lalonde,
- treatment_col = 'treat',
- response_col = 're78',
- confounder_cols = c('age', 'educ'),
- plt_type = 'Histogram'
+ treatment = 'treat',
+ response = 're78',
+ confounders = c('age', 'educ'),
+ plt_type = 'histogram'
 )
 }
 \seealso{

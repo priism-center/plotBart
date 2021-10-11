@@ -3,8 +3,8 @@
 #' Visualize balance of variables between treatment and control groups.
 #'
 #' @param .data dataframe
-#' @param treatment_col the column denoted treatment. Must be binary.
-#' @param confounder_cols character list of column names denoting the X columns of interest
+#' @param treatment the column denoted treatment. Must be binary.
+#' @param confounders character list of column names denoting the X columns of interest
 #' @author Joe Marlo
 #'
 #' @return ggplot object
@@ -16,22 +16,22 @@
 #' @examples
 #' data(lalonde, package = 'arm')
 #' plot_balance(lalonde, 'treat', c('re78', 'age', 'educ')) + labs(title = 'My new title')
-plot_balance <- function(.data, treatment_col, confounder_cols){
+plot_balance <- function(.data, treatment, confounders){
 
-  if (length(table(.data[[treatment_col]])) != 2) stop("treatment_col must be binary")
+  if (length(table(.data[[treatment]])) != 2) stop("treatment must be binary")
 
   p <- .data %>%
-    dplyr::select(all_of(c(confounder_cols, treatment_col))) %>%
-    pivot_longer(cols = -treatment_col) %>%
+    dplyr::select(all_of(c(confounders, treatment))) %>%
+    pivot_longer(cols = -treatment) %>%
     group_by(name) %>%
     mutate(value = base::scale(value)[,1]) %>%
-    group_by(across(c('name', treatment_col))) %>%
+    group_by(across(c('name', treatment))) %>%
     summarize(mean = mean(value, na.rm = TRUE),
               .groups = 'drop') %>%
     group_by(name) %>%
     summarize(diff = mean - lag(mean),
               .groups = 'drop') %>%
-    stats::na.omit() %>%
+    na.omit() %>%
     ggplot(aes(x = diff, y = name, color = abs(diff))) +
     geom_vline(xintercept = 0, linetype = 'dashed', color = 'gray60') +
     geom_point(size = 4) +

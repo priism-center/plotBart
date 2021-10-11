@@ -6,22 +6,22 @@
 \usage{
 plot_diagnostic_common_support(
   .model,
-  .rule = c("none", "sd", "chi"),
-  .plot_theme = ggplot2::theme_get
+  rule = c("none", "sd", "chi"),
+  plot_theme = ggplot2::theme_get
 )
 }
 \arguments{
 \item{.model}{a model produced by bartCause::bartc()}
 
-\item{.rule}{one of c('none', 'sd', 'chi') denoting which rule to use to identify lack of support}
+\item{rule}{one of c('none', 'sd', 'chi') denoting which rule to use to identify lack of support}
 
-\item{.plot_theme}{a ggplot2 theme function. Defaults the current global theme}
+\item{plot_theme}{a ggplot2 theme function. Defaults to the current global theme}
 }
 \value{
 ggplot object
 }
 \description{
-Returns a ggplot common support plot
+Returns a ggplot common support plot. TODO: TODO: describe what the plot is and how it should be used. reference?
 }
 \examples{
 data(lalonde, package = 'arm')
@@ -31,9 +31,9 @@ model_results <- bartCause::bartc(
  treatment = lalonde[['treat']],
  confounders = as.matrix(lalonde[, confounders]),
  estimand = 'ate',
- commonSup.rule = 'none'
+ commonSuprule = 'none'
 )
-plot_diagnostic_common_support(model_results, .plot_theme = ggplot2::theme_minimal)
+plot_diagnostic_common_support(model_results, plot_theme = ggplot2::theme_minimal)
 }
 \author{
 George Perrett, Joe Marlo

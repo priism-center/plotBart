@@ -4,20 +4,24 @@
 \alias{plot_variable_importance}
 \title{Variable importance of Bayesian Additive Regression Trees}
 \usage{
-plot_variable_importance(.model, confounders, out = c("all", "plot", "table"))
+plot_variable_importance(
+  .model,
+  confounders,
+  plot_or_table = c("both", "plot", "table")
+)
 }
 \arguments{
 \item{.model}{a model produced by bartCause::bartc(). Typically store$model_results}
 
 \item{confounders}{a character list of column names which should be considered the confounders. Must match the column names used to original fit .model.}
 
-\item{out}{type of output. One of c('all', 'plot', 'table').}
+\item{plot_or_table}{type of output. One of c('both', 'plot', 'table').}
 }
 \value{
 a list containing variable importance plot & ordered table of confounders by scaled importance
 }
 \description{
-Fit single regression tree on bartc() icates to produce variable importance plot & table.
+Fit single regression tree on bartc() icates to produce variable importance plot & table. TODO: describe what the plot is and how it should be used. Reference?
 }
 \examples{
 data(lalonde, package = 'arm')

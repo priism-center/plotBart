@@ -1,6 +1,6 @@
 #' Variable importance of Bayesian Additive Regression Trees
 #'
-#' Fit single regression tree on bartc() icates to produce variable importance plot & conditional effects plots.
+#' Fit single regression tree on bartc() icates to produce variable importance plot & conditional effects plots. TODO: describe what the plot is and how it should be used
 #'
 #' @param .model a model produced by bartCause::bartc()
 #' @param confounders a character list of column names which should be considered the confounders. Must match the column names used to original fit .model.
@@ -22,7 +22,7 @@
 #'  estimand = 'ate',
 #'  commonSup.rule = 'none'
 #' )
-#' plot_cate_test(model_results,  c('age', 'educ'))
+#' plot_cate_test(model_results, c('age', 'educ'))
 plot_cate_test <- function(.model, confounders){
 
   # TODO: we need a smarter way to make these plots; it takes forever
@@ -58,7 +58,8 @@ plot_cate_test <- function(.model, confounders){
     rename(Importance = value)
 
   # plot variable importance
-  p1 <- ggplot(importance_table, aes(Importance, reorder(Variable, Importance))) +
+  p1 <- ggplot(importance_table,
+               aes(x = Importance, y = reorder(Variable, Importance))) +
     geom_segment(aes(xend = 0, yend = Variable))  +
     geom_point(size = 4) +
     labs(x = 'Importance', y = 'Variable', title = 'Potential Moderators')
@@ -67,15 +68,15 @@ plot_cate_test <- function(.model, confounders){
   X <- confounders[, names(importance)]
 
   # plot conditional effects
-  # TODO: wheres 445 come from? should make explicit
-  #   in case dependents accidental change this
   posterior <- bartCause::extract(.model, 'icate') %>%
     as_tibble() %>%
-    pivot_longer(cols = 1:445)
+    pivot_longer(cols = 1:ncol(.))
 
+  # TODO: should move this function out of plot_cate_test()
+  # TODO: plots do not indicate what the confounder is
   ploter <- function(x) {
     if(length(unique(x)) > 2) {
-      p <-  posterior %>%
+      p <- posterior %>%
         mutate(confounder = rep(x, 5000)) %>%
         group_by(record = name) %>%
         mutate(ci.1 = quantile(value, probs = 0.1),
@@ -91,7 +92,7 @@ plot_cate_test <- function(.model, confounders){
         geom_ribbon(aes(ymin = ci.1,ymax = ci.9, fill = '80% ci'), alpha = 0.7) +
         scale_fill_manual(values = c('steelblue', 'steelblue3')) +
         geom_point(size = 0.8) +
-        geom_smooth(method = 'gam' ,aes(y = point, x = confounder), col = 'black', se = F) +
+        geom_smooth(method = 'gam', aes(y = point, x = confounder), col = 'black', se = F) +
         labs(y = 'CATE')
     }
     else{
@@ -109,9 +110,8 @@ plot_cate_test <- function(.model, confounders){
   cate_plts <- list()
   for (i in 1:ncol(X)) {
     cate_plts[[i]] <- ploter(X[,i])
-
   }
 
-  results <- list(p1, cate_plts)
+  results <- list(moderators = p1, cates = cate_plts)
   return(results)
 }

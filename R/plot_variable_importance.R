@@ -1,10 +1,10 @@
 #' Variable importance of Bayesian Additive Regression Trees
 #'
-#' Fit single regression tree on bartc() icates to produce variable importance plot & table.
+#' Fit single regression tree on bartc() icates to produce variable importance plot & table. TODO: describe what the plot is and how it should be used. Reference?
 #'
 #' @param .model a model produced by bartCause::bartc(). Typically store$model_results
 #' @param confounders a character list of column names which should be considered the confounders. Must match the column names used to original fit .model.
-#' @param out type of output. One of c('all', 'plot', 'table').
+#' @param plot_or_table type of output. One of c('both', 'plot', 'table').
 #' @author George Perrett, Joe Marlo
 #'
 #' @return a list containing variable importance plot & ordered table of confounders by scaled importance
@@ -25,12 +25,13 @@
 #'  commonSup.rule = 'none'
 #' )
 #' plot_variable_importance(model_results,  c('age', 'educ'))
-plot_variable_importance <- function(.model, confounders, out = c('all', 'plot', 'table')){
+plot_variable_importance <- function(.model, confounders, plot_or_table = c('both', 'plot', 'table')){
 
   # ensure model is a of class bartcFit
   validate_model(.model)
 
-  out <- out[1]
+  plot_or_table <- plot_or_table[1]
+  if (plot_or_table %notin% c('both', 'plot', 'table')) stop('plot_or_table must be one of c("both", "plot", "table")')
 
   # extract individual conditional effects
   icate <- bartCause::extract(.model , 'icate')
@@ -68,11 +69,11 @@ plot_variable_importance <- function(.model, confounders, out = c('all', 'plot',
          x = 'Importance',
          y = 'Variable')
 
-  if (out == 'all'){
-    results <- list(p1, importance_table)
-  } else if (out == 'plot'){
+  if (plot_or_table == 'both'){
+    results <- list(plot = p1, table = importance_table)
+  } else if (plot_or_table == 'plot'){
     results <- p1
-  } else if(out == 'table'){
+  } else if(plot_or_table == 'table'){
     results <- importance_table
   }
 

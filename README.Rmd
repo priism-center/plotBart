@@ -44,8 +44,8 @@ plot_diagnostic_common_support(.model = model_results)
 # plot overlap by variable
 plot_overlap_vars(
   .data = lalonde,
-  treatment_col = 'treat',
-  confounder_cols = confounders,
+  treatment = 'treat',
+  confounders = confounders,
 ) + labs(subtitle = 'My informative subtitle')
 ```
 

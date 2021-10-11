@@ -4,14 +4,14 @@
 \alias{plot_balance}
 \title{Plot the balance}
 \usage{
-plot_balance(.data, treatment_col, confounder_cols)
+plot_balance(.data, treatment, confounders)
 }
 \arguments{
 \item{.data}{dataframe}
 
-\item{treatment_col}{the column denoted treatment. Must be binary.}
+\item{treatment}{the column denoted treatment. Must be binary.}
 
-\item{confounder_cols}{character list of column names denoting the X columns of interest}
+\item{confounders}{character list of column names denoting the X columns of interest}
 }
 \value{
 ggplot object

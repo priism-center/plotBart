@@ -15,7 +15,7 @@ plot_cate_test(.model, confounders)
 a list containing variable importance plot & plots for each conditional effect
 }
 \description{
-Fit single regression tree on bartc() icates to produce variable importance plot & conditional effects plots.
+Fit single regression tree on bartc() icates to produce variable importance plot & conditional effects plots. TODO: describe what the plot is and how it should be used
 }
 \examples{
 data(lalonde, package = 'arm')
@@ -27,7 +27,7 @@ model_results <- bartCause::bartc(
  estimand = 'ate',
  commonSup.rule = 'none'
 )
-plot_cate_test(model_results,  c('age', 'educ'))
+plot_cate_test(model_results, c('age', 'educ'))
 }
 \author{
 George Perrett, Joe Marlo

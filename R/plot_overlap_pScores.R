@@ -1,11 +1,11 @@
 #' Plot the overlap via propensity score method
 #'
-#' Plot histograms showing the overlap between propensity scores by treatment status.
+#' Plot histograms showing the overlap between propensity scores by treatment status. TODO: reference?
 #'
 #' @param .data dataframe
-#' @param treatment_col name of the treatment column within .data
-#' @param response_col name of the response column within .data
-#' @param confounder_cols character list of column names denoting confounders within .data
+#' @param treatment name of the treatment column within .data
+#' @param response name of the response column within .data
+#' @param confounders character list of column names denoting confounders within .data
 #' @param plt_type the plot type, one of c('Histogram', 'Density')
 #' @author George Perrett, Joe Marlo
 #'
@@ -21,36 +21,38 @@
 #' data(lalonde, package = 'arm')
 #' plot_overlap_pScores(
 #'  .data = lalonde,
-#'  treatment_col = 'treat',
-#'  response_col = 're78',
-#'  confounder_cols = c('age', 'educ'),
-#'  plt_type = 'Histogram'
+#'  treatment = 'treat',
+#'  response = 're78',
+#'  confounders = c('age', 'educ'),
+#'  plt_type = 'histogram'
 #')
-plot_overlap_pScores <- function(.data, treatment_col, response_col, confounder_cols, plt_type = c("Histogram", "Density")) {
+plot_overlap_pScores <- function(.data, treatment, response, confounders, plt_type = c("histogram", "density")) {
 
-  # coerce 01 to logical
-  treat_levels <- as.character(unique(.data[[treatment_col]]))
-  if (length(setdiff(treat_levels, as.character(0:1))) == 0){
-    .data[[treatment_col]] <- dplyr::recode(.data[[treatment_col]], `0` = FALSE, `1` = TRUE)
-  }
-  if (!is.logical(.data[[treatment_col]])) stop("treatment_col must be logical")
+  plt_type <- tolower(plt_type[[1]])
+  if (plt_type %notin% c('histogram', 'density')) stop('plt_type must be one of c("histogram", "density"')
+  if (treatment %notin% colnames(.data)) stop('treatment not found in .data')
+  if (response %notin% colnames(.data)) stop('response not found in .data')
+  if (any(confounders %notin% colnames(.data))) stop('Not all confounders are found in .data')
+
+  # coerce treatment column to logical
+  .data[[treatment]] <- coerce_to_logical(.data[[treatment]])
 
   # run the Bart model
   confounders_mat <- as.matrix(.data[, 3:ncol(.data)])
-  dim.red_results <- bartCause::bartc(response = .data[[response_col]],
-                                      treatment = .data[[treatment_col]],
-                                      confounders = as.matrix(.data[confounder_cols]))
+  dim.red_results <- bartCause::bartc(response = .data[[response]],
+                                      treatment = .data[[treatment]],
+                                      confounders = as.matrix(.data[confounders]))
 
   # pull the propensity scores
   pscores <- dim.red_results$p.score
 
   # clean and combine data into new dataframe
-  dat <- .data[treatment_col]
+  dat <- .data[treatment]
   colnames(dat) <- "Z"
   dat$Z <- as.logical(dat$Z)
   dat$pscores <- pscores
 
-  if (plt_type == 'Histogram'){
+  if (plt_type == 'histogram'){
 
     p <- ggplot() +
       geom_hline(yintercept = 0, linetype = 'dashed', color = 'grey60') +
@@ -68,7 +70,9 @@ plot_overlap_pScores <- function(.data, treatment_col, response_col, confounder_
            y = 'Count',
            fill = "Treatment")
 
-    } else if (plt_type == 'Density') {
+    }
+
+  if (plt_type == 'density') {
 
       p <- ggplot() +
         geom_hline(yintercept = 0, linetype = 'dashed', color = 'grey60') +
@@ -86,7 +90,7 @@ plot_overlap_pScores <- function(.data, treatment_col, response_col, confounder_
              y = 'Count',
              fill = "Treatment")
 
-    } else stop("plt_type must be 'Histogram or 'Density'")
+    }
 
   return(p)
 }

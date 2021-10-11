@@ -6,17 +6,17 @@
 \usage{
 plot_overlap_vars(
   .data,
-  treatment_col,
-  confounder_cols,
+  treatment,
+  confounders,
   plt_type = c("histogram", "density")
 )
 }
 \arguments{
 \item{.data}{dataframe}
 
-\item{treatment_col}{name of the treatment column within .data}
+\item{treatment}{name of the treatment column within .data}
 
-\item{confounder_cols}{character list of column names denoting confounders within .data}
+\item{confounders}{character list of column names denoting confounders within .data}
 
 \item{plt_type}{the plot type, one of c('histogram', 'density'). Defaults to 'histogram'}
 }
@@ -30,8 +30,8 @@ Plot histograms showing the overlap between variables by treatment status.
 data(lalonde, package = 'arm')
 plot_overlap_vars(
  .data = lalonde,
- treatment_col = 'treat',
- confounder_cols = c('age', 'educ'),
+ treatment = 'treat',
+ confounders = c('age', 'educ'),
  plt_type = 'Histogram'
 )
 }

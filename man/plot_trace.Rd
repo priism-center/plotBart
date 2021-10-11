@@ -13,7 +13,7 @@ plot_trace(.model)
 ggplot object
 }
 \description{
-Returns a ggplot of the estimated effect over each iteration of the model fit.
+Returns a ggplot of the estimated effect over each iteration of the model fit. TODO: describe what the plot is and how it should be used
 }
 \examples{
 data(lalonde, package = 'arm')

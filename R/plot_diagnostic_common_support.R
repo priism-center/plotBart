@@ -1,16 +1,16 @@
 #' Plot common support based on the standard deviation rule, chi squared rule or both
 #'
-#' Returns a ggplot common support plot
+#' Returns a ggplot common support plot. TODO: TODO: describe what the plot is and how it should be used. reference?
 #'
 #' @param .model a model produced by bartCause::bartc()
-#' @param .rule one of c('none', 'sd', 'chi') denoting which rule to use to identify lack of support
-#' @param .plot_theme a ggplot2 theme function. Defaults the current global theme
+#' @param rule one of c('none', 'sd', 'chi') denoting which rule to use to identify lack of support
+#' @param plot_theme a ggplot2 theme function. Defaults to the current global theme
 #' @author George Perrett, Joe Marlo
 #'
 #' @return ggplot object
 #' @export
 #'
-#' @import ggplot2 dplyr patchwork methods
+#' @import ggplot2 dplyr patchwork
 #'
 #' @examples
 #' data(lalonde, package = 'arm')
@@ -20,15 +20,16 @@
 #'  treatment = lalonde[['treat']],
 #'  confounders = as.matrix(lalonde[, confounders]),
 #'  estimand = 'ate',
-#'  commonSup.rule = 'none'
+#'  commonSuprule = 'none'
 #' )
-#' plot_diagnostic_common_support(model_results, .plot_theme = ggplot2::theme_minimal)
-plot_diagnostic_common_support <- function(.model, .rule = c('none', 'sd', 'chi'), .plot_theme = ggplot2::theme_get){
+#' plot_diagnostic_common_support(model_results, plot_theme = ggplot2::theme_minimal)
+plot_diagnostic_common_support <- function(.model, rule = c('none', 'sd', 'chi'), plot_theme = ggplot2::theme_get){
 
   # ensure model is a of class bartcFit
   validate_model(.model)
 
-  .rule <- .rule[1]
+  rule <- rule[1]
+  if (rule %notin% c('none', 'sd', 'chi')) stop('rule must be one of c("none", "sd", "chi")')
 
   # create SD plot ----------------------------------------------------------
   # calculate summary stats
@@ -41,13 +42,13 @@ plot_diagnostic_common_support <- function(.model, .rule = c('none', 'sd', 'chi'
     as_tibble() %>%
     mutate(rownumber = row_number()) %>%
     ggplot(aes(rownumber, value)) +
-    .plot_theme() +
+    plot_theme() +
     geom_point(alpha = 0.8)+
     geom_hline(aes(yintercept = max(.model$sd.obs) + sd(.model$sd.obs)),
                color = 'coral3', linetype = 'dashed') +
     labs(title ="Diagnostics: Common Support Checks",
          subtitle = paste0("Standard Deviation method: ", sd_test),
-         x = NULL, #"Row index",
+         x = NULL,
          y = 'Counterfactual Uncertanty') +
     theme(legend.title = element_blank(),
           legend.position = 'bottom')
@@ -64,7 +65,7 @@ plot_diagnostic_common_support <- function(.model, .rule = c('none', 'sd', 'chi'
     as_tibble() %>%
     mutate(rownumber = row_number()) %>%
     ggplot(aes(rownumber, value)) +
-    .plot_theme() +
+    plot_theme() +
     geom_point(alpha = 0.8) +
     geom_hline(aes(color = 'Removal threshold', yintercept = 3.841), linetype = 'dashed') +
     scale_color_manual(values = 'coral3') +
@@ -78,15 +79,15 @@ plot_diagnostic_common_support <- function(.model, .rule = c('none', 'sd', 'chi'
 
   # Combine Plots  ----------------------------------------------------------
 
-  if(.rule == 'none') {
+  if(rule == 'none') {
     return(sd_plot/chi_sqr_plot)
   }
 
-  if(.rule == 'sd'){
+  if(rule == 'sd'){
     return(sd_plot)
   }
 
-  if(.rule == 'chi'){
+  if(rule == 'chi'){
     return(chi_sqr_plot)
   }
 

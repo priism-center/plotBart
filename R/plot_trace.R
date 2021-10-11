@@ -1,6 +1,6 @@
 #' Trace plot the estimands of a bartCause::bartc() model
 #'
-#' Returns a ggplot of the estimated effect over each iteration of the model fit.
+#' Returns a ggplot of the estimated effect over each iteration of the model fit. TODO: describe what the plot is and how it should be used
 #'
 #' @param .model a bartCause::bartc() model, typically store$model_results
 #' @author Joe Marlo, George Perrett
@@ -9,6 +9,7 @@
 #' @export
 #'
 #' @import ggplot2 dplyr
+#' @importFrom bartCause extract
 #'
 #' @examples
 #' data(lalonde, package = 'arm')
@@ -35,7 +36,7 @@ plot_trace <- function(.model){
     labs(title = 'Diagnostics: Trace plot',
          subtitle = 'Informative subtitle to go here',
          x = 'Iteration',
-         y = base::toupper(.model$estimand))
+         y = toupper(.model$estimand))
 
   return(p)
 }

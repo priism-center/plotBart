@@ -1,6 +1,6 @@
 #' Plot histogram of individual treatment effects
 #'
-#' Returns a ggplot ITE plot
+#' Returns a ggplot ITE plot. TODO: describe what the plot is and how it should be used
 #'
 #' @param .model a model produced by bartCause::bartc()
 #' @author George Perrett, Joe Marlo
@@ -8,7 +8,7 @@
 #' @return ggplot object
 #' @export
 #'
-#' @import ggplot2 bartCause methods
+#' @import ggplot2 bartCause
 #' @examples
 #' data(lalonde, package = 'arm')
 #' confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')

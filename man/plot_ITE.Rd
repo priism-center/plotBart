@@ -13,7 +13,7 @@ plot_ITE(.model)
 ggplot object
 }
 \description{
-Returns a ggplot ITE plot
+Returns a ggplot ITE plot. TODO: describe what the plot is and how it should be used
 }
 \examples{
 data(lalonde, package = 'arm')

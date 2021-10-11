@@ -10,7 +10,8 @@ coerce_to_logical <- function(x){
   return(x)
 }
 
+# validate the model is a bartc model
 validate_model <- function(.model){
-  if (!is(.model, "bartcFit")) stop(".model must be of class bartcFit")
+  if (!inherits(.model, "bartcFit")) stop(".model must be of class 'bartcFit'")
 }
 
