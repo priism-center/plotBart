@@ -17,7 +17,7 @@
 #' @importFrom tidyr pivot_longer
 #'
 #' @examples
-#' data(lalonde, package = 'arm')
+#' data(lalonde)
 #' plot_overlap_vars(
 #'  .data = lalonde,
 #'  treatment = 'treat',

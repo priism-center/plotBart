@@ -25,7 +25,7 @@ plotBart is a supplemental plotting package to [bartCause](https://github.com/vd
 
 ```{r example, fig.width=8, message=FALSE, warning=FALSE, out.width = "75%", fig.align="center"}
 library(plotBart)
-data(lalonde, package = 'arm')
+data(lalonde)
 confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 
 # fit BART model

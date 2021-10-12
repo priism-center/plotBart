@@ -30,7 +30,7 @@ ggplot object
 Plot histograms showing the overlap between propensity scores by treatment status. TODO: reference?
 }
 \examples{
-data(lalonde, package = 'arm')
+data(lalonde)
 plot_overlap_pScores(
  .data = lalonde,
  treatment = 'treat',

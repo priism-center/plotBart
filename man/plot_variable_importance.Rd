@@ -24,7 +24,7 @@ a list containing variable importance plot & ordered table of confounders by sca
 Fit single regression tree on bartc() icates to produce variable importance plot & table. TODO: describe what the plot is and how it should be used. Reference?
 }
 \examples{
-data(lalonde, package = 'arm')
+data(lalonde)
 confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 model_results <- bartCause::bartc(
  response = lalonde[['re78']],

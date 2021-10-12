@@ -16,7 +16,7 @@ ggplot object
 Returns a ggplot of the estimated effect over each iteration of the model fit. TODO: describe what the plot is and how it should be used
 }
 \examples{
-data(lalonde, package = 'arm')
+data(lalonde)
 confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 model_results <- bartCause::bartc(
  response = lalonde[['re78']],

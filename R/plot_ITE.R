@@ -10,7 +10,7 @@
 #'
 #' @import ggplot2 bartCause
 #' @examples
-#' data(lalonde, package = 'arm')
+#' data(lalonde)
 #' confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 #' model_results <- bartCause::bartc(
 #'  response = lalonde[['re78']],

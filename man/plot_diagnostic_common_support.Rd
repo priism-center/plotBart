@@ -24,7 +24,7 @@ ggplot object
 Returns a ggplot common support plot. TODO: TODO: describe what the plot is and how it should be used. reference?
 }
 \examples{
-data(lalonde, package = 'arm')
+data(lalonde)
 confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 model_results <- bartCause::bartc(
  response = lalonde[['re78']],

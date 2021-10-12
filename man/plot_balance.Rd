@@ -20,7 +20,7 @@ ggplot object
 Visualize balance of variables between treatment and control groups.
 }
 \examples{
-data(lalonde, package = 'arm')
+data(lalonde)
 plot_balance(lalonde, 'treat', c('re78', 'age', 'educ')) + labs(title = 'My new title')
 }
 \author{

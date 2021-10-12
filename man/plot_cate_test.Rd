@@ -18,7 +18,7 @@ a list containing variable importance plot & plots for each conditional effect
 Fit single regression tree on bartc() icates to produce variable importance plot & conditional effects plots. TODO: describe what the plot is and how it should be used
 }
 \examples{
-data(lalonde, package = 'arm')
+data(lalonde)
 confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 model_results <- bartCause::bartc(
  response = lalonde[['re78']],

@@ -18,7 +18,7 @@
 #' @importFrom tidyr pivot_longer
 #'
 #' @examples
-#' data(lalonde, package = 'arm')
+#' data(lalonde)
 #' plot_overlap_pScores(
 #'  .data = lalonde,
 #'  treatment = 'treat',
