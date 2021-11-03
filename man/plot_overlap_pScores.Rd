@@ -9,7 +9,8 @@ plot_overlap_pScores(
   treatment,
   response,
   confounders,
-  plot_type = c("histogram", "density")
+  plot_type = c("histogram", "density"),
+  pscores = NULL
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ plot_overlap_pScores(
 \item{confounders}{character list of column names denoting confounders within .data}
 
 \item{plot_type}{the plot type, one of c('Histogram', 'Density')}
+
+\item{pscores}{propensity scores. If not provided, then propensity scores will be calculated using BART}
 }
 \value{
 ggplot object

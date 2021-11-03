@@ -7,6 +7,7 @@
 #' @param response name of the response column within .data
 #' @param confounders character list of column names denoting confounders within .data
 #' @param plot_type the plot type, one of c('Histogram', 'Density')
+#' @param pscores propensity scores. If not provided, then propensity scores will be calculated using BART
 #' @author George Perrett, Joe Marlo
 #'
 #' @return ggplot object
@@ -26,40 +27,33 @@
 #'  confounders = c('age', 'educ'),
 #'  plot_type = 'histogram'
 #')
-plot_overlap_pScores <- function(.data, treatment, response, confounders, plot_type = c("histogram", "density")) {
+plot_overlap_pScores <- function(.data, treatment, response, confounders, plot_type = c("histogram", "density"), pscores = NULL) {
 
   plot_type <- tolower(plot_type[[1]])
   if (plot_type %notin% c('histogram', 'density')) stop('plot_type must be one of c("histogram", "density"')
-  if (treatment %notin% colnames(.data)) stop('treatment not found in .data')
-  if (response %notin% colnames(.data)) stop('response not found in .data')
-  if (any(confounders %notin% colnames(.data))) stop('Not all confounders are found in .data')
+  if (!is.null(pscores) & !inherits(pscores, 'numeric')) stop('propensity_scores must be a numeric vector')
 
-  # coerce treatment column to logical
-  .data[[treatment]] <- coerce_to_logical(.data[[treatment]])
+  # calculate propensity scores from bart model
+  if (is.null(pscores)){
+    pscores <- propensity_scores(
+      .data = .data,
+      treatment = treatment,
+      response = response,
+      confounders = confounders
+    )
+  }
 
-  # run the Bart model
-  confounders_mat <- as.matrix(.data[, 3:ncol(.data)])
-  dim.red_results <- bartCause::bartc(response = .data[[response]],
-                                      treatment = .data[[treatment]],
-                                      confounders = as.matrix(.data[confounders]))
-
-  # pull the propensity scores
-  pscores <- dim.red_results$p.score
-
-  # clean and combine data into new dataframe
-  dat <- .data[treatment]
-  colnames(dat) <- "Z"
-  dat$Z <- as.logical(dat$Z)
-  dat$pscores <- pscores
+  dat <- data.frame(Z = coerce_to_logical(.data[[treatment]]),
+                    pscores = pscores)
 
   if (plot_type == 'histogram'){
 
     p <- ggplot() +
       geom_hline(yintercept = 0, linetype = 'dashed', color = 'grey60') +
-      geom_histogram(data = dat %>% filter(Z == 1),
+      geom_histogram(data = filter(dat, Z == 1),
                      aes(x = pscores, y = ..count.., fill = Z),
                      alpha = 0.8) +
-      geom_histogram(data = dat %>% filter(Z == 0),
+      geom_histogram(data = filter(dat, Z == 0),
                      aes(x = pscores, y = -..count.., fill = Z),
                      alpha = 0.8) +
       scale_y_continuous(labels = function(lbl) abs(lbl)) +
@@ -76,10 +70,10 @@ plot_overlap_pScores <- function(.data, treatment, response, confounders, plot_t
 
       p <- ggplot() +
         geom_hline(yintercept = 0, linetype = 'dashed', color = 'grey60') +
-        geom_density(data = dat %>% filter(Z == 1),
+        geom_density(data = filter(dat, Z == 1),
                        aes(x = pscores, y = ..density.., fill = Z),
                        alpha = 0.8) +
-        geom_density(data = dat %>% filter(Z == 0),
+        geom_density(data = filter(dat, Z == 0),
                        aes(x = pscores, y = -..density.., fill = Z),
                        alpha = 0.8) +
         scale_y_continuous(labels = function(lbl) abs(lbl)) +
@@ -93,4 +87,42 @@ plot_overlap_pScores <- function(.data, treatment, response, confounders, plot_t
     }
 
   return(p)
+}
+
+#' Calculate propensity scores using BART
+#'
+#' @param .data dataframe
+#' @param treatment name of the treatment column within .data
+#' @param response name of the response column within .data
+#' @param confounders character list of column names denoting confounders within .data
+#'
+#' @return a numeric vector of propensity scores
+#' @export
+#'
+#' @seealso \code{\link{plot_overlap_pScores}}
+#'
+#' @examples
+#' data(lalonde)
+#' propensity_scores(
+#'   .data = lalonde,
+#'   treatment = 'treat',
+#'   response = 're78',
+#'   confounders = c('age', 'educ')
+#' )
+propensity_scores <- function(.data, treatment, response, confounders){
+
+  if (treatment %notin% colnames(.data)) stop('treatment not found in .data')
+  if (response %notin% colnames(.data)) stop('response not found in .data')
+  if (any(confounders %notin% colnames(.data))) stop('Not all confounders are found in .data')
+
+  # coerce treatment column to logical
+  .data[[treatment]] <- coerce_to_logical(.data[[treatment]])
+
+  # run the Bart model
+  confounders_mat <- as.matrix(.data[, 3:ncol(.data)])
+  dim.red_results <- bartCause::bartc(response = .data[[response]],
+                                      treatment = .data[[treatment]],
+                                      confounders = as.matrix(.data[confounders]))
+
+  return(dim.red_results$p.score)
 }

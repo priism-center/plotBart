@@ -39,7 +39,7 @@ model_results <- bartCause::bartc(
 )
 
 # plot common support
-plot_diagnostic_common_support(.model = model_results)
+plot_common_support(.model = model_results)
 
 # plot overlap by variable
 plot_overlap_vars(

@@ -22,8 +22,8 @@
 #'  estimand = 'ate',
 #'  commonSuprule = 'none'
 #' )
-#' plot_diagnostic_common_support(model_results, plot_theme = ggplot2::theme_minimal)
-plot_diagnostic_common_support <- function(.model, rule = c('none', 'sd', 'chi'), plot_theme = ggplot2::theme_get){
+#' plot_common_support(model_results, plot_theme = ggplot2::theme_minimal)
+plot_common_support <- function(.model, rule = c('none', 'sd', 'chi'), plot_theme = ggplot2::theme_get){
 
   # ensure model is a of class bartcFit
   validate_model(.model)
