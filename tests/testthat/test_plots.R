@@ -9,7 +9,7 @@ model_results <- bartCause::bartc(
 )
 
 out_balance <- plot_balance(.data = lalonde, treatment = 'treat', confounders = confounders)
-out_support_none <- plot_common_support(.model = model_results, rule = 'none')
+out_support_none <- plot_common_support(.model = model_results, rule = 'both')
 out_support_sd <- plot_common_support(.model = model_results, rule = 'sd')
 out_support_chi <- plot_common_support(.model = model_results, rule = 'chi')
 out_ITE <- plot_ITE(.model = model_results)

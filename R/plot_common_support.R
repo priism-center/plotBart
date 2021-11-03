@@ -1,16 +1,15 @@
 #' Plot common support based on the standard deviation rule, chi squared rule or both
 #'
-#' Returns a ggplot common support plot. TODO: TODO: describe what the plot is and how it should be used. reference?
+#' Returns a ggplot common support plot. TODO: describe what the plot is and how it should be used. reference?
 #'
 #' @param .model a model produced by bartCause::bartc()
-#' @param rule one of c('none', 'sd', 'chi') denoting which rule to use to identify lack of support
-#' @param plot_theme a ggplot2 theme function. Defaults to the current global theme
+#' @param rule one of c('both', 'sd', 'chi') denoting which rule to use to identify lack of support
 #' @author George Perrett, Joe Marlo
 #'
 #' @return ggplot object
 #' @export
 #'
-#' @import ggplot2 dplyr patchwork
+#' @import ggplot2 dplyr
 #'
 #' @examples
 #' data(lalonde)
@@ -22,73 +21,54 @@
 #'  estimand = 'ate',
 #'  commonSuprule = 'none'
 #' )
-#' plot_common_support(model_results, plot_theme = ggplot2::theme_minimal)
-plot_common_support <- function(.model, rule = c('none', 'sd', 'chi'), plot_theme = ggplot2::theme_get){
+#' plot_common_support(model_results)
+plot_common_support <- function(.model, rule = c('both', 'sd', 'chi')){
 
   # ensure model is a of class bartcFit
   validate_model(.model)
 
   rule <- rule[1]
-  if (rule %notin% c('none', 'sd', 'chi')) stop('rule must be one of c("none", "sd", "chi")')
+  if (rule %notin% c('both', 'sd', 'chi')) stop('rule must be one of c("both", "sd", "chi")')
+  if (rule == 'both') rule <- c('sd', 'chi')
 
-  # create SD plot ----------------------------------------------------------
   # calculate summary stats
-  total <- sum(.model$sd.cf > max(.model$sd.obs) + sd(.model$sd.obs))
-  prop <- round(total / length(.model$sd.cf), 5)*100
-  sd_test <- paste0(prop, "% of cases would have been removed")
+  total_sd <- sum(.model$sd.cf > max(.model$sd.obs) + sd(.model$sd.obs))
+  prop_sd <- round(total_sd / length(.model$sd.cf), 5)*100
+  text_sd <- paste0('Standard deviation rule: ', prop_sd, "% of cases would have been removed")
+
+  # calculate summary stats
+  total_chi <- sum((.model$sd.cf / .model$sd.obs) ** 2 > 3.841)
+  prop_chi <- round(total_chi / length(.model$sd.cf), 5)*100
+  text_chi <- paste0('Chi-squared rule: ', prop_chi, "% of cases would have been removed")
+
+  # create dataframe of the sd and chi values
+  n <- length(.model$sd.cf)
+  values_chi <- (.model$sd.cf / .model$sd.obs)^2
+  values_sd <- .model$sd.cf
+  threshold_chi <- rep(3.841, n)
+  threshold_sd <- rep(max(.model$sd.obs) + sd(.model$sd.obs), n)
+  dat <- tibble(index = rep(1:n, 2),
+                support_rule = sort(rep(c('sd', 'chi'), n)),
+                support_rule_text = sort(rep(c(text_sd, text_chi), n)),
+                value = c(values_chi, values_sd),
+                threshold = c(threshold_chi, threshold_sd))
 
   # plot it
-  sd_plot <- .model$sd.cf %>%
-    as_tibble() %>%
-    mutate(rownumber = row_number()) %>%
-    ggplot(aes(rownumber, value)) +
-    plot_theme() +
-    geom_point(alpha = 0.8)+
-    geom_hline(aes(yintercept = max(.model$sd.obs) + sd(.model$sd.obs)),
-               color = 'coral3', linetype = 'dashed') +
-    labs(title ="Diagnostics: Common Support Checks",
-         subtitle = paste0("Standard Deviation method: ", sd_test),
-         x = NULL,
-         y = 'Counterfactual Uncertanty') +
-    theme(legend.title = element_blank(),
-          legend.position = 'bottom')
-
-
-  # Create Chi Sqr plot -----------------------------------------------------
-  # calculate summary stats
-  total <- sum((.model$sd.cf / .model$sd.obs) ** 2 > 3.841)
-  prop <- round(total / length(.model$sd.cf), 5)*100
-  chi_test <- paste0(prop, "% of cases would have been removed")
-
-  # plot it
-  chi_sqr_plot <- (.model$sd.cf / .model$sd.obs)**2  %>%
-    as_tibble() %>%
-    mutate(rownumber = row_number()) %>%
-    ggplot(aes(rownumber, value)) +
-    plot_theme() +
+  p <- dat %>%
+    filter(support_rule %in% rule) %>%
+    ggplot(aes(x = index, y = value)) +
     geom_point(alpha = 0.8) +
-    geom_hline(aes(color = 'Removal threshold', yintercept = 3.841), linetype = 'dashed') +
+    geom_hline(aes(yintercept = threshold, color = 'Removal threshold'),
+               linetype = 'dashed') +
     scale_color_manual(values = 'coral3') +
-    labs(title = NULL,
-         subtitle = paste0("Chi Squared method: ", chi_test),
-         x = "Row index",
-         y = 'Counterfactual Uncertanty') +
-    theme(legend.title = element_blank(),
-          legend.position = 'bottom')
+    facet_wrap(~support_rule_text, ncol = 1, scales = 'free_y') +
+    labs(title ="Common support checks",
+         x = 'Row index',
+         y = 'Counterfactual uncertainty',
+         color = NULL) +
+    theme(legend.position = 'bottom',
+          strip.text = element_text(hjust = 0))
 
-
-  # Combine Plots  ----------------------------------------------------------
-
-  if(rule == 'none') {
-    return(sd_plot/chi_sqr_plot)
-  }
-
-  if(rule == 'sd'){
-    return(sd_plot)
-  }
-
-  if(rule == 'chi'){
-    return(chi_sqr_plot)
-  }
-
+  return(p)
 }
+
