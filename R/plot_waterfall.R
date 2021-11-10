@@ -58,12 +58,14 @@ plot_waterfall <- function(.model, descending = T,order = NULL, color = NULL,  a
       .col <- .col[, .model$trt != 1]
     }
     
-    p <- p + aes(color = as.character(.col)) + theme(legend.title = element_blank())
+    p <- p + aes(color = as.character(.col)) + 
+      theme(legend.title = element_blank()) + 
+      labs(x = 'ordered icates', y = 'icate')
   }
   
   # apply custom order 
   if(!is.null(order)){
-    p <- p + aes(.order, icate.m)
+    p <- p + aes(.order, icate.m) + labs(x = 'ordered icates', y = 'icate')
   }
   
   return(p)
