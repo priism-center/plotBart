@@ -1,4 +1,4 @@
-plot_waterfall <- function(.model, descending = T, color = NULL,  alpha = .5){
+plot_waterfall <- function(.model, descending = T,order = NULL, color = NULL,  alpha = .5){
   if (!is(.model, "bartcFit")) stop("Model must be of class bartcFit")
   if(!is.null(color)){
     if (!is(color, "vector")) stop("color must be a vector")
@@ -6,9 +6,10 @@ plot_waterfall <- function(.model, descending = T, color = NULL,  alpha = .5){
   if(!is.null(color)){
     if (nrow(.model$data.rsp@x) != length(color)) stop(paste("color must be a vector of length", nrow(.model$data.rsp@x)))
   }
-  .group <- as.factor(group)
+
   .color <- color
   .alpha <- alpha
+  .order <- order
   # calculate stats
   posterior <- bartCause::extract(.model, 'icate')
   posterior <-  posterior  %>% 
@@ -26,6 +27,14 @@ plot_waterfall <- function(.model, descending = T, color = NULL,  alpha = .5){
   # specify order of icates on x axis
   if(isTRUE(descending)){
     dat <- dat %>% arrange(desc(icate.m))
+  }
+  else if(!is.null(order)){
+    if(isTRUE(descending)){
+    dat <- dat %>% arrange(desc(.order))
+    }
+    else{
+    dat <- dat %>% arrange(.order) 
+    }
   }
   else{
     dat <- dat %>% arrange(icate.m)
@@ -52,6 +61,10 @@ plot_waterfall <- function(.model, descending = T, color = NULL,  alpha = .5){
     p <- p + aes(color = as.character(.col)) + theme(legend.title = element_blank())
   }
   
+  # apply custom order 
+  if(!is.null(order)){
+    p <- p + aes(.order, icate.m)
+  }
   
   return(p)
 }  
