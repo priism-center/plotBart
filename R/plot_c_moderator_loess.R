@@ -34,7 +34,5 @@ plot_c_moderator_loess <- function(.model, moderator, line.color = 'blue'){
     
     return(p)
   }
-plot_moderator_c_loess(bart.fit, moderator = ihdp$bw)
-plot_moderator_d_linerange(bart.fit, moderator = ihdp$cig, horizontal = T)
-plot_moderator_d_density(bart.fit, moderator = ihdp$cig)
+
 

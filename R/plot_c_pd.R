@@ -69,4 +69,3 @@ plot_c_moderator_pd <- function(.model, moderator, bins = 15, legend = c('none',
 
 }
 
-plot_c_moderator_pd(.model, dat$bw)

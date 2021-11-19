@@ -97,9 +97,3 @@ plot_PATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
   return(p)
 }
 
-db <- bartc(y.obs, treat, ., data = ihdp, keeptrees = T, estimand = 'att')
-
-plt <- dbarts::pdbart(db)
-dat.obs %>% 
-  group_by(Z) %>% 
-  summarise(mean(D))
