@@ -4,6 +4,7 @@
 #'
 #' @param .model a model produced by bartCause::bartc()
 #' @param rule one of c('both', 'sd', 'chi') denoting which rule to use to identify lack of support
+#'
 #' @author George Perrett, Joe Marlo
 #'
 #' @return ggplot object
@@ -57,7 +58,7 @@ plot_common_support <- function(.model, rule = c('both', 'sd', 'chi')){
   p <- dat %>%
     filter(support_rule %in% rule) %>%
     ggplot(aes(x = index, y = value)) +
-    geom_point(alpha = 0.8) +
+    geom_point(alpha = 0.7) +
     geom_hline(aes(yintercept = threshold, color = 'Removal threshold'),
                linetype = 'dashed') +
     scale_color_manual(values = 'coral3') +

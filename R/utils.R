@@ -12,6 +12,23 @@ coerce_to_logical <- function(x){
 
 # validate the model is a bartc model
 validate_model <- function(.model){
-  if (!inherits(.model, "bartcFit")) stop(".model must be of class 'bartcFit'")
+if (!inherits(.model, "bartcFit")) stop(".model must be of class 'bartcFit'")
 }
 
+is_numeric_vector <- function(x){
+  if (!inherits(x, 'numeric')) stop('moderator must be numeric vector')
+}
+
+# adjust moderator to match estimand
+adjust_moderator_for_estimand <- function(.model, moderator){
+  validate_model(.model)
+
+  moderator <- switch(
+    .model$estimand,
+    ate = moderator,
+    att = moderator[.model$trt == 1],
+    atc = moderator[.model$trt != 1]
+  )
+
+  return(moderator)
+}

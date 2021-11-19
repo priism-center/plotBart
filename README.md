@@ -27,7 +27,8 @@ model_results <- bartCause::bartc(
   confounders = as.matrix(lalonde[, confounders]),
   estimand = 'ate',
   commonSup.rule = 'none',
-  verbose = FALSE
+  verbose = FALSE,
+  keepTrees = TRUE
 )
 
 # plot common support
@@ -37,11 +38,13 @@ plot_common_support(.model = model_results)
 <img src="man/figures/README-example-1.png" width="75%" style="display: block; margin: auto;" />
 
 ``` r
-# plot overlap by variable and manipulate ggplot object
-plot_overlap_vars(
-  .data = lalonde,
-  treatment = 'treat',
-  confounders = confounders,
+# plot CATE and manipulate ggplot object
+plot_CATE(
+  .model = model_results, 
+  type = 'density', 
+  ci_80 = TRUE, 
+  ci_95 = TRUE,
+  .mean = TRUE
 ) + 
   labs(subtitle = 'My comments on the results') +
   theme_classic()
@@ -61,18 +64,11 @@ devtools::install_github("joemarlo/plotBart")
 
 ### Test coverage
 
-    #> plotBart Coverage: 31.58%
-    #> R/plot_c_moderator_loess.R: 0.00%
-    #> R/plot_c_pd.R: 0.00%
-    #> R/plot_cate.R: 0.00%
-    #> R/plot_d_moderator_density.R: 0.00%
-    #> R/plot_icate.R: 0.00%
-    #> R/plot_moderator_linerange.R: 0.00%
-    #> R/plot_moderator_search.R: 0.00%
-    #> R/plot_pate.R: 0.00%
-    #> R/plot_sate.R: 0.00%
+    #> plotBart Coverage: 31.64%
+    #> R/plot_ATE.R: 0.00%
+    #> R/plot_moderators.R: 0.00%
     #> R/plot_waterfall.R: 0.00%
-    #> R/utils.R: 66.67%
+    #> R/utils.R: 26.67%
     #> R/plot_overlap_pScores.R: 90.74%
     #> R/plot_overlap_vars.R: 93.02%
     #> R/plot_balance.R: 95.83%

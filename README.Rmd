@@ -35,17 +35,20 @@ model_results <- bartCause::bartc(
   confounders = as.matrix(lalonde[, confounders]),
   estimand = 'ate',
   commonSup.rule = 'none',
-  verbose = FALSE
+  verbose = FALSE,
+  keepTrees = TRUE
 )
 
 # plot common support
 plot_common_support(.model = model_results)
 
-# plot overlap by variable and manipulate ggplot object
-plot_overlap_vars(
-  .data = lalonde,
-  treatment = 'treat',
-  confounders = confounders,
+# plot CATE and manipulate ggplot object
+plot_CATE(
+  .model = model_results, 
+  type = 'density', 
+  ci_80 = TRUE, 
+  ci_95 = TRUE,
+  .mean = TRUE
 ) + 
   labs(subtitle = 'My comments on the results') +
   theme_classic()

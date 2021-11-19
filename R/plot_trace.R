@@ -32,7 +32,7 @@ plot_trace <- function(.model){
     as_tibble() %>%
     mutate(index = row_number()) %>%
     ggplot(aes(x = index, y = value)) +
-    geom_line() +
+    geom_line(alpha = 0.8) +
     labs(title = 'Diagnostics: Trace plot',
          subtitle = 'Informative subtitle to go here',
          x = 'Iteration',
