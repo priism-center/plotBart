@@ -99,6 +99,8 @@ plot_overlap_pScores <- function(.data, treatment, response, confounders, plot_t
 #' @return a numeric vector of propensity scores
 #' @export
 #'
+#' @importFrom bartCause bartc
+#'
 #' @seealso \code{\link{plot_overlap_pScores}}
 #'
 #' @examples

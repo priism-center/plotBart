@@ -7,10 +7,10 @@
 
 [![R-CMD-check](https://github.com/joemarlo/plotBart/workflows/R-CMD-check/badge.svg)](https://github.com/joemarlo/plotBart/actions)
 [![license](https://img.shields.io/badge/license-MIT%20+%20file%20LICENSE-lightgrey.svg)](/LICENSE.md)
-[![Last-changedate](https://img.shields.io/badge/last%20change-2021--11--03-yellowgreen.svg)](/commits/master)
+[![Last-changedate](https://img.shields.io/badge/last%20change-2021--11--09-yellowgreen.svg)](/commits/master)
 <!-- badges: end -->
 
-plotBart is a supplemental plotting package to
+plotBart is a diagnostic and plotting package for
 [bartCause](https://github.com/vdorie/bartCause) and
 [thinkCausal](https://github.com/gperrett/thinkCausal_dev).
 
@@ -36,12 +36,14 @@ plot_common_support(.model = model_results)
 <img src="man/figures/README-example-1.png" width="75%" style="display: block; margin: auto;" />
 
 ``` r
-# plot overlap by variable
+# plot overlap by variable and manipulate ggplot object
 plot_overlap_vars(
   .data = lalonde,
   treatment = 'treat',
   confounders = confounders,
-) + labs(subtitle = 'My informative subtitle')
+) + 
+  labs(subtitle = 'Strong univariate overlap for most variables') +
+  theme_classic()
 ```
 
 <img src="man/figures/README-example-2.png" width="75%" style="display: block; margin: auto;" />

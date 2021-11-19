@@ -18,10 +18,10 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/joemarlo/plotBart/workflows/R-CMD-check/badge.svg)](https://github.com/joemarlo/plotBart/actions)
 [![license](https://img.shields.io/badge/license-MIT + file LICENSE-lightgrey.svg)](/LICENSE.md)
-[![Last-changedate](https://img.shields.io/badge/last%20change-`r gsub('-', '--', Sys.Date())`-yellowgreen.svg)](/commits/master)
+[![last commit](https://img.shields.io/github/last-commit/joemarlo/plotBart)](https://github.com/joemarlo/plotBart/commits/master)
 <!-- badges: end -->
 
-plotBart is a supplemental plotting package to [bartCause](https://github.com/vdorie/bartCause) and [thinkCausal](https://github.com/gperrett/thinkCausal_dev). 
+plotBart is a diagnostic and plotting package for [bartCause](https://github.com/vdorie/bartCause) and [thinkCausal](https://github.com/gperrett/thinkCausal_dev). 
 
 ```{r example, fig.width=8, message=FALSE, warning=FALSE, out.width = "75%", fig.align="center"}
 library(plotBart)
@@ -41,12 +41,14 @@ model_results <- bartCause::bartc(
 # plot common support
 plot_common_support(.model = model_results)
 
-# plot overlap by variable
+# plot overlap by variable and manipulate ggplot object
 plot_overlap_vars(
   .data = lalonde,
   treatment = 'treat',
   confounders = confounders,
-) + labs(subtitle = 'My informative subtitle')
+) + 
+  labs(subtitle = 'Strong univariate overlap for most variables') +
+  theme_classic()
 ```
 
 

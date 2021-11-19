@@ -1,13 +1,12 @@
 Package: plotBart
 Type: Package
-Title: Plotting Functions to Supplement bartCause and thinkCausal packages
+Title: Diagnostic and Plotting Functions to Supplement bartCause
 Version: 0.1.0
 Authors@R: c(
   person("Marlo", "Joseph", email = "jpm770@nyu.edu", role = c("aut", "cre")),
   person("Perrett", "George", email = "gp77@nyu.edu", role = c("aut"))
   )
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: Tools to assist diagnostic and plotting in the causal inference modeling process. Supplements the bartCause package.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
