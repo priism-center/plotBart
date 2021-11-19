@@ -96,3 +96,4 @@ plot_PATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
   
   return(p)
 }
+
