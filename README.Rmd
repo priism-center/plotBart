@@ -47,7 +47,7 @@ plot_overlap_vars(
   treatment = 'treat',
   confounders = confounders,
 ) + 
-  labs(subtitle = 'Strong univariate overlap for most variables') +
+  labs(subtitle = 'My comments on the results') +
   theme_classic()
 ```
 
