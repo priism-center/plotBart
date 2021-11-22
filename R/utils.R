@@ -12,7 +12,7 @@ coerce_to_logical <- function(x){
 
 # validate the model is a bartc model
 validate_model <- function(.model){
-if (!inherits(.model, "bartcFit")) stop(".model must be of class 'bartcFit'")
+  if (!inherits(.model, "bartcFit")) stop(".model must be of class 'bartcFit'")
 }
 
 is_numeric_vector <- function(x){
