@@ -7,7 +7,7 @@
 #' @param n_bins number of bins
 #' @param legend legend position. One of c('none', 'right', 'top', 'bottom')
 #'
-#' @author George Perrett
+#' @author George Perrett, Joe Marlo
 #'
 #' @return ggplot object
 #' @export
@@ -336,10 +336,10 @@ plot_moderator_search <- function(.model, depth = 2, type = c(2, 0, 1, 3, 4, 5),
   if (.model$estimand == 'ate') {
     confounders <- as.matrix(.data[, c(-1,-(length(.data)))])
   } else if (.model$estimand == 'att') {
-    .data <- .data[.data$treat == 1,]
+    .data <- .data[.data$trt == 1,]
     confounders <- as.matrix(.data[, c(-1,-(length(.data)))])
   } else{
-    .data <- .data[.data$treat == 0,]
+    .data <- .data[.data$trt == 0,]
     confounders <- as.matrix(.data[, c(-1,-(length(.data)))])
   }
 

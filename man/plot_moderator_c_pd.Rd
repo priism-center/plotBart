@@ -40,5 +40,5 @@ model_results <- bartCause::bartc(
 plot_moderator_c_pd(model_results, lalonde$age)
 }
 \author{
-George Perrett
+George Perrett, Joe Marlo
 }
