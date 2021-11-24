@@ -87,6 +87,7 @@ plot_waterfall <- function(.model, descending = TRUE, .order = NULL, .color = NU
 
   # apply custom order
   if(!is.null(.order)){
+    .order <- adjust_moderator_for_estimand(.model, .order)
     p <- p +
       aes(x = .order, y = icate.m) +
       labs(title = NULL,
