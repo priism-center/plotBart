@@ -53,7 +53,7 @@ plot_waterfall <- function(.model, descending = TRUE, .order = NULL, .color = NU
   # specify order of icates on x axis
   if(isTRUE(descending)){
     dat <- dat %>% arrange(desc(icate.m))
-  } else if(!is.null(order)){
+  } else if(!is.null(.order)){
     if(isTRUE(descending)){
       dat <- arrange(dat, desc(.order))
     } else{
