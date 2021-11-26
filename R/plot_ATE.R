@@ -126,7 +126,7 @@ plot_CATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
 #'  commonSup.rule = 'none'
 #' )
 #' plot_ICATE(model_results, lalonde$married)
-plot_ICATE <- function(.model, group.by = NULL, nbins = 30){
+plot_ICATE <- function(.model, group.by = NULL, nbins = 30, .alpha = .7){
 
   validate_model(.model)
   # TODO: check grouping var is valid
@@ -145,7 +145,7 @@ plot_ICATE <- function(.model, group.by = NULL, nbins = 30){
   if(!is.null(group.by)){
     p <- ggplot(icates,
                 aes(x = value, fill = as.factor(group.by))) +
-      geom_histogram(position = 'identity', bins = nbins)
+      geom_histogram(position = 'identity', bins = nbins, alpha = .alpha)
   }
 
   # add labels
