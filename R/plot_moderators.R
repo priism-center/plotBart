@@ -151,7 +151,7 @@ plot_moderator_c_loess <- function(.model, moderator, line.color = 'blue'){
   # plot it
   p <- ggplot(dat, aes(moderator, value)) +
     geom_point() +
-    geom_smooth(method = 'loess', se = FALSE,
+    geom_smooth(method = 'loess', se = TRUE,
                 size = 1.5, color = line.color) +
     labs(title = NULL,
          x = NULL,
