@@ -107,6 +107,7 @@ plot_CATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
 #' @param .model a model produced by bartCause::bartc()
 #' @param group.by a grouping variable as a vector
 #' @param nbins number of bins #TODO describe
+#' @param .alpha transparency of histograms
 #'
 #' @author George Perrett
 #'

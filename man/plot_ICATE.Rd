@@ -4,7 +4,7 @@
 \alias{plot_ICATE}
 \title{Plot icates}
 \usage{
-plot_ICATE(.model, group.by = NULL, nbins = 30)
+plot_ICATE(.model, group.by = NULL, nbins = 30, .alpha = 0.7)
 }
 \arguments{
 \item{.model}{a model produced by bartCause::bartc()}
@@ -12,6 +12,8 @@ plot_ICATE(.model, group.by = NULL, nbins = 30)
 \item{group.by}{a grouping variable as a vector}
 
 \item{nbins}{number of bins #TODO describe}
+
+\item{.alpha}{transparency of histograms}
 }
 \value{
 ggplot object

@@ -64,7 +64,7 @@ devtools::install_github("joemarlo/plotBart")
 
 ### Test coverage
 
-    #> plotBart Coverage: 31.64%
+    #> plotBart Coverage: 31.58%
     #> R/plot_ATE.R: 0.00%
     #> R/plot_moderators.R: 0.00%
     #> R/plot_waterfall.R: 0.00%
