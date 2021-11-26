@@ -33,23 +33,25 @@ plot_moderator_c_pd <- function(.model, moderator, n_bins = 15, legend = c('none
   if (n_bins < 1) stop("n_bins must be a number greater than 1")
 
   # TODO: error handling
-
   # extract data
   new_data <- as_tibble(.model$data.rsp@x)
-  new_data <- rename(new_data, treat = .model$call$treatment)
+  # locate treatment variable
+  search_treatment <- function(x) sum(.model$trt - x)
+  index_trt <- which(sapply(new_data, search_treatment) == 0)
+  names(new_data)[index_trt] <- 'z'
   new_data_z1 <- new_data
-  new_data_z1$treat <- 1
+  new_data_z1$z <- 1
   new_data_z1 <- cbind.data.frame(.model$fit.rsp$y, new_data_z1)
   names(new_data_z1)[1] <- as.character(.model$call$response)
 
   new_data_z0 <- new_data
-  new_data_z0$treat <- 0
+  new_data_z0$z <- 0
   new_data_z0 <- cbind.data.frame(.model$fit.rsp$y, new_data_z0)
   names(new_data_z0)[1] <- as.character(.model$call$response) # TODO: this seems wrong
 
   # locate the moderator in bartc data
-  search <- function(x) sum(moderator - x)
-  index <- which(sapply(new_data_z0, search) == 0)
+  search_moderator <- function(x) sum(moderator - x)
+  index <- which(sapply(new_data_z0, search_moderator) == 0)
 
   # get range for predictions
   cut <- n_bins-1
@@ -72,8 +74,8 @@ plot_moderator_c_pd <- function(.model, moderator, n_bins = 15, legend = c('none
   }
 
   # TODO: this is slow AF
-  cates <- purrr::map(range, fit_pd)
-  #cates <- lapply(range, fit_pd)
+  #cates <- purrr::map(range, fit_pd)
+  cates <- lapply(range, fit_pd)
   cates <- bind_cols(cates)
   cates.m <- apply(cates, 2, mean)
   cates.m <- as_tibble(cbind(cates.m, range))
