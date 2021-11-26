@@ -38,14 +38,13 @@ plot_moderator_c_pd <- function(.model, moderator, n_bins = 15, legend = c('none
   # locate treatment variable
   search_treatment <- function(x) sum(.model$trt - x)
   index_trt <- which(sapply(new_data, search_treatment) == 0)
-  names(new_data)[index_trt] <- 'z'
   new_data_z1 <- new_data
-  new_data_z1$z <- 1
+  new_data_z1[, index_trt] <- 1
   new_data_z1 <- cbind.data.frame(.model$fit.rsp$y, new_data_z1)
   names(new_data_z1)[1] <- as.character(.model$call$response)
 
   new_data_z0 <- new_data
-  new_data_z0$z <- 0
+  new_data_z0[, index_trt] <- 0
   new_data_z0 <- cbind.data.frame(.model$fit.rsp$y, new_data_z0)
   names(new_data_z0)[1] <- as.character(.model$call$response) # TODO: this seems wrong
 
