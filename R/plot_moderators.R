@@ -35,15 +35,16 @@ plot_moderator_c_pd <- function(.model, moderator, n_bins = 15, legend = c('none
   # TODO: error handling
 
   # extract data
-  new_data <- as_tibble(.model$data.rsp@x.test)
+  new_data <- as_tibble(.model$data.rsp@x)
+  new_data <- rename(new_data, treat = .model$call$treatment)
   new_data_z1 <- new_data
   new_data_z1$treat <- 1
-  new_data_z1 <- cbind(.model$fit.rsp$y, new_data_z1)
-  names(new_data_z1)[1] <- as.character(.model$call$response) # TODO: this seems wrong
+  new_data_z1 <- cbind.data.frame(.model$fit.rsp$y, new_data_z1)
+  names(new_data_z1)[1] <- as.character(.model$call$response)
 
   new_data_z0 <- new_data
   new_data_z0$treat <- 0
-  new_data_z0 <- cbind(.model$fit.rsp$y, new_data_z0)
+  new_data_z0 <- cbind.data.frame(.model$fit.rsp$y, new_data_z0)
   names(new_data_z0)[1] <- as.character(.model$call$response) # TODO: this seems wrong
 
   # locate the moderator in bartc data
@@ -71,8 +72,8 @@ plot_moderator_c_pd <- function(.model, moderator, n_bins = 15, legend = c('none
   }
 
   # TODO: this is slow AF
-  # cates <- purrr::map(range, fit_pd)
-  cates <- lapply(range, fit_pd)
+  cates <- purrr::map(range, fit_pd)
+  #cates <- lapply(range, fit_pd)
   cates <- bind_cols(cates)
   cates.m <- apply(cates, 2, mean)
   cates.m <- as_tibble(cbind(cates.m, range))
