@@ -229,6 +229,7 @@ plot_moderator_d_density <- function(.model, moderator, .alpha = 0.7, facet = FA
   return(p)
 }
 
+
 #' Plot the icates conditional on a discrete moderator
 #'
 #' TODO: description

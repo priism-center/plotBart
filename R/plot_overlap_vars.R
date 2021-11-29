@@ -56,7 +56,6 @@ plot_overlap_vars <- function(.data, treatment, confounders, plot_type = c("hist
       scale_fill_manual(values = c('#bd332a', '#262991')) +
       facet_wrap(~name, scales = 'free', ncol = 3) +
       labs(title = "Overlap by treatment status",
-           subtitle = 'Informative subtitle to go here',
            x = NULL,
            y = 'Count',
            fill = "Treatment")
@@ -78,7 +77,6 @@ plot_overlap_vars <- function(.data, treatment, confounders, plot_type = c("hist
       scale_fill_manual(values = c('#bd332a', '#262991')) +
       facet_wrap(~name, scales = 'free', ncol = 3) +
       labs(title = "Overlap by treatment status",
-           subtitle = 'Informative subtitle to go here',
            x = NULL,
            y = 'Density',
            fill = "Treatment")
