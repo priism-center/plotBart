@@ -107,7 +107,7 @@ plot_moderator_c_pd <- function(.model, moderator, n_bins = 15, legend = c('none
 #' @param moderator the moderator as a vector
 #' @param line.color the color of the loess line
 #'
-#' @author George Perrett
+#' @author George Perrett, Joe Marlo
 #'
 #' @return ggplot object
 #' @export
@@ -239,7 +239,7 @@ plot_moderator_d_density <- function(.model, moderator, .alpha = 0.7, facet = FA
 #' @param .alpha transparency value [0, 1]
 #' @param horizontal flip the plot horizontal?
 #'
-#' @author George Perrett
+#' @author George Perrett, Joe Marlo
 #'
 #' @return ggplot object
 #' @export
