@@ -28,15 +28,19 @@ plot_trace <- function(.model){
   validate_model(.model)
 
   p <- .model %>%
-    bartCause::extract() %>%
+    bartCause::extract('cate', combineChains = F) %>%
     as_tibble() %>%
-    mutate(index = row_number()) %>%
-    ggplot(aes(x = index, y = value)) +
+    t() %>%
+    as_tibble() %>%
+    mutate(iteration = row_number()) %>%
+    pivot_longer(1:.model$n.chains) %>%
+    mutate(Chain = factor(sub('V', '', name), levels = as.character(1:10))) %>%
+    ggplot(aes(x = iteration, y = value, color = Chain)) +
     geom_line(alpha = 0.8) +
     labs(title = 'Diagnostics: Trace plot',
-         subtitle = 'Informative subtitle to go here',
          x = 'Iteration',
-         y = toupper(.model$estimand))
+         y = toupper(.model$estimand),
+         color = 'Chain')
 
   return(p)
 }
