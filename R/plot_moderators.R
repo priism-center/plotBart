@@ -285,8 +285,8 @@ plot_moderator_d_linerange <- function(.model, moderator, .alpha = 0.7, horizont
   # tidy up the data
   dat <- dat %>%
     group_by(moderator) %>%
-    mutate(.min = min(value),
-           .max = max(value),
+    mutate(.min = quantile(value, .025),
+           .max = quantile(value, .975),
            point = mean(value)) %>%
     dplyr::select(-value) %>%
     arrange(desc(point)) %>%
