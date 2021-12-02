@@ -34,5 +34,5 @@ model_results <- bartCause::bartc(
 plot_moderator_d_linerange(model_results, lalonde$educ)
 }
 \author{
-George Perrett
+George Perrett, Joe Marlo
 }

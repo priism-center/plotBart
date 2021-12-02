@@ -32,5 +32,5 @@ model_results <- bartCause::bartc(
 plot_moderator_c_loess(model_results, lalonde$married)
 }
 \author{
-George Perrett
+George Perrett, Joe Marlo
 }
