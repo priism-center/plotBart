@@ -50,6 +50,10 @@ plot_waterfall <- function(.model, descending = TRUE, .order = NULL, .color = NU
 
   dat <- tibble(icate.m, icate.lci, icate.uci)
 
+  if(!is.null(.color)){
+    .color <- adjust_moderator_for_estimand(.model, .color)
+    dat$.color <- .color
+  }
   # specify order of icates on x axis
   if(isTRUE(descending)){
     dat <- dat %>% arrange(desc(icate.m))
@@ -77,7 +81,6 @@ plot_waterfall <- function(.model, descending = TRUE, .order = NULL, .color = NU
 
   # add color
   if(!is.null(.color)){
-    .color <- adjust_moderator_for_estimand(.model, .color)
     p <- p +
       aes(color = as.character(.color)) +
       labs(title = NULL,
