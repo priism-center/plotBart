@@ -6,6 +6,7 @@ pscores <- propensity_scores(
   confounders = c('age', 'educ')
 )
 
+
 test_that("propensity_scores() output is correct", {
   expect_equal(length(pscores), nrow(lalonde))
   expect_vector(pscores)

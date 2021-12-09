@@ -1,3 +1,8 @@
+
+
+
+# model to use in tests ---------------------------------------------------
+
 data(lalonde)
 confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 model_results <- bartCause::bartc(
@@ -7,6 +12,9 @@ model_results <- bartCause::bartc(
   estimand = 'ate',
   commonSup.rule = 'none'
 )
+
+
+# plots to test -----------------------------------------------------------
 
 out_balance <- plot_balance(.data = lalonde, treatment = 'treat', confounders = confounders)
 out_support_none <- plot_common_support(.model = model_results, rule = 'both')
@@ -40,8 +48,50 @@ out_overlap_vars_density <- plot_overlap_vars(
   plot_type = 'density'
 )
 out_trace <- plot_trace(.model = model_results)
-# out_importance <- plot_variable_importance(.model = model_results, c('age', 'educ'))
-# out_cate <- plot_cate_test(model_results,  c('age', 'educ'))
+out_CATE <- plot_CATE(
+  model_results,
+  type = 'density',
+  ci_80 = TRUE,
+  ci_95 = TRUE,
+  reference = 0,
+  .mean = TRUE,
+  .median = TRUE
+)
+plot_ICATE <- plot_ICATE(model_results, group.by = NULL, nbins = 30, .alpha = .7)
+out_PATE <- plot_PATE(
+  model_results,
+  type = 'density',
+  ci_80 = TRUE,
+  ci_95 = TRUE,
+  reference = 0,
+  .mean = TRUE,
+  .median = TRUE
+)
+out_SATE <- plot_SATE(
+  model_results,
+  type = 'density',
+  ci_80 = TRUE,
+  ci_95 = TRUE,
+  reference = 0,
+  .mean = TRUE,
+  .median = TRUE
+)
+out_waterfall <- plot_waterfall(
+  model_results,
+  descending = TRUE,
+  .order = NULL,
+  .color = NULL,
+  .alpha = 0.5
+)
+out_moderator_search <- plot_moderator_search(
+  model_results,
+  depth = 2,
+  type = 2,
+  extra = 1
+)
+
+
+# tests -------------------------------------------------------------------
 
 test_that("plot_balance() output is ggplot object", {
   expect_s3_class(out_balance, 'ggplot')
@@ -51,9 +101,6 @@ test_that("plot_common_support() output is ggplot object", {
   expect_s3_class(out_support_sd, 'ggplot')
   expect_s3_class(out_support_chi, 'ggplot')
 })
-# test_that("plot_ITE() output is ggplot object", {
-#   expect_s3_class(out_ITE, 'ggplot')
-# })
 test_that("plot_overlap_pScores() output is ggplot object", {
   expect_s3_class(out_overlap_pscores_hist, 'ggplot')
   expect_s3_class(out_overlap_pscores_density, 'ggplot')
@@ -65,13 +112,14 @@ test_that("plot_overlap_vars() output is ggplot object", {
 test_that("plot_trace() output is ggplot object", {
   expect_s3_class(out_trace, 'ggplot')
 })
-# test_that("plot_variable_importance() output is correct", {
-#   expect_s3_class(out_importance[[1]], 'ggplot')
-#   expect_s3_class(out_importance[[2]], 'data.frame')
-# })
-
-# test_that("plot_cate_test() output is correct", {
-#   expect_s3_class(out_cate$moderators, 'ggplot')
-#   expect_s3_class(out_cate$cates[[1]], 'ggplot')
-#   expect_s3_class(out_cate$cates[[2]], 'ggplot')
-# })
+test_that("plot_*ATE outputs are all ggplot objects", {
+  expect_s3_class(out_CATE, 'ggplot')
+  expect_s3_class(out_PATE, 'ggplot')
+  expect_s3_class(out_SATE, 'ggplot')
+})
+test_that("plot_waterfall output is ggplot object", {
+  expect_s3_class(out_waterfall, 'ggplot')
+})
+test_that("plot_moderator_search output is ggplot object", {
+  expect_type(out_moderator_search, 'list')
+})

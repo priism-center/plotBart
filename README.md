@@ -65,11 +65,11 @@ devtools::install_github("joemarlo/plotBart")
 
 ### Test coverage
 
-    #> plotBart Coverage: 31.60%
-    #> R/plot_ATE.R: 0.00%
-    #> R/plot_moderators.R: 0.00%
-    #> R/plot_waterfall.R: 0.00%
-    #> R/utils.R: 26.67%
+    #> plotBart Coverage: 65.90%
+    #> R/plot_moderators.R: 8.21%
+    #> R/plot_waterfall.R: 56.52%
+    #> R/utils.R: 80.00%
+    #> R/plot_ATE.R: 86.36%
     #> R/plot_overlap_pScores.R: 90.74%
     #> R/plot_overlap_vars.R: 92.68%
     #> R/plot_balance.R: 95.83%

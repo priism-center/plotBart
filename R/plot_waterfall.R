@@ -51,7 +51,7 @@ plot_waterfall <- function(.model, descending = TRUE, .order = NULL, .color = NU
   dat <- tibble(icate.m, icate.lci, icate.uci)
 
   if(!is.null(.color)){
-    .color <- adjust_moderator_for_estimand(.model, .color)
+    .color <- adjust_for_estimand(.model, .color)
     dat$.color <- .color
   }
   # specify order of icates on x axis
@@ -90,7 +90,7 @@ plot_waterfall <- function(.model, descending = TRUE, .order = NULL, .color = NU
 
   # apply custom order
   if(!is.null(.order)){
-    .order <- adjust_moderator_for_estimand(.model, .order)
+    .order <- adjust_for_estimand(.model, .order)
     p <- p +
       aes(x = .order, y = icate.m) +
       labs(title = NULL,

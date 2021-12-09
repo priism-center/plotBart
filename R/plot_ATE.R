@@ -136,7 +136,7 @@ plot_ICATE <- function(.model, group.by = NULL, nbins = 30, .alpha = .7){
   icates <- as_tibble(apply(posterior, 2, mean))
 
   # adjust value based on estimand
-  group.by <- adjust_moderator_for_estimand(.model, group.by)
+  group.by <- adjust_for_estimand(.model, group.by)
 
   # create base plot
   p <- ggplot(icates, aes(x = value)) +

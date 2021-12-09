@@ -131,7 +131,7 @@ plot_moderator_c_loess <- function(.model, moderator, line.color = 'blue'){
   is_numeric_vector(moderator)
 
   # adjust moderator to match estimand
-  moderator <- adjust_moderator_for_estimand(.model, moderator)
+  moderator <- adjust_for_estimand(.model, moderator)
 
   # extract and rotate posterior
   posterior <- bartCause::extract(.model, 'icate')
@@ -196,7 +196,7 @@ plot_moderator_d_density <- function(.model, moderator, .alpha = 0.7, facet = FA
   # is_discrete(moderator)
 
   # adjust moderator to match estimand
-  moderator <- adjust_moderator_for_estimand(.model, moderator)
+  moderator <- adjust_for_estimand(.model, moderator)
 
   # extract and rotate posterior
   posterior <- bartCause::extract(.model, 'icate')
@@ -265,7 +265,7 @@ plot_moderator_d_linerange <- function(.model, moderator, .alpha = 0.7, horizont
   # is_discrete(moderator)
 
   # adjust moderator to match estimand
-  moderator <- adjust_moderator_for_estimand(.model, moderator)
+  moderator <- adjust_for_estimand(.model, moderator)
 
   # extract and rotate posterior
   posterior <- bartCause::extract(.model, 'icate')
@@ -324,6 +324,8 @@ plot_moderator_d_linerange <- function(.model, moderator, .alpha = 0.7, horizont
 #' @return rpart plot
 #' @export
 plot_moderator_search <- function(.model, depth = 2, type = c(2, 0, 1, 3, 4, 5), extra = list(1, 'all', 0)){
+
+  #TODO: do we really need the type and extra parameters?
 
   validate_model(.model)
 

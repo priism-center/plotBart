@@ -19,16 +19,16 @@ is_numeric_vector <- function(x){
   if (!inherits(x, 'numeric')) stop('moderator must be numeric vector')
 }
 
-# adjust moderator to match estimand
-adjust_moderator_for_estimand <- function(.model, moderator){
+# adjust [moderator] to match estimand
+adjust_for_estimand <- function(.model, x){
   validate_model(.model)
 
-  moderator <- switch(
+  out <- switch(
     .model$estimand,
-    ate = moderator,
-    att = moderator[.model$trt == 1],
-    atc = moderator[.model$trt != 1]
+    ate = x,
+    att = x[.model$trt == 1],
+    atc = x[.model$trt != 1]
   )
 
-  return(moderator)
+  return(out)
 }
