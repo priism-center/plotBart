@@ -28,10 +28,10 @@ plot_trace <- function(.model){
   validate_model(.model)
 
   p <- .model %>%
-    bartCause::extract('cate', combineChains = F) %>%
-    as_tibble() %>%
+    bartCause::extract('cate', combineChains = FALSE) %>%
     t() %>%
-    as_tibble() %>%
+    as.data.frame() %>%
+    tibble() %>%
     mutate(iteration = row_number()) %>%
     pivot_longer(1:.model$n.chains) %>%
     mutate(Chain = factor(sub('V', '', name), levels = as.character(1:10))) %>%
