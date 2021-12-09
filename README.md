@@ -5,6 +5,7 @@
 
 <!-- badges: start -->
 
+[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![R-CMD-check](https://github.com/joemarlo/plotBart/workflows/R-CMD-check/badge.svg)](https://github.com/joemarlo/plotBart/actions)
 [![license](https://img.shields.io/badge/license-MIT%20+%20file%20LICENSE-lightgrey.svg)](/LICENSE.md)
 [![last
@@ -64,7 +65,7 @@ devtools::install_github("joemarlo/plotBart")
 
 ### Test coverage
 
-    #> plotBart Coverage: 31.72%
+    #> plotBart Coverage: 31.60%
     #> R/plot_ATE.R: 0.00%
     #> R/plot_moderators.R: 0.00%
     #> R/plot_waterfall.R: 0.00%
