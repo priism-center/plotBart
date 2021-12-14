@@ -26,7 +26,7 @@
 plot_common_support <- function(.model, rule = c('both', 'sd', 'chi')){
 
   # ensure model is a of class bartcFit
-  validate_model(.model)
+  validate_model_(.model)
 
   rule <- rule[1]
   if (rule %notin% c('both', 'sd', 'chi')) stop('rule must be one of c("both", "sd", "chi")')

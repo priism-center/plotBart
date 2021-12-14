@@ -29,7 +29,7 @@
 #' plot_CATE(model_results)
 plot_CATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, ci_95 = FALSE, reference = NULL, .mean = FALSE, .median = FALSE){
 
-  validate_model(.model)
+  validate_model_(.model)
   type <- tolower(type[1])
   if (type %notin% c('histogram', 'density')) stop("type must be 'histogram' or 'density'")
 
@@ -129,14 +129,14 @@ plot_CATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
 #' plot_ICATE(model_results, lalonde$married)
 plot_ICATE <- function(.model, group.by = NULL, nbins = 30, .alpha = .7){
 
-  validate_model(.model)
+  validate_model_(.model)
   # TODO: check grouping var is valid
 
   posterior <- bartCause::extract(.model, 'icate')
   icates <- as_tibble(apply(posterior, 2, mean))
 
   # adjust value based on estimand
-  group.by <- adjust_for_estimand(.model, group.by)
+  group.by <- adjust_for_estimand_(.model, group.by)
 
   # create base plot
   p <- ggplot(icates, aes(x = value)) +
@@ -189,7 +189,7 @@ plot_ICATE <- function(.model, group.by = NULL, nbins = 30, .alpha = .7){
 #' plot_PATE(model_results)
 plot_PATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, ci_95 = FALSE, reference = NULL, .mean = FALSE, .median = FALSE){
 
-  validate_model(.model)
+  validate_model_(.model)
   type <- tolower(type[1])
   if (type %notin% c('histogram', 'density')) stop("type must be 'histogram' or 'density'")
 
@@ -289,7 +289,7 @@ plot_PATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
 #' plot_SATE(model_results)
 plot_SATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, ci_95 = FALSE, reference = NULL, .mean = FALSE, .median = FALSE){
 
-  validate_model(.model)
+  validate_model_(.model)
   type <- tolower(type[1])
   if (type %notin% c('histogram', 'density')) stop("type must be 'histogram' or 'density'")
 

@@ -43,7 +43,7 @@ plot_overlap_pScores <- function(.data, treatment, response, confounders, plot_t
     )
   }
 
-  dat <- data.frame(Z = coerce_to_logical(.data[[treatment]]),
+  dat <- data.frame(Z = coerce_to_logical_(.data[[treatment]]),
                     pscores = pscores)
 
   if (plot_type == 'histogram'){
@@ -118,7 +118,7 @@ propensity_scores <- function(.data, treatment, response, confounders){
   if (any(confounders %notin% colnames(.data))) stop('Not all confounders are found in .data')
 
   # coerce treatment column to logical
-  .data[[treatment]] <- coerce_to_logical(.data[[treatment]])
+  .data[[treatment]] <- coerce_to_logical_(.data[[treatment]])
 
   # run the Bart model
   confounders_mat <- as.matrix(.data[, 3:ncol(.data)])

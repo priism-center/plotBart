@@ -10,7 +10,8 @@ model_results <- bartCause::bartc(
   treatment = lalonde[['treat']],
   confounders = as.matrix(lalonde[, confounders]),
   estimand = 'ate',
-  commonSup.rule = 'none'
+  commonSup.rule = 'none',
+  keepTrees = TRUE
 )
 
 
@@ -83,6 +84,28 @@ out_waterfall <- plot_waterfall(
   .color = NULL,
   .alpha = 0.5
 )
+
+
+out_moderator_c_pd <- plot_moderator_c_pd(
+  model_results,
+  moderator = lalonde$educ,
+  n_bins = 15,
+  legend = 'bottom')
+out_moderator_c_loess <- plot_moderator_c_loess(
+  model_results,
+  moderator = lalonde$educ,
+  line.color = 'blue')
+out_moderator_d_density <- plot_moderator_d_density(
+  model_results,
+  moderator = lalonde$educ,
+  .alpha = 0.7,
+  facet = FALSE,
+  .ncol = 1)
+out_moderator_d_linerange <- plot_moderator_d_linerange(
+  model_results,
+  moderator = lalonde$educ,
+  .alpha = 0.7,
+  horizontal = FALSE)
 out_moderator_search <- plot_moderator_search(
   model_results,
   depth = 2,
@@ -117,9 +140,13 @@ test_that("plot_*ATE outputs are all ggplot objects", {
   expect_s3_class(out_PATE, 'ggplot')
   expect_s3_class(out_SATE, 'ggplot')
 })
-test_that("plot_waterfall output is ggplot object", {
+test_that("plot_waterfall() output is ggplot object", {
   expect_s3_class(out_waterfall, 'ggplot')
 })
-test_that("plot_moderator_search output is ggplot object", {
+test_that("plot_moderator_* outputs are all ggplot objects", {
+  expect_s3_class(out_moderator_c_pd, 'ggplot')
+  expect_s3_class(out_moderator_c_loess, 'ggplot')
+  expect_s3_class(out_moderator_d_density, 'ggplot')
+  expect_s3_class(out_moderator_d_linerange, 'ggplot')
   expect_type(out_moderator_search, 'list')
 })

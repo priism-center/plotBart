@@ -25,7 +25,7 @@
 plot_trace <- function(.model){
 
   # ensure model is a of class bartcFit
-  validate_model(.model)
+  validate_model_(.model)
 
   p <- .model %>%
     bartCause::extract('cate', combineChains = FALSE) %>%

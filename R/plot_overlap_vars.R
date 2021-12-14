@@ -32,7 +32,7 @@ plot_overlap_vars <- function(.data, treatment, confounders, plot_type = c("hist
   if (any(confounders %notin% colnames(.data))) stop('Not all confounders are found in .data')
 
   # coerce treatment column to logical
-  .data[[treatment]] <- coerce_to_logical(.data[[treatment]])
+  .data[[treatment]] <- coerce_to_logical_(.data[[treatment]])
 
   # extract the relevant columns and rename treatment column
   .data <- .data[, c(treatment, confounders)]

@@ -12,12 +12,12 @@ model_results <- bartCause::bartc(
   seed = 2
 )
 
-out <- validate_model(model_results)
+out <- validate_model_(model_results)
 
 test_that("bartCause::bartc() API still works", {
   expect_s3_class(model_results, 'bartcFit')
 })
 
-test_that('validate_model() works', {
+test_that('validate_model_() works', {
   expect_null(out)
 })

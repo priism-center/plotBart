@@ -59,19 +59,19 @@ plotBart is currently in development and is available to test by
 installing via:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("joemarlo/plotBart")
+# install.packages("remotes")
+remotes::install_github("joemarlo/plotBart")
 ```
 
 ### Test coverage
 
-    #> plotBart Coverage: 65.90%
-    #> R/plot_moderators.R: 8.21%
+    #> plotBart Coverage: 87.81%
     #> R/plot_waterfall.R: 56.52%
-    #> R/utils.R: 80.00%
     #> R/plot_ATE.R: 86.36%
+    #> R/utils.R: 86.96%
     #> R/plot_overlap_pScores.R: 90.74%
     #> R/plot_overlap_vars.R: 92.68%
+    #> R/plot_moderators.R: 92.74%
     #> R/plot_balance.R: 95.83%
     #> R/plot_common_support.R: 97.14%
     #> R/plot_trace.R: 100.00%

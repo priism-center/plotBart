@@ -31,7 +31,7 @@ plot_waterfall <- function(.model, descending = TRUE, .order = NULL, .color = NU
 
   # TODO: descending = FALSE fails
 
-  validate_model(.model)
+  validate_model_(.model)
   if(!is.null(.color)){
     if (!is.vector(.color)) stop("color must be a vector")
     if (nrow(.model$data.rsp@x) != length(.color)) stop(paste("color must be a vector of length", nrow(.model$data.rsp@x)))
@@ -51,7 +51,7 @@ plot_waterfall <- function(.model, descending = TRUE, .order = NULL, .color = NU
   dat <- tibble(icate.m, icate.lci, icate.uci)
 
   if(!is.null(.color)){
-    .color <- adjust_for_estimand(.model, .color)
+    .color <- adjust_for_estimand_(.model, .color)
     dat$.color <- .color
   }
   # specify order of icates on x axis
@@ -90,7 +90,7 @@ plot_waterfall <- function(.model, descending = TRUE, .order = NULL, .color = NU
 
   # apply custom order
   if(!is.null(.order)){
-    .order <- adjust_for_estimand(.model, .order)
+    .order <- adjust_for_estimand_(.model, .order)
     p <- p +
       aes(x = .order, y = icate.m) +
       labs(title = NULL,

@@ -29,7 +29,7 @@
 #' plot_moderator_c_pd(model_results, lalonde$age)
 plot_moderator_c_pd <- function(.model, moderator, n_bins = 15, legend = c('none', 'right', 'top', 'bottom')){
 
-  validate_model(.model)
+  validate_model_(.model)
   if (n_bins < 1) stop("n_bins must be a number greater than 1")
 
   # TODO: error handling
@@ -46,7 +46,7 @@ plot_moderator_c_pd <- function(.model, moderator, n_bins = 15, legend = c('none
   new_data_z0 <- new_data
   new_data_z0[, index_trt] <- 0
   new_data_z0 <- cbind.data.frame(.model$fit.rsp$y, new_data_z0)
-  names(new_data_z0)[1] <- as.character(.model$call$response) # TODO: this seems wrong
+  names(new_data_z0)[1] <- as.character(.model$call$response) # TODO: this seems wrong?
 
   # locate the moderator in bartc data
   search_moderator <- function(x) sum(moderator - x)
@@ -61,25 +61,13 @@ plot_moderator_c_pd <- function(.model, moderator, n_bins = 15, legend = c('none
     range <- unique(moderator)[order(unique(moderator))]
   }
 
-  fit_pd <- function(x){
-    new_data_z1[, index] <- x
-    new_data_z0[, index] <- x
-    preds.1 <- predict(.model, newdata = new_data_z1)
-    preds.0 <- predict(.model, newdata = new_data_z0)
-    preds <- preds.1 - preds.0
-
-    cate <- apply(preds, 1, mean)
-    return(cate)
-  }
-
   # TODO: this is slow AF
-  #cates <- purrr::map(range, fit_pd)
-  cates <- lapply(range, fit_pd)
+  #cates <- purrr::map(range, fit_pd_, z1 = new_data_z1, z0 = new_data_z0, index = index, .model = .model)
+  cates <- lapply(range, fit_pd_, z1 = new_data_z1, z0 = new_data_z0, index = index, .model = .model)
   cates <- bind_cols(cates)
   cates.m <- apply(cates, 2, mean)
   cates.m <- as_tibble(cbind(cates.m, range))
-  ci <- function(x) quantile(x, probs = c(.025, .1, .9, .975))
-  cates.ci <- as_tibble(t(apply(cates, 2, ci)))
+  cates.ci <- as_tibble(t(apply(cates, 2, ci_)))
   cates_plot <- cbind(cates.m, cates.ci)
   names(cates_plot)[3:6] <- paste0('ci_', names(cates_plot)[3:6])
   names(cates_plot)[3:6] <- substr(names(cates_plot)[3:6], 1, nchar(names(cates_plot)[3:6]) - 1)
@@ -98,6 +86,7 @@ plot_moderator_c_pd <- function(.model, moderator, n_bins = 15, legend = c('none
 
   return(p)
 }
+
 
 #' Plot the icates conditional on a continuous moderator
 #'
@@ -127,11 +116,11 @@ plot_moderator_c_pd <- function(.model, moderator, n_bins = 15, legend = c('none
 #' plot_moderator_c_loess(model_results, lalonde$married)
 plot_moderator_c_loess <- function(.model, moderator, line.color = 'blue'){
 
-  validate_model(.model)
-  is_numeric_vector(moderator)
+  validate_model_(.model)
+  is_numeric_vector_(moderator)
 
   # adjust moderator to match estimand
-  moderator <- adjust_for_estimand(.model, moderator)
+  moderator <- adjust_for_estimand_(.model, moderator)
 
   # extract and rotate posterior
   posterior <- bartCause::extract(.model, 'icate')
@@ -143,7 +132,7 @@ plot_moderator_c_loess <- function(.model, moderator, line.color = 'blue'){
   split_posterior <- split(posterior, moderator)
   posterior_means <- lapply(split_posterior, rowMeans)
 
-  # unlist into a data.frame for ploting
+  # unlist into a data.frame for plotting
   dat <- data.frame(value = unlist(posterior_means))
   dat$moderator <- moderator[order(moderator)]
   rownames(dat) <- 1:nrow(dat)
@@ -190,13 +179,13 @@ plot_moderator_c_loess <- function(.model, moderator, line.color = 'blue'){
 #' plot_moderator_d_density(model_results, lalonde$educ)
 plot_moderator_d_density <- function(.model, moderator, .alpha = 0.7, facet = FALSE, .ncol = 1){
 
-  validate_model(.model)
+  validate_model_(.model)
 
   # TODO
   # is_discrete(moderator)
 
   # adjust moderator to match estimand
-  moderator <- adjust_for_estimand(.model, moderator)
+  moderator <- adjust_for_estimand_(.model, moderator)
 
   # extract and rotate posterior
   posterior <- bartCause::extract(.model, 'icate')
@@ -259,13 +248,13 @@ plot_moderator_d_density <- function(.model, moderator, .alpha = 0.7, facet = FA
 #' plot_moderator_d_linerange(model_results, lalonde$educ)
 plot_moderator_d_linerange <- function(.model, moderator, .alpha = 0.7, horizontal = FALSE){
 
-  validate_model(.model)
+  validate_model_(.model)
 
   # TODO
   # is_discrete(moderator)
 
   # adjust moderator to match estimand
-  moderator <- adjust_for_estimand(.model, moderator)
+  moderator <- adjust_for_estimand_(.model, moderator)
 
   # extract and rotate posterior
   posterior <- bartCause::extract(.model, 'icate')
@@ -327,7 +316,7 @@ plot_moderator_search <- function(.model, depth = 2, type = c(2, 0, 1, 3, 4, 5),
 
   #TODO: do we really need the type and extra parameters?
 
-  validate_model(.model)
+  validate_model_(.model)
 
   icate <- bartCause::extract(.model , 'icate')
   icate.m <- apply(icate, 2, mean)
