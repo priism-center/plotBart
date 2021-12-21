@@ -1,3 +1,5 @@
+# goal is catch any big changes to the bartCause api
+
 data(lalonde)
 confounders <- c('age', 'educ', 'black', 'hisp', 'nodegr')
 model_results <- bartCause::bartc(
@@ -11,6 +13,8 @@ model_results <- bartCause::bartc(
   keepTrees = TRUE,
   seed = 2
 )
+
+# TODO: check bart model slots
 
 out <- validate_model_(model_results)
 

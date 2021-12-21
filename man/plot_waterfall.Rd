@@ -17,9 +17,9 @@ plot_waterfall(
 
 \item{descending}{order the icates by value?}
 
-\item{.order}{a vector representing a customer order (TODO: is this necessary?)}
+\item{.order}{a vector representing a customer order}
 
-\item{.color}{a vector representing colors (TODO: is this necessary?)}
+\item{.color}{a vector representing colors}
 
 \item{.alpha}{transparency value [0, 1]}
 }

@@ -1,6 +1,4 @@
 
-
-
 # model to use in tests ---------------------------------------------------
 
 data(lalonde)
@@ -84,8 +82,12 @@ out_waterfall <- plot_waterfall(
   .color = NULL,
   .alpha = 0.5
 )
-
-
+out_waterfall_2 <- plot_waterfall(
+  model_results,
+  # descending = FALSE,
+  .order = lalonde$age,
+  .color = lalonde$educ
+)
 out_moderator_c_pd <- plot_moderator_c_pd(
   model_results,
   moderator = lalonde$educ,
@@ -142,6 +144,7 @@ test_that("plot_*ATE outputs are all ggplot objects", {
 })
 test_that("plot_waterfall() output is ggplot object", {
   expect_s3_class(out_waterfall, 'ggplot')
+  expect_s3_class(out_waterfall_2, 'ggplot')
 })
 test_that("plot_moderator_* outputs are all ggplot objects", {
   expect_s3_class(out_moderator_c_pd, 'ggplot')

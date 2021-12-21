@@ -18,6 +18,9 @@
 #' plot_balance(lalonde, 'treat', c('re78', 'age', 'educ')) + labs(title = 'My new title')
 plot_balance <- function(.data, treatment, confounders){
 
+  # to satisfy CMD CHECK
+  name <- value <- NULL
+
   if (length(table(.data[[treatment]])) != 2) stop("treatment must be binary")
 
   p <- .data %>%

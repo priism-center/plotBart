@@ -29,6 +29,9 @@
 #' plot_moderator_c_pd(model_results, lalonde$age)
 plot_moderator_c_pd <- function(.model, moderator, n_bins = 15, legend = c('none', 'right', 'top', 'bottom')){
 
+  # to satisfy CMD CHECK
+  ci_2.5 <- ci_97.5 <- ci_10 <- ci_90 <- NULL
+
   validate_model_(.model)
   if (n_bins < 1) stop("n_bins must be a number greater than 1")
 
@@ -116,6 +119,9 @@ plot_moderator_c_pd <- function(.model, moderator, n_bins = 15, legend = c('none
 #' plot_moderator_c_loess(model_results, lalonde$married)
 plot_moderator_c_loess <- function(.model, moderator, line.color = 'blue'){
 
+  # to satisfy CMD CHECK
+  value <- NULL
+
   validate_model_(.model)
   is_numeric_vector_(moderator)
 
@@ -178,6 +184,9 @@ plot_moderator_c_loess <- function(.model, moderator, line.color = 'blue'){
 #' )
 #' plot_moderator_d_density(model_results, lalonde$educ)
 plot_moderator_d_density <- function(.model, moderator, .alpha = 0.7, facet = FALSE, .ncol = 1){
+
+  # to satisfy CMD CHECK
+  value <- NULL
 
   validate_model_(.model)
 
@@ -247,6 +256,9 @@ plot_moderator_d_density <- function(.model, moderator, .alpha = 0.7, facet = FA
 #' )
 #' plot_moderator_d_linerange(model_results, lalonde$educ)
 plot_moderator_d_linerange <- function(.model, moderator, .alpha = 0.7, horizontal = FALSE){
+
+  # to satisfy CMD CHECK
+  value <- point <- .min <- .max <- NULL
 
   validate_model_(.model)
 

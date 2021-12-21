@@ -25,6 +25,9 @@
 #' plot_common_support(model_results)
 plot_common_support <- function(.model, rule = c('both', 'sd', 'chi')){
 
+  # to satisfy CMD CHECK
+  support_rule <- index <- value <- threshold <- NULL
+
   # ensure model is a of class bartcFit
   validate_model_(.model)
 

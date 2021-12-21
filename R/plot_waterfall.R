@@ -5,8 +5,8 @@
 #'
 #' @param .model a model produced by bartCause::bartc()
 #' @param descending order the icates by value?
-#' @param .order a vector representing a customer order (TODO: is this necessary?)
-#' @param .color a vector representing colors (TODO: is this necessary?)
+#' @param .order a vector representing a customer order
+#' @param .color a vector representing colors
 #' @param .alpha transparency value [0, 1]
 #'
 #' @author George Perrett
@@ -30,6 +30,9 @@
 plot_waterfall <- function(.model, descending = TRUE, .order = NULL, .color = NULL, .alpha = 0.5){
 
   # TODO: descending = FALSE fails
+
+  # to satisfy CMD CHECK
+  icate.o <- NULL
 
   validate_model_(.model)
   if(!is.null(.color)){

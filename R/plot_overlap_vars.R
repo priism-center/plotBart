@@ -26,6 +26,9 @@
 #')
 plot_overlap_vars <- function(.data, treatment, confounders, plot_type = c("histogram", "density")){
 
+  # to satisfy CMD CHECK
+  Z_treat <- value <- ..count.. <- ..density.. <- NULL
+
   plot_type <- tolower(plot_type[1])
   if (plot_type %notin% c('histogram', 'density')) stop('plot_type must be one of c("histogram", "density"')
   if (treatment %notin% colnames(.data)) stop('treatment not found in .data')

@@ -24,6 +24,9 @@
 #' plot_trace(.model = model_results)
 plot_trace <- function(.model){
 
+  # to satisfy CMD CHECK
+  name <- iteration <- value <- Chain <- NULL
+
   # ensure model is a of class bartcFit
   validate_model_(.model)
 
