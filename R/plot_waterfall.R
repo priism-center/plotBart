@@ -36,8 +36,8 @@ plot_waterfall <- function(.model, descending = TRUE, .order = NULL, .color = NU
 
   validate_model_(.model)
   if(!is.null(.color)){
-    if (!is.vector(.color)) stop("color must be a vector")
-    if (nrow(.model$data.rsp@x) != length(.color)) stop(paste("color must be a vector of length", nrow(.model$data.rsp@x)))
+    if (!is.vector(.color)) stop(".color must be a vector")
+    if (nrow(.model$data.rsp@x) != length(.color)) stop(paste(".color must be a vector of length", nrow(.model$data.rsp@x)))
   }
 
   # calculate stats
