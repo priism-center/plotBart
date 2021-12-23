@@ -65,13 +65,13 @@ remotes::install_github("joemarlo/plotBart")
 
 ### Test coverage
 
-    #> plotBart Coverage: 87.81%
-    #> R/plot_waterfall.R: 56.52%
-    #> R/plot_ATE.R: 86.36%
+    #> plotBart Coverage: 90.58%
+    #> R/plot_waterfall.R: 85.11%
+    #> R/plot_ATE.R: 86.71%
     #> R/utils.R: 86.96%
-    #> R/plot_overlap_pScores.R: 90.74%
-    #> R/plot_overlap_vars.R: 92.68%
-    #> R/plot_moderators.R: 92.74%
-    #> R/plot_balance.R: 95.83%
-    #> R/plot_common_support.R: 97.14%
+    #> R/plot_overlap_pScores.R: 90.91%
+    #> R/plot_overlap_vars.R: 92.86%
+    #> R/plot_moderators.R: 92.97%
+    #> R/plot_balance.R: 96.00%
+    #> R/plot_common_support.R: 97.22%
     #> R/plot_trace.R: 100.00%
