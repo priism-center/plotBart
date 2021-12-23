@@ -4,14 +4,14 @@
 \alias{plot_ICATE}
 \title{Plot icates}
 \usage{
-plot_ICATE(.model, group.by = NULL, nbins = 30, .alpha = 0.7)
+plot_ICATE(.model, .group_by = NULL, n_bins = 30, .alpha = 0.7)
 }
 \arguments{
 \item{.model}{a model produced by bartCause::bartc()}
 
-\item{group.by}{a grouping variable as a vector}
+\item{.group_by}{a grouping variable as a vector}
 
-\item{nbins}{number of bins #TODO describe}
+\item{n_bins}{number of bins. Defaults to 30}
 
 \item{.alpha}{transparency of histograms}
 }

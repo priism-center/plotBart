@@ -7,7 +7,7 @@
 plot_moderator_c_pd(
   .model,
   moderator,
-  n_bins = 15,
+  n_bins = NULL,
   legend = c("none", "right", "top", "bottom")
 )
 }
@@ -16,7 +16,7 @@ plot_moderator_c_pd(
 
 \item{moderator}{the moderator as a vector}
 
-\item{n_bins}{number of bins}
+\item{n_bins}{number of bins to cut the moderator with. Defaults to the lesser of 15 and number of distinct levels of the moderator}
 
 \item{legend}{legend position. One of c('none', 'right', 'top', 'bottom')}
 }

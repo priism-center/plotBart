@@ -7,7 +7,7 @@
 plot_trace(.model)
 }
 \arguments{
-\item{.model}{a bartCause::bartc() model, typically store$model_results}
+\item{.model}{a model produced by bartCause::bartc()}
 }
 \value{
 ggplot object

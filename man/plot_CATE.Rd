@@ -23,7 +23,7 @@ plot_CATE(
 
 \item{ci_95}{TRUE/FALSE. Show the 95\% credible interval?}
 
-\item{reference}{numeric. Show a vertical reference line at this value}
+\item{reference}{numeric. Show a vertical reference line at this x-axis value}
 
 \item{.mean}{TRUE/FALSE. Show the mean reference line}
 

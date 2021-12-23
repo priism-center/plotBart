@@ -45,3 +45,5 @@ fit_pd_ <- function(x, z1, z0, index, .model){
 }
 
 ci_ <- function(x) quantile(x, probs = c(0.025, 0.1, 0.9, 0.975))
+
+clamp <- function(x, x_min, x_max) pmin(x_max, pmax(x, x_min))

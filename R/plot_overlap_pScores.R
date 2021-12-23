@@ -3,8 +3,8 @@
 #' Plot histograms showing the overlap between propensity scores by treatment status. TODO: reference?
 #'
 #' @param .data dataframe
-#' @param treatment name of the treatment column within .data
-#' @param response name of the response column within .data
+#' @param treatment character. Name of the treatment column within .data
+#' @param response character. Name of the response column within .data
 #' @param confounders character list of column names denoting confounders within .data
 #' @param plot_type the plot type, one of c('Histogram', 'Density')
 #' @param pscores propensity scores. If not provided, then propensity scores will be calculated using BART
@@ -95,9 +95,11 @@ plot_overlap_pScores <- function(.data, treatment, response, confounders, plot_t
 
 #' Calculate propensity scores using BART
 #'
+#' Calculates propensity scores using Bayesian Additive Regression Trees via bartCause::bartc.
+#'
 #' @param .data dataframe
-#' @param treatment name of the treatment column within .data
-#' @param response name of the response column within .data
+#' @param treatment character. Name of the treatment column within .data
+#' @param response character. Name of the response column within .data
 #' @param confounders character list of column names denoting confounders within .data
 #'
 #' @return a numeric vector of propensity scores
@@ -105,7 +107,7 @@ plot_overlap_pScores <- function(.data, treatment, response, confounders, plot_t
 #'
 #' @importFrom bartCause bartc
 #'
-#' @seealso \code{\link{plot_overlap_pScores}}
+#' @seealso \code{\link{plot_overlap_pScores}} \code{\link[rpart.plot]{rpart.plot}}
 #'
 #' @examples
 #' data(lalonde)

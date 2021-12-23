@@ -6,7 +6,7 @@
 #' @param type histogram or density
 #' @param ci_80 TRUE/FALSE. Show the 80\% credible interval?
 #' @param ci_95 TRUE/FALSE. Show the 95\% credible interval?
-#' @param reference numeric. Show a vertical reference line at this value
+#' @param reference numeric. Show a vertical reference line at this x-axis value
 #' @param .mean TRUE/FALSE. Show the mean reference line
 #' @param .median TRUE/FALSE. Show the median reference line
 #'
@@ -108,8 +108,8 @@ plot_CATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
 #' TODO: description
 #'
 #' @param .model a model produced by bartCause::bartc()
-#' @param group.by a grouping variable as a vector
-#' @param nbins number of bins #TODO describe
+#' @param .group_by a grouping variable as a vector
+#' @param n_bins number of bins. Defaults to 30
 #' @param .alpha transparency of histograms
 #'
 #' @author George Perrett
@@ -130,7 +130,7 @@ plot_CATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
 #'  commonSup.rule = 'none'
 #' )
 #' plot_ICATE(model_results, lalonde$married)
-plot_ICATE <- function(.model, group.by = NULL, nbins = 30, .alpha = .7){
+plot_ICATE <- function(.model, .group_by = NULL, n_bins = 30, .alpha = .7){
 
   # to satisfy CMD CHECK
   value <- NULL
@@ -142,17 +142,17 @@ plot_ICATE <- function(.model, group.by = NULL, nbins = 30, .alpha = .7){
   icates <- as_tibble(apply(posterior, 2, mean))
 
   # adjust value based on estimand
-  group.by <- adjust_for_estimand_(.model, group.by)
+  .group_by <- adjust_for_estimand_(.model, .group_by)
 
   # create base plot
   p <- ggplot(icates, aes(x = value)) +
-    geom_histogram(bins = nbins)
+    geom_histogram(bins = n_bins)
 
   # add grouping
-  if(!is.null(group.by)){
+  if(!is.null(.group_by)){
     p <- ggplot(icates,
-                aes(x = value, fill = as.factor(group.by))) +
-      geom_histogram(position = 'identity', bins = nbins, alpha = .alpha)
+                aes(x = value, fill = as.factor(.group_by))) +
+      geom_histogram(position = 'identity', bins = n_bins, alpha = .alpha)
   }
 
   # add labels
@@ -172,7 +172,7 @@ plot_ICATE <- function(.model, group.by = NULL, nbins = 30, .alpha = .7){
 #' @param type histogram or density
 #' @param ci_80 TRUE/FALSE. Show the 80\% credible interval?
 #' @param ci_95 TRUE/FALSE. Show the 95\% credible interval?
-#' @param reference numeric. Show a vertical reference line at this value
+#' @param reference numeric. Show a vertical reference line at this x-axis value
 #' @param .mean TRUE/FALSE. Show the mean reference line
 #' @param .median TRUE/FALSE. Show the median reference line
 #'
@@ -275,7 +275,7 @@ plot_PATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
 #' @param type histogram or density
 #' @param ci_80 TRUE/FALSE. Show the 80\% credible interval?
 #' @param ci_95 TRUE/FALSE. Show the 95\% credible interval?
-#' @param reference numeric. Show a vertical reference line at this value
+#' @param reference numeric. Show a vertical reference line at this x-axis value
 #' @param .mean TRUE/FALSE. Show the mean reference line
 #' @param .median TRUE/FALSE. Show the median reference line
 #'

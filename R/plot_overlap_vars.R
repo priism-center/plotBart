@@ -3,7 +3,7 @@
 #' Plot histograms showing the overlap between variables by treatment status.
 #'
 #' @param .data dataframe
-#' @param treatment name of the treatment column within .data
+#' @param treatment character. Name of the treatment column within .data
 #' @param confounders character list of column names denoting confounders within .data
 #' @param plot_type the plot type, one of c('histogram', 'density'). Defaults to 'histogram'
 #' @author George Perrett, Joe Marlo

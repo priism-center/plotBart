@@ -16,9 +16,9 @@ plot_overlap_pScores(
 \arguments{
 \item{.data}{dataframe}
 
-\item{treatment}{name of the treatment column within .data}
+\item{treatment}{character. Name of the treatment column within .data}
 
-\item{response}{name of the response column within .data}
+\item{response}{character. Name of the response column within .data}
 
 \item{confounders}{character list of column names denoting confounders within .data}
 
@@ -39,7 +39,8 @@ plot_overlap_pScores(
  treatment = 'treat',
  response = 're78',
  confounders = c('age', 'educ'),
- plot_type = 'histogram'
+ plot_type = 'histogram',
+ pscores = NULL
 )
 }
 \seealso{

@@ -9,9 +9,9 @@ propensity_scores(.data, treatment, response, confounders)
 \arguments{
 \item{.data}{dataframe}
 
-\item{treatment}{name of the treatment column within .data}
+\item{treatment}{character. Name of the treatment column within .data}
 
-\item{response}{name of the response column within .data}
+\item{response}{character. Name of the response column within .data}
 
 \item{confounders}{character list of column names denoting confounders within .data}
 }
@@ -19,7 +19,7 @@ propensity_scores(.data, treatment, response, confounders)
 a numeric vector of propensity scores
 }
 \description{
-Calculate propensity scores using BART
+Calculates propensity scores using Bayesian Additive Regression Trees via bartCause::bartc.
 }
 \examples{
 data(lalonde)
@@ -31,5 +31,5 @@ propensity_scores(
 )
 }
 \seealso{
-\code{\link{plot_overlap_pScores}}
+\code{\link{plot_overlap_pScores}} \code{\link[rpart.plot]{rpart.plot}}
 }

@@ -2,7 +2,7 @@
 #'
 #' Returns a ggplot of the estimated effect over each iteration of the model fit. TODO: describe what the plot is and how it should be used
 #'
-#' @param .model a bartCause::bartc() model, typically store$model_results
+#' @param .model a model produced by bartCause::bartc()
 #' @author Joe Marlo, George Perrett
 #'
 #' @return ggplot object
@@ -30,14 +30,16 @@ plot_trace <- function(.model){
   # ensure model is a of class bartcFit
   validate_model_(.model)
 
+  n_chains <- .model$n.chains
+
   p <- .model %>%
     bartCause::extract('cate', combineChains = FALSE) %>%
     t() %>%
     as.data.frame() %>%
     tibble() %>%
     mutate(iteration = row_number()) %>%
-    pivot_longer(1:.model$n.chains) %>%
-    mutate(Chain = factor(sub('V', '', name), levels = as.character(1:10))) %>%
+    pivot_longer(1:n_chains) %>%
+    mutate(Chain = factor(sub('V', '', name), levels = as.character(1:n_chains))) %>%
     ggplot(aes(x = iteration, y = value, color = Chain)) +
     geom_line(alpha = 0.8) +
     labs(title = 'Diagnostics: Trace plot',

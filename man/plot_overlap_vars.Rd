@@ -14,7 +14,7 @@ plot_overlap_vars(
 \arguments{
 \item{.data}{dataframe}
 
-\item{treatment}{name of the treatment column within .data}
+\item{treatment}{character. Name of the treatment column within .data}
 
 \item{confounders}{character list of column names denoting confounders within .data}
 

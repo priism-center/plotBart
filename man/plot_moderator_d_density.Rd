@@ -19,7 +19,7 @@ plot_moderator_d_density(
 
 \item{.alpha}{transparency value [0, 1]}
 
-\item{facet}{create panel plots of each moderator level?}
+\item{facet}{TRUE/FALSE. Create panel plots of each moderator level?}
 
 \item{.ncol}{number of columns to use when faceting}
 }

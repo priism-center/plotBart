@@ -56,7 +56,7 @@ out_CATE <- plot_CATE(
   .mean = TRUE,
   .median = TRUE
 )
-plot_ICATE <- plot_ICATE(model_results, group.by = NULL, nbins = 30, .alpha = .7)
+plot_ICATE <- plot_ICATE(model_results, .group_by = NULL, n_bins = 30, .alpha = .7)
 out_PATE <- plot_PATE(
   model_results,
   type = 'density',
@@ -91,12 +91,11 @@ out_waterfall_2 <- plot_waterfall(
 out_moderator_c_pd <- plot_moderator_c_pd(
   model_results,
   moderator = lalonde$educ,
-  n_bins = 15,
   legend = 'bottom')
 out_moderator_c_loess <- plot_moderator_c_loess(
   model_results,
   moderator = lalonde$educ,
-  line.color = 'blue')
+  line_color = 'blue')
 out_moderator_d_density <- plot_moderator_d_density(
   model_results,
   moderator = lalonde$educ,

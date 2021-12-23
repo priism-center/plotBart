@@ -4,7 +4,7 @@
 #'
 #' @param .model a model produced by bartCause::bartc()
 #' @param moderator the moderator as a vector
-#' @param n_bins number of bins
+#' @param n_bins number of bins to cut the moderator with. Defaults to the lesser of 15 and number of distinct levels of the moderator
 #' @param legend legend position. One of c('none', 'right', 'top', 'bottom')
 #'
 #' @author George Perrett, Joe Marlo
@@ -27,13 +27,20 @@
 #'  keepTrees = TRUE
 #' )
 #' plot_moderator_c_pd(model_results, lalonde$age)
-plot_moderator_c_pd <- function(.model, moderator, n_bins = 15, legend = c('none', 'right', 'top', 'bottom')){
+plot_moderator_c_pd <- function(.model, moderator, n_bins = NULL, legend = c('none', 'right', 'top', 'bottom')){
 
   # to satisfy CMD CHECK
   ci_2.5 <- ci_97.5 <- ci_10 <- ci_90 <- NULL
 
   validate_model_(.model)
-  if (n_bins < 1) stop("n_bins must be a number greater than 1")
+
+  # validate n_bins argument
+  n_mod_levels <- n_distinct(moderator)
+  if (n_mod_levels <= 1) stop('dplyr::n_distinct(moderator) must be at least 2')
+  if (is.null(n_bins)) n_bins <- clamp(15, 2, n_mod_levels)
+  if (!(n_bins > 1 & n_bins <= n_mod_levels)) stop("n_bins must be greater than 1 and less than or equal to dplyr::n_distinct(moderator)")
+
+  legend <- legend[1]
 
   # TODO: error handling
   # extract data
@@ -44,12 +51,12 @@ plot_moderator_c_pd <- function(.model, moderator, n_bins = 15, legend = c('none
   new_data_z1 <- new_data
   new_data_z1[, index_trt] <- 1
   new_data_z1 <- cbind.data.frame(.model$fit.rsp$y, new_data_z1)
-  names(new_data_z1)[1] <- as.character(.model$call$response)
+  names(new_data_z1)[1] <- as.character(.model$call$response) # TODO: there are warnings here
 
   new_data_z0 <- new_data
   new_data_z0[, index_trt] <- 0
   new_data_z0 <- cbind.data.frame(.model$fit.rsp$y, new_data_z0)
-  names(new_data_z0)[1] <- as.character(.model$call$response) # TODO: this seems wrong?
+  names(new_data_z0)[1] <- as.character(.model$call$response) # TODO: there are warnings here
 
   # locate the moderator in bartc data
   search_moderator <- function(x) sum(moderator - x)
@@ -80,8 +87,8 @@ plot_moderator_c_pd <- function(.model, moderator, n_bins = 15, legend = c('none
     geom_ribbon(aes(x = range, y = cates.m, ymin = ci_2.5, ymax = ci_97.5, fill = '95% ci')) +
     geom_ribbon(aes(x = range, y = cates.m, ymin = ci_10, ymax = ci_90, fill = '80% ci')) +
     scale_fill_manual(values = c('grey40', 'grey60')) +
-    geom_point(aes(range, cates.m),size = 2) +
-    geom_line(aes(range, cates.m)) +
+    geom_point(aes(x = range, y = cates.m), size = 2) +
+    geom_line(aes(x = range, y = cates.m)) +
     labs(title = NULL,
          x = NULL,
          y = 'CATE') +
@@ -97,7 +104,7 @@ plot_moderator_c_pd <- function(.model, moderator, n_bins = 15, legend = c('none
 #'
 #' @param .model a model produced by bartCause::bartc()
 #' @param moderator the moderator as a vector
-#' @param line.color the color of the loess line
+#' @param line_color the color of the loess line
 #'
 #' @author George Perrett, Joe Marlo
 #'
@@ -117,7 +124,7 @@ plot_moderator_c_pd <- function(.model, moderator, n_bins = 15, legend = c('none
 #'  commonSuprule = 'none'
 #' )
 #' plot_moderator_c_loess(model_results, lalonde$married)
-plot_moderator_c_loess <- function(.model, moderator, line.color = 'blue'){
+plot_moderator_c_loess <- function(.model, moderator, line_color = 'blue'){
 
   # to satisfy CMD CHECK
   value <- NULL
@@ -147,7 +154,7 @@ plot_moderator_c_loess <- function(.model, moderator, line.color = 'blue'){
   p <- ggplot(dat, aes(moderator, value)) +
     geom_point() +
     geom_smooth(method = 'loess', se = TRUE,
-                size = 1.5, color = line.color) +
+                size = 1.5, color = line_color) +
     labs(title = NULL,
          x = NULL,
          y = 'icate')
@@ -162,7 +169,7 @@ plot_moderator_c_loess <- function(.model, moderator, line.color = 'blue'){
 #' @param .model a model produced by bartCause::bartc()
 #' @param moderator the moderator as a vector
 #' @param .alpha transparency value [0, 1]
-#' @param facet create panel plots of each moderator level?
+#' @param facet TRUE/FALSE. Create panel plots of each moderator level?
 #' @param .ncol number of columns to use when faceting
 #'
 #' @author George Perrett
@@ -325,7 +332,7 @@ plot_moderator_d_linerange <- function(.model, moderator, .alpha = 0.7, horizont
 #' @return rpart plot
 #' @export
 #'
-#' @example
+#' @examples
 #' data(lalonde)
 #' confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 #' model_results <- bartCause::bartc(

@@ -4,14 +4,14 @@
 \alias{plot_moderator_c_loess}
 \title{Plot the icates conditional on a continuous moderator}
 \usage{
-plot_moderator_c_loess(.model, moderator, line.color = "blue")
+plot_moderator_c_loess(.model, moderator, line_color = "blue")
 }
 \arguments{
 \item{.model}{a model produced by bartCause::bartc()}
 
 \item{moderator}{the moderator as a vector}
 
-\item{line.color}{the color of the loess line}
+\item{line_color}{the color of the loess line}
 }
 \value{
 ggplot object

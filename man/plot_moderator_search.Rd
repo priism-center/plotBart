@@ -26,6 +26,18 @@ rpart plot
 \description{
 Fit single regression tree on bartc() icates to produce variable importance plot & table.
 }
+\examples{
+data(lalonde)
+confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
+model_results <- bartCause::bartc(
+ response = lalonde[['re78']],
+ treatment = lalonde[['treat']],
+ confounders = as.matrix(lalonde[, confounders]),
+ estimand = 'ate',
+ commonSuprule = 'none'
+)
+plot_moderator_search(model_results)
+}
 \author{
 George Perrett, Joe Marlo
 }
