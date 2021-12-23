@@ -37,26 +37,24 @@ plot_moderator_c_pd <- function(.model, moderator, n_bins = NULL, legend = c('no
   # validate n_bins argument
   n_mod_levels <- n_distinct(moderator)
   if (n_mod_levels <= 1) stop('dplyr::n_distinct(moderator) must be at least 2')
-  if (is.null(n_bins)) n_bins <- clamp(15, 2, n_mod_levels)
+  if (is.null(n_bins)) n_bins <- pclamp_(15, 2, n_mod_levels)
   if (!(n_bins > 1 & n_bins <= n_mod_levels)) stop("n_bins must be greater than 1 and less than or equal to dplyr::n_distinct(moderator)")
 
   legend <- legend[1]
 
-  # TODO: error handling
-  # extract data
+  # extract data from model
   new_data <- as_tibble(.model$data.rsp@x)
-  # locate treatment variable
-  search_treatment <- function(x) sum(.model$trt - x)
-  index_trt <- which(sapply(new_data, search_treatment) == 0)
-  new_data_z1 <- new_data
-  new_data_z1[, index_trt] <- 1
-  new_data_z1 <- cbind.data.frame(.model$fit.rsp$y, new_data_z1)
-  names(new_data_z1)[1] <- as.character(.model$call$response) # TODO: there are warnings here
 
+  # create dataframe where all observations are treated
+  new_data_z1 <- new_data
+  name_trt <- .model$name.trt
+  new_data_z1[, name_trt] <- 1
+  new_data_z1 <- cbind.data.frame(y_response = .model$fit.rsp$y, new_data_z1)
+
+  # create dataframe where all observations are control
   new_data_z0 <- new_data
-  new_data_z0[, index_trt] <- 0
-  new_data_z0 <- cbind.data.frame(.model$fit.rsp$y, new_data_z0)
-  names(new_data_z0)[1] <- as.character(.model$call$response) # TODO: there are warnings here
+  new_data_z0[, name_trt] <- 0
+  new_data_z0 <- cbind.data.frame(y_response = .model$fit.rsp$y, new_data_z0)
 
   # locate the moderator in bartc data
   search_moderator <- function(x) sum(moderator - x)
@@ -65,30 +63,34 @@ plot_moderator_c_pd <- function(.model, moderator, n_bins = NULL, legend = c('no
   # get range for predictions
   cut <- n_bins-1
   p <- seq(min(moderator), max(moderator), (max(moderator) - min(moderator))/cut)
-  if (length(p) < length(unique(moderator))) {
-    range <- p
+  if (length(p) < n_distinct(moderator)) {
+    .range <- p
   } else{
-    range <- unique(moderator)[order(unique(moderator))]
+    .range <- unique(moderator)[order(unique(moderator))]
   }
 
+  # predict new data with overridden treatment columns
   # TODO: this is slow AF
-  #cates <- purrr::map(range, fit_pd_, z1 = new_data_z1, z0 = new_data_z0, index = index, .model = .model)
-  cates <- lapply(range, fit_pd_, z1 = new_data_z1, z0 = new_data_z0, index = index, .model = .model)
+  cates <- lapply(.range, fit_pd_, z1 = new_data_z1, z0 = new_data_z0, index = index, .model = .model)
+  names(cates) <- seq_along(cates)
   cates <- bind_cols(cates)
-  cates.m <- apply(cates, 2, mean)
-  cates.m <- as_tibble(cbind(cates.m, range))
-  cates.ci <- as_tibble(t(apply(cates, 2, ci_)))
-  cates_plot <- cbind(cates.m, cates.ci)
-  names(cates_plot)[3:6] <- paste0('ci_', names(cates_plot)[3:6])
-  names(cates_plot)[3:6] <- substr(names(cates_plot)[3:6], 1, nchar(names(cates_plot)[3:6]) - 1)
+  cates.m <- apply(cates, MARGIN = 2, FUN = mean)
+  cates.m <- bind_cols(cates.m = cates.m, .range = .range)
+
+  # get credible intervals
+  ci_range <- c(0.025, 0.1, 0.9, 0.975)
+  cates.ci <- as_tibble(t(apply(cates, MARGIN = 2, FUN = ci_, probs = ci_range)))
+  cates_plot <- bind_cols(cates.m, cates.ci)
+  indices <- 2 + seq_along(ci_range)
+  colnames(cates_plot)[indices] <- paste0('ci_', as.character(ci_range * 100))
 
   # plot it
   p <- ggplot(cates_plot) +
-    geom_ribbon(aes(x = range, y = cates.m, ymin = ci_2.5, ymax = ci_97.5, fill = '95% ci')) +
-    geom_ribbon(aes(x = range, y = cates.m, ymin = ci_10, ymax = ci_90, fill = '80% ci')) +
+    geom_ribbon(aes(x = .range, y = cates.m, ymin = ci_2.5, ymax = ci_97.5, fill = '95% ci')) +
+    geom_ribbon(aes(x = .range, y = cates.m, ymin = ci_10, ymax = ci_90, fill = '80% ci')) +
     scale_fill_manual(values = c('grey40', 'grey60')) +
-    geom_point(aes(x = range, y = cates.m), size = 2) +
-    geom_line(aes(x = range, y = cates.m)) +
+    geom_point(aes(x = .range, y = cates.m), size = 2) +
+    geom_line(aes(x = .range, y = cates.m)) +
     labs(title = NULL,
          x = NULL,
          y = 'CATE') +

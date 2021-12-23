@@ -33,6 +33,7 @@ adjust_for_estimand_ <- function(.model, x){
   return(out)
 }
 
+# used within plot_moderator_c_pd()
 fit_pd_ <- function(x, z1, z0, index, .model){
   z1[, index] <- x
   z0[, index] <- x
@@ -44,6 +45,6 @@ fit_pd_ <- function(x, z1, z0, index, .model){
   return(cate)
 }
 
-ci_ <- function(x) quantile(x, probs = c(0.025, 0.1, 0.9, 0.975))
+ci_ <- function(x, probs = c(0.025, 0.1, 0.9, 0.975)) quantile(x, probs = probs)
 
-clamp <- function(x, x_min, x_max) pmin(x_max, pmax(x, x_min))
+pclamp_ <- function(x, x_min, x_max) pmin(x_max, pmax(x, x_min))
