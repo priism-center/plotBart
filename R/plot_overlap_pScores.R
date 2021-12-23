@@ -25,7 +25,8 @@
 #'  treatment = 'treat',
 #'  response = 're78',
 #'  confounders = c('age', 'educ'),
-#'  plot_type = 'histogram'
+#'  plot_type = 'histogram',
+#'  pscores = NULL
 #')
 plot_overlap_pScores <- function(.data, treatment, response, confounders, plot_type = c("histogram", "density"), pscores = NULL) {
 
