@@ -11,11 +11,14 @@
 [![last
 commit](https://img.shields.io/github/last-commit/joemarlo/plotBart)](https://github.com/joemarlo/plotBart/commits/master)
 [![CodeFactor](https://www.codefactor.io/repository/github/joemarlo/plotbart/badge)](https://www.codefactor.io/repository/github/joemarlo/plotbart)
+[![Codecov test
+coverage](https://codecov.io/gh/joemarlo/plotBart/branch/master/graph/badge.svg)](https://codecov.io/gh/joemarlo/plotBart?branch=master)
 <!-- badges: end -->
 
 plotBart is a diagnostic and plotting package for
 [bartCause](https://github.com/vdorie/bartCause) and
 [thinkCausal](https://github.com/gperrett/thinkCausal_dev).
+Documentation is available [here](joemarlo.github.io/plotBart).
 
 ``` r
 library(plotBart)
@@ -63,16 +66,3 @@ installing via:
 # install.packages("remotes")
 remotes::install_github("joemarlo/plotBart")
 ```
-
-### Test coverage
-
-    #> plotBart Coverage: 90.58%
-    #> R/plot_waterfall.R: 85.11%
-    #> R/plot_ATE.R: 86.71%
-    #> R/utils.R: 86.96%
-    #> R/plot_overlap_pScores.R: 90.91%
-    #> R/plot_overlap_vars.R: 92.86%
-    #> R/plot_moderators.R: 92.97%
-    #> R/plot_balance.R: 96.00%
-    #> R/plot_common_support.R: 97.22%
-    #> R/plot_trace.R: 100.00%

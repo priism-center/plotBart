@@ -3,8 +3,8 @@ Type: Package
 Title: Diagnostic and Plotting Functions to Supplement bartCause
 Version: 0.1.0
 Authors@R: c(
-  person("Marlo", "Joseph", email = "jpm770@nyu.edu", role = c("aut", "cre")),
-  person("Perrett", "George", email = "gp77@nyu.edu", role = c("aut"))
+  person(family = "Marlo", given = "Joseph", email = "jpm770@nyu.edu", role = c("aut", "cre")),
+  person(family = "Perrett", given = "George", email = "gp77@nyu.edu", role = c("aut"))
   )
 Description: Tools to assist diagnostic and plotting in the causal inference modeling process. Supplements the bartCause package.
 License: MIT + file LICENSE
@@ -23,4 +23,5 @@ Imports:
     stats (>= 3.6.2)
 Suggests: 
     testthat,
-    arm (>= 1.10.1)
+    arm (>= 1.10.1),
+    covr

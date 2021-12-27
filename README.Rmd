@@ -21,9 +21,10 @@ knitr::opts_chunk$set(
 [![R-CMD-check](https://github.com/joemarlo/plotBart/workflows/R-CMD-check/badge.svg)](https://github.com/joemarlo/plotBart/actions)
 [![last commit](https://img.shields.io/github/last-commit/joemarlo/plotBart)](https://github.com/joemarlo/plotBart/commits/master)
 [![CodeFactor](https://www.codefactor.io/repository/github/joemarlo/plotbart/badge)](https://www.codefactor.io/repository/github/joemarlo/plotbart)
+[![Codecov test coverage](https://codecov.io/gh/joemarlo/plotBart/branch/master/graph/badge.svg)](https://codecov.io/gh/joemarlo/plotBart?branch=master)
 <!-- badges: end -->
 
-plotBart is a diagnostic and plotting package for [bartCause](https://github.com/vdorie/bartCause) and [thinkCausal](https://github.com/gperrett/thinkCausal_dev). 
+plotBart is a diagnostic and plotting package for [bartCause](https://github.com/vdorie/bartCause) and [thinkCausal](https://github.com/gperrett/thinkCausal_dev). Documentation is available [here](joemarlo.github.io/plotBart).
 
 ```{r example, fig.width=8, message=FALSE, warning=FALSE, out.width = "75%", fig.align="center"}
 library(plotBart)
@@ -65,10 +66,3 @@ plotBart is currently in development and is available to test by installing via:
 # install.packages("remotes")
 remotes::install_github("joemarlo/plotBart")
 ```
-
-### Test coverage
-
-```{r echo=FALSE}
-covr::package_coverage()
-```
-
