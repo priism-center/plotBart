@@ -10,6 +10,7 @@
 [![R-CMD-check](https://github.com/joemarlo/plotBart/workflows/R-CMD-check/badge.svg)](https://github.com/joemarlo/plotBart/actions)
 [![last
 commit](https://img.shields.io/github/last-commit/joemarlo/plotBart)](https://github.com/joemarlo/plotBart/commits/master)
+[![CodeFactor](https://www.codefactor.io/repository/github/joemarlo/plotbart/badge)](https://www.codefactor.io/repository/github/joemarlo/plotbart)
 <!-- badges: end -->
 
 plotBart is a diagnostic and plotting package for
