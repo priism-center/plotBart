@@ -6,3 +6,5 @@
 .DS_Store
 .DS_store
 .ds_store
+docs
+inst/doc

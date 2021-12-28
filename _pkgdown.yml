@@ -1,0 +1,11 @@
+url: https://joemarlo.github.io/plotBart
+
+authors:
+  Joseph Marlo:
+    href: https://joemarlo.github.io
+  George Perrett:
+    href: https://gperrett.github.io
+
+template:
+  bootstrap: 5
+  bootswatch: flatly
