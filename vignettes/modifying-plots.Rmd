@@ -47,8 +47,7 @@ p +
 ```{r}
 p + 
   theme_classic()
-
-# set the theme for the session
+# set the theme for all plots within this R session
 theme_set(theme_bw())
 ```
 

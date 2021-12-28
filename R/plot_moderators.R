@@ -142,7 +142,7 @@ plot_moderator_c_loess <- function(.model, moderator, line_color = 'blue'){
   posterior <- bartCause::extract(.model, 'icate')
   posterior <- posterior %>%
     t() %>%
-    as_tibble()
+    as_tibble(name_repair = 'check_unique')
 
   # split posterior into list of dfs by each level of moderator
   split_posterior <- split(posterior, moderator)
@@ -156,8 +156,11 @@ plot_moderator_c_loess <- function(.model, moderator, line_color = 'blue'){
   # plot it
   p <- ggplot(dat, aes(moderator, value)) +
     geom_point() +
-    geom_smooth(method = 'loess', se = TRUE,
-                size = 1.5, color = line_color) +
+    geom_smooth(method = 'loess',
+                formula = y ~ x,
+                se = TRUE,
+                size = 1.5,
+                color = line_color) +
     labs(title = NULL,
          x = NULL,
          y = 'icate')
@@ -210,7 +213,7 @@ plot_moderator_d_density <- function(.model, moderator, .alpha = 0.7, facet = FA
   posterior <- bartCause::extract(.model, 'icate')
   posterior <- posterior %>%
     t() %>%
-    as_tibble()
+    as_tibble(name_repair = 'check_unique')
 
   # split posterior into list of dfs by each level of moderator
   split_posterior <- split(posterior, moderator)
