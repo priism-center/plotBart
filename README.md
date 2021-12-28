@@ -18,7 +18,6 @@ coverage](https://codecov.io/gh/joemarlo/plotBart/branch/master/graph/badge.svg)
 plotBart is a diagnostic and plotting package for
 [bartCause](https://github.com/vdorie/bartCause) and
 [thinkCausal](https://github.com/gperrett/thinkCausal_dev).
-Documentation is available [here](https://joemarlo.github.io/plotBart).
 
 ``` r
 library(plotBart)

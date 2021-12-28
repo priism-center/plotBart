@@ -24,7 +24,7 @@ knitr::opts_chunk$set(
 [![Codecov test coverage](https://codecov.io/gh/joemarlo/plotBart/branch/master/graph/badge.svg)](https://codecov.io/gh/joemarlo/plotBart?branch=master)
 <!-- badges: end -->
 
-plotBart is a diagnostic and plotting package for [bartCause](https://github.com/vdorie/bartCause) and [thinkCausal](https://github.com/gperrett/thinkCausal_dev). Documentation is available [here](https://joemarlo.github.io/plotBart).
+plotBart is a diagnostic and plotting package for [bartCause](https://github.com/vdorie/bartCause) and [thinkCausal](https://github.com/gperrett/thinkCausal_dev).
 
 ```{r example, fig.width=8, message=FALSE, warning=FALSE, out.width = "75%", fig.align="center"}
 library(plotBart)
