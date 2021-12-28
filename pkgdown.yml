@@ -3,7 +3,7 @@ pkgdown: 2.0.1
 pkgdown_sha: ~
 articles:
   my-vignette: my-vignette.html
-last_built: 2021-12-28T02:01Z
+last_built: 2021-12-28T02:16Z
 urls:
   reference: https://joemarlo.github.io/plotBart/reference
   article: https://joemarlo.github.io/plotBart/articles
