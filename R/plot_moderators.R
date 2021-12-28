@@ -142,7 +142,8 @@ plot_moderator_c_loess <- function(.model, moderator, line_color = 'blue'){
   posterior <- bartCause::extract(.model, 'icate')
   posterior <- posterior %>%
     t() %>%
-    as_tibble(name_repair = 'check_unique')
+    as.data.frame() %>%
+    as_tibble()
 
   # split posterior into list of dfs by each level of moderator
   split_posterior <- split(posterior, moderator)
@@ -213,7 +214,8 @@ plot_moderator_d_density <- function(.model, moderator, .alpha = 0.7, facet = FA
   posterior <- bartCause::extract(.model, 'icate')
   posterior <- posterior %>%
     t() %>%
-    as_tibble(name_repair = 'check_unique')
+    as.data.frame() %>%
+    as_tibble()
 
   # split posterior into list of dfs by each level of moderator
   split_posterior <- split(posterior, moderator)
@@ -283,8 +285,9 @@ plot_moderator_d_linerange <- function(.model, moderator, .alpha = 0.7, horizont
 
   # extract and rotate posterior
   posterior <- bartCause::extract(.model, 'icate')
-  posterior <-  posterior  %>%
+  posterior <- posterior  %>%
     t() %>%
+    as.data.frame() %>%
     as_tibble()
 
   # split posterior into list of dfs by each level of moderator
