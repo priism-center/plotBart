@@ -9,3 +9,5 @@ authors:
 template:
   bootstrap: 5
   bootswatch: flatly
+  bslib:
+    primary: "#3a4e48"
