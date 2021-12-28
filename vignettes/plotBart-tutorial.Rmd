@@ -12,9 +12,9 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   message = FALSE,
-  warning = FALSE,
-  dev = "png", 
-  dev.args = list(type = "cairo-png")
+  warning = FALSE
+  # dev = "png", # uncomment if issues running locally on mac
+  # dev.args = list(type = "cairo-png")
 )
 ```
 
