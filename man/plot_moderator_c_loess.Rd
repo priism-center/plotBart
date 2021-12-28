@@ -29,7 +29,7 @@ model_results <- bartCause::bartc(
  estimand = 'ate',
  commonSuprule = 'none'
 )
-plot_moderator_c_loess(model_results, lalonde$married)
+plot_moderator_c_loess(model_results, lalonde$age)
 }
 \author{
 George Perrett, Joe Marlo

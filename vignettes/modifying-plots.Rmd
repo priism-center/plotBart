@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-plotBart uses ggplot2 to construct plots. These functions return standard ggplot objects that can be manipulated and adjusted just like normal `ggplot2::ggplot()` calls. Plot titles, subtitles, labels, captions, and themes can be easily adjusted using ggplot syntax.
+plotBart uses ggplot2 to construct plots. These functions return ggplot objects that can be manipulated and adjusted similar to standard `ggplot2::ggplot()` calls. Plot titles, subtitles, labels, captions, and themes can be easily adjusted using ggplot syntax.
 
 ```{r setup}
 library(plotBart)
@@ -42,19 +42,14 @@ p +
        x = 'Mean diff b/t treatment and control')
 ```
 
-### Change the colors:
-
-```{r}
-p + 
-  scale_color_viridis_c()
-```
-
-
 ### Or change the theme entirely:
 
 ```{r}
 p + 
   theme_classic()
+
+# set the theme for the session
+theme_set(theme_bw())
 ```
 
 ### Extract data to reconstruct the plot:
@@ -64,7 +59,8 @@ p$data
 ```
 
 
-### See more within the ggplot2 documentation:
+### Refer to the ggplot2 documentation for more details:
 - [ggplot2 cheatsheet](https://ggplot2.tidyverse.org/)
 - [Labels](https://ggplot2.tidyverse.org/reference/labs.html)
+- [Complete themes](https://ggplot2.tidyverse.org/reference/ggtheme.html)
 - [Modify a theme](https://ggplot2.tidyverse.org/reference/theme.html)

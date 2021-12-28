@@ -58,7 +58,8 @@ plot_moderator_c_pd <- function(.model, moderator, n_bins = NULL, legend = c('no
 
   # locate the moderator in bartc data
   search_moderator <- function(x) sum(moderator - x)
-  index <- which(sapply(new_data_z0, search_moderator) == 0)
+  index <- which(lapply(new_data_z0, search_moderator) == 0)
+  if (!isTRUE(index > 0)) stop('Cannot find moderator in original data. Is moderator within the original dataframe used to fit the .model?')
 
   # get range for predictions
   cut <- n_bins-1
@@ -125,7 +126,7 @@ plot_moderator_c_pd <- function(.model, moderator, n_bins = NULL, legend = c('no
 #'  estimand = 'ate',
 #'  commonSuprule = 'none'
 #' )
-#' plot_moderator_c_loess(model_results, lalonde$married)
+#' plot_moderator_c_loess(model_results, lalonde$age)
 plot_moderator_c_loess <- function(.model, moderator, line_color = 'blue'){
 
   # to satisfy CMD CHECK
@@ -150,7 +151,7 @@ plot_moderator_c_loess <- function(.model, moderator, line_color = 'blue'){
   # unlist into a data.frame for plotting
   dat <- data.frame(value = unlist(posterior_means))
   dat$moderator <- moderator[order(moderator)]
-  rownames(dat) <- 1:nrow(dat)
+  rownames(dat) <- seq_len(nrow(dat))
 
   # plot it
   p <- ggplot(dat, aes(moderator, value)) +
@@ -218,7 +219,7 @@ plot_moderator_d_density <- function(.model, moderator, .alpha = 0.7, facet = FA
   # unlist into a data.frame for plotting
   dat <- data.frame(value = unlist(posterior_means))
   dat$moderator <- sub("\\..*", '', rownames(dat))
-  rownames(dat) <- 1:nrow(dat)
+  rownames(dat) <- seq_len(nrow(dat))
 
   # plot it
   p <- ggplot(dat, aes(value, fill = moderator)) +
@@ -290,7 +291,7 @@ plot_moderator_d_linerange <- function(.model, moderator, .alpha = 0.7, horizont
   # unlist into a data.frame for plotting
   dat <- data.frame(value = unlist(posterior_means))
   dat$moderator <- sub("\\..*", '', rownames(dat))
-  rownames(dat) <- 1:nrow(dat)
+  rownames(dat) <- seq_len(nrow(dat))
 
   # tidy up the data
   dat <- dat %>%
