@@ -44,6 +44,7 @@ plot_waterfall <- function(.model, descending = TRUE, .order = NULL, .color = NU
   posterior <- bartCause::extract(.model, 'icate')
   posterior <- posterior %>%
     t() %>%
+    as.data.frame() %>%
     as_tibble()
 
   icate.m <- apply(posterior, 1, mean)
