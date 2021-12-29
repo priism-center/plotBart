@@ -1,8 +1,8 @@
 ---
-title: "plotBart tutorial"
+title: "Introduction to plotBart"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{plotBart tutorial}
+  %\VignetteIndexEntry{Introduction to plotBart}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -16,10 +16,6 @@ knitr::opts_chunk$set(
   # dev = "png", # uncomment if issues running locally on mac
   # dev.args = list(type = "cairo-png")
 )
-```
-
-```{r setup}
-library(plotBart)
 ```
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Bibendum enim facilisis gravida neque convallis a cras semper. Scelerisque mauris pellentesque pulvinar pellentesque. Nec sagittis aliquam malesuada bibendum arcu vitae elementum curabitur vitae. Sit amet est placerat in egestas erat. Sapien faucibus et molestie ac feugiat sed lectus vestibulum mattis. Proin libero nunc consequat interdum. Accumsan lacus vel facilisis volutpat est velit egestas dui. Bibendum at varius vel pharetra vel turpis. Nibh tellus molestie nunc non blandit. In ante metus dictum at. Auctor eu augue ut lectus. Senectus et netus et malesuada.
@@ -45,3 +41,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 Ac turpis egestas maecenas pharetra convallis posuere. Sed elementum tempus egestas sed sed. Amet consectetur adipiscing elit duis tristique. Interdum consectetur libero id faucibus nisl tincidunt eget. Vestibulum mattis ullamcorper velit sed ullamcorper morbi tincidunt ornare. Enim neque volutpat ac tincidunt vitae semper quis lectus nulla. In egestas erat imperdiet sed euismod nisi. Elementum facilisis leo vel fringilla est ullamcorper eget. Vel facilisis volutpat est velit egestas dui id ornare. Nisl condimentum id venenatis a condimentum. Non enim praesent elementum facilisis leo vel fringilla. Dictumst quisque sagittis purus sit amet volutpat consequat. Massa sed elementum tempus egestas sed sed risus. Aliquet nec ullamcorper sit amet. Lectus vestibulum mattis ullamcorper velit. Gravida cum sociis natoque penatibus. Elementum nibh tellus molestie nunc non blandit massa. Purus sit amet luctus venenatis lectus magna. Enim tortor at auctor urna nunc id cursus. Magna fermentum iaculis eu non diam.
 
+
+```{r setup}
+library(plotBart)
+```

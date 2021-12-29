@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
   comment = "#>",
   message = FALSE,
   warning = FALSE
-  # dev = "png",  uncomment if issues running locally on mac
+  # dev = "png", # uncomment if issues running locally on mac
   # dev.args = list(type = "cairo-png")
 )
 ```
@@ -32,6 +32,8 @@ p <- plot_balance(.data = lalonde,
 p
 ```
 
+<br>
+
 ### Modify the plot labels:
 
 ```{r}
@@ -42,6 +44,8 @@ p +
        x = 'Mean diff b/t treatment and control')
 ```
 
+<br>
+
 ### Or change the theme entirely:
 
 ```{r}
@@ -50,13 +54,14 @@ p +
 # set the theme for all plots within this R session
 theme_set(theme_bw())
 ```
+<br>
 
 ### Extract data to reconstruct the plot:
 
 ```{r}
 p$data
 ```
-
+<br>
 
 ### Refer to the ggplot2 documentation for more details:
 - [ggplot2 cheatsheet](https://ggplot2.tidyverse.org/)
