@@ -109,9 +109,7 @@ out_moderator_d_linerange <- plot_moderator_d_linerange(
   horizontal = FALSE)
 out_moderator_search <- plot_moderator_search(
   model_results,
-  depth = 2,
-  type = 2,
-  extra = 1
+  max_depth = 2
 )
 
 
@@ -150,5 +148,5 @@ test_that("plot_moderator_* outputs are all ggplot objects", {
   expect_s3_class(out_moderator_c_loess, 'ggplot')
   expect_s3_class(out_moderator_d_density, 'ggplot')
   expect_s3_class(out_moderator_d_linerange, 'ggplot')
-  expect_type(out_moderator_search, 'list')
+  expect_s3_class(out_moderator_search, 'ggplot')
 })

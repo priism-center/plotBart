@@ -80,7 +80,7 @@ plot_moderator_c_pd <- function(.model, moderator, n_bins = NULL, legend = c('no
 
   # get credible intervals
   ci_range <- c(0.025, 0.1, 0.9, 0.975)
-  cates.ci <- as_tibble(t(apply(cates, MARGIN = 2, FUN = ci_, probs = ci_range)))
+  cates.ci <- as_tibble(t(apply(cates, MARGIN = 2, FUN = quantile, probs = ci_range)))
   cates_plot <- bind_cols(cates.m, cates.ci)
   indices <- 2 + seq_along(ci_range)
   colnames(cates_plot)[indices] <- paste0('ci_', as.character(ci_range * 100))
@@ -326,19 +326,17 @@ plot_moderator_d_linerange <- function(.model, moderator, .alpha = 0.7, horizont
 
 #' Plot a single regression tree for exploratory heterogeneous effects
 #'
-#' Fit single regression tree on bartc() icates to produce variable importance plot & table.
+#' Fit single regression tree on bartc() icates to produce variable importance plot.
 #'
 #' @param .model a model produced by bartCause::bartc(). Typically store$model_results
-#' @param depth number of node levels within the tree. 2 is recommended
-#' @param type type of plot to draw. See \link[rpart.plot]{rpart.plot} for details
-#' @param extra extra information to display. See \link[rpart.plot]{rpart.plot} for details
+#' @param max_depth one of c(1, 2, 3). Maximum number of node levels within the tree. 2 is recommended
 #'
 #' @author George Perrett, Joe Marlo
 #'
-#' @importFrom rpart rpart
-#' @importFrom rpart.plot rpart.plot
+#' @import ggplot2 dplyr
+#' @importFrom ggdendro dendro_data
 #'
-#' @return rpart plot
+#' @return ggplot object
 #' @export
 #'
 #' @examples
@@ -352,16 +350,15 @@ plot_moderator_d_linerange <- function(.model, moderator, .alpha = 0.7, horizont
 #'  commonSuprule = 'none'
 #' )
 #' plot_moderator_search(model_results)
-plot_moderator_search <- function(.model, depth = 2, type = c(2, 0, 1, 3, 4, 5), extra = list(1, 'all', 0)){
-
-  #TODO: do we really need the type and extra parameters?
+plot_moderator_search <- function(.model, max_depth = c(2, 1, 3)){
 
   validate_model_(.model)
 
+  max_depth <- max_depth[[1]]
+  if (max_depth %notin% c(2, 1, 3)) stop('max_depth must be one of c(1, 2, 3)')
+
   icate <- bartCause::extract(.model , 'icate')
   icate.m <- apply(icate, 2, mean)
-  .type <- type[1]
-  .extra <- extra[[1]]
 
   # pull data from model and create a matrix of confounders
   .data <- as.data.frame(.model$data.rsp@x)
@@ -378,8 +375,90 @@ plot_moderator_search <- function(.model, depth = 2, type = c(2, 0, 1, 3, 4, 5),
   }
 
   # fit regression tree
-  cart <- rpart::rpart(icate.m ~ ., data = as.data.frame(confounders), maxdepth = depth)
-  p <- rpart.plot(cart, type = .type, extra = .extra, branch = 1, box.palette = 0)
+  cart <- rpart::rpart(icate.m ~ ., data = as.data.frame(confounders), maxdepth = max_depth)
+  # p <- rpart.plot::rpart.plot(cart, type = .type, extra = .extra, branch = 1, box.palette = 0)
+
+  # create dendrogram
+  p_gg <- rpart_ggplot_(cart)
+
+  return(p_gg)
+}
+
+
+rpart_ggplot_ <- function(.model){
+
+  # remove depth information from model so plot is easy to read
+  .model$frame$dev <- 1
+
+  # extract data to construct dendrogram
+  fitr <- ggdendro::dendro_data(.model)
+  n_leaf <- .model$frame$n[.model$frame$var == '<leaf>']
+  n_split <- .model$frame$n[.model$frame$var != '<leaf>']
+  pred_split <- round(.model$frame$yval[.model$frame$var != '<leaf>'], 1)
+  terminal_leaf_y <- 0.1
+  leaf_labels <- tibble(
+    x = fitr$leaf_labels$x,
+    y = terminal_leaf_y, #ifelse(fitr$leaf_labels$y == 1, terminal_leaf_y, fitr$leaf_labels$y),
+    label = paste0(
+      'y = ', fitr$leaf_labels$label,
+      '\nn = ', n_leaf)
+  )
+  yes_no_offset <- c(0.75, 1.25)
+  yes_no <- tibble(
+    x = c(fitr$labels$x[[1]] * yes_no_offset[1],
+          fitr$labels$x[[1]] * yes_no_offset[2]),
+    y = rep(fitr$labels$y[[1]], 2),
+    label = c("yes", "no")
+  )
+  split_labels <- tibble(
+    x = fitr$labels$x,
+    y = fitr$labels$y + 0.07,
+    label = paste0(
+      'y = ', pred_split,
+      '\nn = ', n_split
+    )
+  )
+
+  # set terminal segments to y = terminal_leaf_y
+  initial_node_y <- fitr$labels$y[[1]]
+  fitr$segments <- fitr$segments %>%
+    mutate(y_new = ifelse(y > yend, y, yend),
+           yend_new = ifelse(yend < y, yend, y)) %>%
+    select(n, x, y = y_new, xend, yend = yend_new) %>%
+    mutate(y = ifelse(y > initial_node_y, terminal_leaf_y, y),
+           yend = ifelse(x == xend & x == round(x) & y > yend, terminal_leaf_y, yend))
+
+  # set plot constants
+  label_text_size <- 3
+  x_limits <- c(0.5, nrow(fitr$leaf_labels) + 0.5)
+  y_limits <- c(min(fitr$segments$y) - 0.05,
+                max(fitr$segments$y) + 0.15)
+
+  # plot it
+  p <- ggplot() +
+    geom_segment(data = fitr$segments,
+                 aes(x = x, y = y, xend = xend, yend = yend)
+    ) +
+    geom_label(data = yes_no,
+               aes(x = x, y = y, label = label),
+               size = label_text_size) +
+    geom_label(data = leaf_labels,
+               aes(x = x, y = y, label = label),
+               size = label_text_size) +
+    geom_label(data = split_labels,
+               aes(x = x, y = y, label = label),
+               size = label_text_size) +
+    geom_label(data = fitr$labels,
+               aes(x = x, y = y, label = label),
+               label.size = NA, fontface = 'bold') +
+    expand_limits(x = x_limits,
+                  y = y_limits) +
+    scale_x_continuous(labels = NULL, breaks = NULL) +
+    scale_y_continuous(labels = NULL, breaks = NULL) +
+    labs(title = 'Exploratory heterogeneous effects',
+         x = NULL,
+         y = NULL) +
+    theme(panel.background = element_blank())
 
   return(p)
 }

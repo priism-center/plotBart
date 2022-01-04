@@ -4,27 +4,18 @@
 \alias{plot_moderator_search}
 \title{Plot a single regression tree for exploratory heterogeneous effects}
 \usage{
-plot_moderator_search(
-  .model,
-  depth = 2,
-  type = c(2, 0, 1, 3, 4, 5),
-  extra = list(1, "all", 0)
-)
+plot_moderator_search(.model, max_depth = c(2, 1, 3))
 }
 \arguments{
 \item{.model}{a model produced by bartCause::bartc(). Typically store$model_results}
 
-\item{depth}{number of node levels within the tree. 2 is recommended}
-
-\item{type}{type of plot to draw. See \link[rpart.plot]{rpart.plot} for details}
-
-\item{extra}{extra information to display. See \link[rpart.plot]{rpart.plot} for details}
+\item{max_depth}{one of c(1, 2, 3). Maximum number of node levels within the tree. 2 is recommended}
 }
 \value{
-rpart plot
+ggplot object
 }
 \description{
-Fit single regression tree on bartc() icates to produce variable importance plot & table.
+Fit single regression tree on bartc() icates to produce variable importance plot.
 }
 \examples{
 data(lalonde)

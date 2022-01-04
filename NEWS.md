@@ -1,6 +1,7 @@
 # plotBart 0.1.3
 ### API changes
 - Homogenized function argument names
+- `plot_moderator_search()` now returns a ggplot object instead of an rpart.plot object
 
 ### Fixes
 - ...

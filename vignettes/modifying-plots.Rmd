@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-plotBart uses ggplot2 to construct plots. These functions return ggplot objects that can be manipulated and adjusted similar to standard `ggplot2::ggplot()` calls. Plot titles, subtitles, labels, captions, and themes can be easily adjusted using ggplot syntax.
+plotBart uses [ggplot2](https://ggplot2.tidyverse.org/) to construct plots. These functions return ggplot objects that can be manipulated similar to standard `ggplot2::ggplot()` calls. Plot titles, subtitles, labels, captions, and themes can be easily customized using ggplot syntax.
 
 ```{r setup}
 library(plotBart)

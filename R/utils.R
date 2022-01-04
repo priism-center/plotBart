@@ -45,6 +45,18 @@ fit_pd_ <- function(x, z1, z0, index, .model){
   return(cate)
 }
 
-ci_ <- function(x, probs = c(0.025, 0.1, 0.9, 0.975)) quantile(x, probs = probs)
+# ci_ <- function(x, probs = c(0.025, 0.1, 0.9, 0.975)) quantile(x, probs = probs)
 
 pclamp_ <- function(x, x_min, x_max) pmin(x_max, pmax(x, x_min))
+
+pmean_ <- function(...){
+  x <- data.frame(...)
+  rowMeans(x)
+}
+
+zipper_ <- function(x, y) {
+  if (length(x) != length(y)) stop('x and y must be same length')
+  length_out <- seq_along(x)
+  zipped <- unlist(lapply(length_out, function(i) c(x[i], y[i])))
+  return(zipped)
+}
