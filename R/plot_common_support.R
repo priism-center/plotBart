@@ -13,6 +13,7 @@
 #' @import ggplot2 dplyr
 #'
 #' @examples
+#' \dontrun{
 #' data(lalonde)
 #' confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 #' model_results <- bartCause::bartc(
@@ -23,6 +24,7 @@
 #'  commonSuprule = 'none'
 #' )
 #' plot_common_support(model_results)
+#' }
 plot_common_support <- function(.model, rule = c('both', 'sd', 'chi')){
 
   # to satisfy CMD CHECK

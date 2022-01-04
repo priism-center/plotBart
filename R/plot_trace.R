@@ -12,6 +12,7 @@
 #' @importFrom bartCause extract
 #'
 #' @examples
+#' \dontrun{
 #' data(lalonde)
 #' confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 #' model_results <- bartCause::bartc(
@@ -22,6 +23,7 @@
 #'  commonSup.rule = 'none'
 #' )
 #' plot_trace(.model = model_results)
+#' }
 plot_trace <- function(.model){
 
   # to satisfy CMD CHECK

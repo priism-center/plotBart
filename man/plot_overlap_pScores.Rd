@@ -33,6 +33,7 @@ ggplot object
 Plot histograms showing the overlap between propensity scores by treatment status. TODO: reference?
 }
 \examples{
+\dontrun{
 data(lalonde)
 plot_overlap_pScores(
  .data = lalonde,
@@ -42,6 +43,7 @@ plot_overlap_pScores(
  plot_type = 'histogram',
  pscores = NULL
 )
+}
 }
 \seealso{
 \code{\link{plot_overlap_vars}}

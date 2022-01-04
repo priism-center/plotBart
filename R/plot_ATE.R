@@ -17,6 +17,7 @@
 #'
 #' @import ggplot2 bartCause
 #' @examples
+#' \dontrun{
 #' data(lalonde)
 #' confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 #' model_results <- bartCause::bartc(
@@ -27,6 +28,7 @@
 #'  commonSup.rule = 'none'
 #' )
 #' plot_CATE(model_results)
+#' }
 plot_CATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, ci_95 = FALSE, reference = NULL, .mean = FALSE, .median = FALSE){
 
   # to satisfy CMD CHECK
@@ -120,6 +122,7 @@ plot_CATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
 #' @import ggplot2 dplyr bartCause
 #'
 #' @examples
+#' \dontrun{
 #' data(lalonde)
 #' confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 #' model_results <- bartCause::bartc(
@@ -130,6 +133,7 @@ plot_CATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
 #'  commonSup.rule = 'none'
 #' )
 #' plot_ICATE(model_results, lalonde$married)
+#' }
 plot_ICATE <- function(.model, .group_by = NULL, n_bins = 30, .alpha = .7){
 
   # to satisfy CMD CHECK
@@ -183,6 +187,7 @@ plot_ICATE <- function(.model, .group_by = NULL, n_bins = 30, .alpha = .7){
 #'
 #' @import ggplot2 bartCause
 #' @examples
+#' \dontrun{
 #' data(lalonde)
 #' confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 #' model_results <- bartCause::bartc(
@@ -193,6 +198,7 @@ plot_ICATE <- function(.model, .group_by = NULL, n_bins = 30, .alpha = .7){
 #'  commonSup.rule = 'none'
 #' )
 #' plot_PATE(model_results)
+#' }
 plot_PATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, ci_95 = FALSE, reference = NULL, .mean = FALSE, .median = FALSE){
 
   # to satisfy CMD CHECK
@@ -286,6 +292,7 @@ plot_PATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
 #'
 #' @import ggplot2 bartCause
 #' @examples
+#' \dontrun{
 #' data(lalonde)
 #' confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 #' model_results <- bartCause::bartc(
@@ -296,6 +303,7 @@ plot_PATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
 #'  commonSup.rule = 'none'
 #' )
 #' plot_SATE(model_results)
+#' }
 plot_SATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, ci_95 = FALSE, reference = NULL, .mean = FALSE, .median = FALSE){
 
   # to satisfy CMD CHECK

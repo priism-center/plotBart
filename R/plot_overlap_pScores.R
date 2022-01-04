@@ -19,6 +19,7 @@
 #' @importFrom tidyr pivot_longer
 #'
 #' @examples
+#' \dontrun{
 #' data(lalonde)
 #' plot_overlap_pScores(
 #'  .data = lalonde,
@@ -28,6 +29,7 @@
 #'  plot_type = 'histogram',
 #'  pscores = NULL
 #')
+#'}
 plot_overlap_pScores <- function(.data, treatment, response, confounders, plot_type = c("histogram", "density"), pscores = NULL) {
 
   # to satisfy CMD CHECK
@@ -110,6 +112,7 @@ plot_overlap_pScores <- function(.data, treatment, response, confounders, plot_t
 #' @seealso \code{\link{plot_overlap_pScores}} \code{\link[rpart.plot]{rpart.plot}}
 #'
 #' @examples
+#' \dontrun{
 #' data(lalonde)
 #' propensity_scores(
 #'   .data = lalonde,
@@ -117,6 +120,7 @@ plot_overlap_pScores <- function(.data, treatment, response, confounders, plot_t
 #'   response = 're78',
 #'   confounders = c('age', 'educ')
 #' )
+#' }
 propensity_scores <- function(.data, treatment, response, confounders){
 
   if (treatment %notin% colnames(.data)) stop('treatment not found in .data')

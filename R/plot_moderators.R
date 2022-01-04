@@ -16,6 +16,7 @@
 #' @importFrom stats density median na.omit predict quantile sd
 #'
 #' @examples
+#' \dontrun{
 #' data(lalonde)
 #' confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 #' model_results <- bartCause::bartc(
@@ -27,6 +28,7 @@
 #'  keepTrees = TRUE
 #' )
 #' plot_moderator_c_pd(model_results, lalonde$age)
+#' }
 plot_moderator_c_pd <- function(.model, moderator, n_bins = NULL, legend = c('none', 'right', 'top', 'bottom')){
 
   # to satisfy CMD CHECK
@@ -117,6 +119,7 @@ plot_moderator_c_pd <- function(.model, moderator, n_bins = NULL, legend = c('no
 #' @import ggplot2 dplyr
 #'
 #' @examples
+#' \dontrun{
 #' data(lalonde)
 #' confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 #' model_results <- bartCause::bartc(
@@ -127,6 +130,7 @@ plot_moderator_c_pd <- function(.model, moderator, n_bins = NULL, legend = c('no
 #'  commonSuprule = 'none'
 #' )
 #' plot_moderator_c_loess(model_results, lalonde$age)
+#' }
 plot_moderator_c_loess <- function(.model, moderator, line_color = 'blue'){
 
   # to satisfy CMD CHECK
@@ -187,6 +191,7 @@ plot_moderator_c_loess <- function(.model, moderator, line_color = 'blue'){
 #' @import ggplot2 dplyr
 #'
 #' @examples
+#' \dontrun{
 #' data(lalonde)
 #' confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 #' model_results <- bartCause::bartc(
@@ -197,6 +202,7 @@ plot_moderator_c_loess <- function(.model, moderator, line_color = 'blue'){
 #'  commonSuprule = 'none'
 #' )
 #' plot_moderator_d_density(model_results, lalonde$educ)
+#' }
 plot_moderator_d_density <- function(.model, moderator, .alpha = 0.7, facet = FALSE, .ncol = 1){
 
   # to satisfy CMD CHECK
@@ -260,6 +266,7 @@ plot_moderator_d_density <- function(.model, moderator, .alpha = 0.7, facet = FA
 #' @import ggplot2 dplyr
 #'
 #' @examples
+#' \dontrun{
 #' data(lalonde)
 #' confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 #' model_results <- bartCause::bartc(
@@ -270,6 +277,7 @@ plot_moderator_d_density <- function(.model, moderator, .alpha = 0.7, facet = FA
 #'  commonSuprule = 'none'
 #' )
 #' plot_moderator_d_linerange(model_results, lalonde$educ)
+#' }
 plot_moderator_d_linerange <- function(.model, moderator, .alpha = 0.7, horizontal = FALSE){
 
   # to satisfy CMD CHECK
@@ -340,6 +348,7 @@ plot_moderator_d_linerange <- function(.model, moderator, .alpha = 0.7, horizont
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' data(lalonde)
 #' confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 #' model_results <- bartCause::bartc(
@@ -350,6 +359,7 @@ plot_moderator_d_linerange <- function(.model, moderator, .alpha = 0.7, horizont
 #'  commonSuprule = 'none'
 #' )
 #' plot_moderator_search(model_results)
+#' }
 plot_moderator_search <- function(.model, max_depth = c(2, 1, 3)){
 
   validate_model_(.model)
@@ -376,7 +386,7 @@ plot_moderator_search <- function(.model, max_depth = c(2, 1, 3)){
 
   # fit regression tree
   cart <- rpart::rpart(icate.m ~ ., data = as.data.frame(confounders), maxdepth = max_depth)
-  # p <- rpart.plot::rpart.plot(cart, type = .type, extra = .extra, branch = 1, box.palette = 0)
+  # p <- rpart.plot::rpart.plot(cart, type = 2, branch = 1, box.palette = 0)
 
   # create dendrogram
   p_gg <- rpart_ggplot_(cart)
@@ -387,7 +397,10 @@ plot_moderator_search <- function(.model, max_depth = c(2, 1, 3)){
 
 rpart_ggplot_ <- function(.model){
 
-  # remove depth information from model so plot is easy to read
+  # to satisfy CMD CHECK
+  y <- yend <- x <- y_new <- xend <- yend_new <- label <- NULL
+
+  # remove depth information from model so resulting plot is easy to read
   .model$frame$dev <- 1
 
   # extract data to construct dendrogram
@@ -398,7 +411,7 @@ rpart_ggplot_ <- function(.model){
   terminal_leaf_y <- 0.1
   leaf_labels <- tibble(
     x = fitr$leaf_labels$x,
-    y = terminal_leaf_y, #ifelse(fitr$leaf_labels$y == 1, terminal_leaf_y, fitr$leaf_labels$y),
+    y = terminal_leaf_y,
     label = paste0(
       'y = ', fitr$leaf_labels$label,
       '\nn = ', n_leaf)
@@ -437,8 +450,7 @@ rpart_ggplot_ <- function(.model){
   # plot it
   p <- ggplot() +
     geom_segment(data = fitr$segments,
-                 aes(x = x, y = y, xend = xend, yend = yend)
-    ) +
+                 aes(x = x, y = y, xend = xend, yend = yend)) +
     geom_label(data = yes_no,
                aes(x = x, y = y, label = label),
                size = label_text_size) +

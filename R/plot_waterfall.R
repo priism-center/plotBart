@@ -17,6 +17,7 @@
 #' @import ggplot2 dplyr
 #'
 #' @examples
+#' \dontrun{
 #' data(lalonde)
 #' confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 #' model_results <- bartCause::bartc(
@@ -27,6 +28,7 @@
 #'  commonSuprule = 'none'
 #' )
 #' plot_waterfall(model_results)
+#' }
 plot_waterfall <- function(.model, descending = TRUE, .order = NULL, .color = NULL, .alpha = 0.5){
 
   # TODO: descending = FALSE fails

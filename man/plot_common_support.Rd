@@ -18,6 +18,7 @@ ggplot object
 Returns a ggplot common support plot. TODO: describe what the plot is and how it should be used. reference?
 }
 \examples{
+\dontrun{
 data(lalonde)
 confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 model_results <- bartCause::bartc(
@@ -28,6 +29,7 @@ model_results <- bartCause::bartc(
  commonSuprule = 'none'
 )
 plot_common_support(model_results)
+}
 }
 \author{
 George Perrett, Joe Marlo

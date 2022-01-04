@@ -21,9 +21,8 @@ Imports:
     dplyr (>= 1.0.5),
     tidyr (>= 1.1.3),
     rpart (>= 4.1.15),
-    rpart.plot (>= 3.1.0),
     stats (>= 3.6.2),
-    ggdendro
+    ggdendro (>= 0.1.22)
 Suggests: 
     testthat,
     arm (>= 1.10.1),

@@ -30,6 +30,7 @@ ggplot object
 TODO: description
 }
 \examples{
+\dontrun{
 data(lalonde)
 confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 model_results <- bartCause::bartc(
@@ -40,6 +41,7 @@ model_results <- bartCause::bartc(
  commonSuprule = 'none'
 )
 plot_waterfall(model_results)
+}
 }
 \author{
 George Perrett

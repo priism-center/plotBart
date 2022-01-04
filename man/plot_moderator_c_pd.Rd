@@ -27,6 +27,7 @@ ggplot object
 TODO: description
 }
 \examples{
+\dontrun{
 data(lalonde)
 confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 model_results <- bartCause::bartc(
@@ -38,6 +39,7 @@ model_results <- bartCause::bartc(
  keepTrees = TRUE
 )
 plot_moderator_c_pd(model_results, lalonde$age)
+}
 }
 \author{
 George Perrett, Joe Marlo

@@ -36,6 +36,7 @@ ggplot object
 TODO: description
 }
 \examples{
+\dontrun{
 data(lalonde)
 confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 model_results <- bartCause::bartc(
@@ -46,6 +47,7 @@ model_results <- bartCause::bartc(
  commonSup.rule = 'none'
 )
 plot_CATE(model_results)
+}
 }
 \author{
 George Perrett, Joe Marlo

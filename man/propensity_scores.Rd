@@ -22,6 +22,7 @@ a numeric vector of propensity scores
 Calculates propensity scores using Bayesian Additive Regression Trees via bartCause::bartc.
 }
 \examples{
+\dontrun{
 data(lalonde)
 propensity_scores(
   .data = lalonde,
@@ -29,6 +30,7 @@ propensity_scores(
   response = 're78',
   confounders = c('age', 'educ')
 )
+}
 }
 \seealso{
 \code{\link{plot_overlap_pScores}} \code{\link[rpart.plot]{rpart.plot}}

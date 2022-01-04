@@ -18,6 +18,7 @@ ggplot object
 Fit single regression tree on bartc() icates to produce variable importance plot.
 }
 \examples{
+\dontrun{
 data(lalonde)
 confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 model_results <- bartCause::bartc(
@@ -28,6 +29,7 @@ model_results <- bartCause::bartc(
  commonSuprule = 'none'
 )
 plot_moderator_search(model_results)
+}
 }
 \author{
 George Perrett, Joe Marlo
