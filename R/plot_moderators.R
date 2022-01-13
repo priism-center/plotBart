@@ -117,6 +117,7 @@ plot_moderator_c_pd <- function(.model, moderator, n_bins = NULL, legend = c('no
 #' @export
 #'
 #' @import ggplot2 dplyr
+#' @importFrom bartCause extract
 #'
 #' @examples
 #' \dontrun{
@@ -189,6 +190,7 @@ plot_moderator_c_loess <- function(.model, moderator, line_color = 'blue'){
 #' @export
 #'
 #' @import ggplot2 dplyr
+#' @importFrom bartCause extract
 #'
 #' @examples
 #' \dontrun{
@@ -264,6 +266,7 @@ plot_moderator_d_density <- function(.model, moderator, .alpha = 0.7, facet = FA
 #' @export
 #'
 #' @import ggplot2 dplyr
+#' @importFrom bartCause extract
 #'
 #' @examples
 #' \dontrun{
@@ -343,6 +346,8 @@ plot_moderator_d_linerange <- function(.model, moderator, .alpha = 0.7, horizont
 #'
 #' @import ggplot2 dplyr
 #' @importFrom ggdendro dendro_data
+#' @importFrom rpart rpart
+#' @importFrom bartCause extract
 #'
 #' @return ggplot object
 #' @export
