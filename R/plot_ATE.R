@@ -154,7 +154,7 @@ plot_ICATE <- function(.model, .group_by = NULL, n_bins = 30, .alpha = .7){
 
   # add grouping
   if(!is.null(.group_by)){
-    p <- ggplot(icates,
+    p <- ggplot(data = icates,
                 aes(x = value, fill = as.factor(.group_by))) +
       geom_histogram(position = 'identity', bins = n_bins, alpha = .alpha)
   }
@@ -163,7 +163,8 @@ plot_ICATE <- function(.model, .group_by = NULL, n_bins = 30, .alpha = .7){
   p <- p +
     labs(title = NULL,
          x = NULL,
-         y = 'count')
+         y = 'count',
+         fill = NULL)
 
   return(p)
 }
