@@ -24,7 +24,7 @@ Calculates propensity scores using Bayesian Additive Regression Trees via bartCa
 \examples{
 \dontrun{
 data(lalonde)
-propensity_scores(
+plotBart:::propensity_scores(
   .data = lalonde,
   treatment = 'treat',
   response = 're78',
@@ -35,3 +35,4 @@ propensity_scores(
 \seealso{
 \code{\link{plot_overlap_pScores}}
 }
+\keyword{internal}

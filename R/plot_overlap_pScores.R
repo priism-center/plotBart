@@ -106,6 +106,8 @@ plot_overlap_pScores <- function(.data, treatment, response, confounders, plot_t
 #'
 #' @return a numeric vector of propensity scores
 #'
+#' @keywords internal
+#'
 #' @importFrom bartCause bartc
 #'
 #' @seealso \code{\link{plot_overlap_pScores}}
@@ -113,7 +115,7 @@ plot_overlap_pScores <- function(.data, treatment, response, confounders, plot_t
 #' @examples
 #' \dontrun{
 #' data(lalonde)
-#' propensity_scores(
+#' plotBart:::propensity_scores(
 #'   .data = lalonde,
 #'   treatment = 'treat',
 #'   response = 're78',
