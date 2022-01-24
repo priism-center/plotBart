@@ -33,5 +33,5 @@ propensity_scores(
 }
 }
 \seealso{
-\code{\link{plot_overlap_pScores}} \code{\link[rpart.plot]{rpart.plot}}
+\code{\link{plot_overlap_pScores}}
 }

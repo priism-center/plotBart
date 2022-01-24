@@ -1,4 +1,5 @@
 # plotBart 0.1.4
+- propensity_scores() no longer exported
 
 # plotBart 0.1.3
 - Homogenized function argument names across functions. This is code breaking as previous argument names are not supported.

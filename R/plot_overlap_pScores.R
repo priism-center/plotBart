@@ -105,11 +105,10 @@ plot_overlap_pScores <- function(.data, treatment, response, confounders, plot_t
 #' @param confounders character list of column names denoting confounders within .data
 #'
 #' @return a numeric vector of propensity scores
-#' @export
 #'
 #' @importFrom bartCause bartc
 #'
-#' @seealso \code{\link{plot_overlap_pScores}} \code{\link[rpart.plot]{rpart.plot}}
+#' @seealso \code{\link{plot_overlap_pScores}}
 #'
 #' @examples
 #' \dontrun{
