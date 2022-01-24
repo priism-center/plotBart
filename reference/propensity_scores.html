@@ -80,7 +80,7 @@
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="plot_overlap_pScores.html">plot_overlap_pScores</a></code> <code>rpart.plot</code></p></div>
+    <div class="dont-index"><p><code><a href="plot_overlap_pScores.html">plot_overlap_pScores</a></code></p></div>
     </div>
 
     <div class="section level2">
@@ -93,72 +93,7 @@
 <span class="r-in">  response <span class="op">=</span> <span class="st">'re78'</span>,</span>
 <span class="r-in">  confounders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'age'</span>, <span class="st">'educ'</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> fitting treatment model via method 'bart'</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> fitting response model via method 'bart'</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [1] 0.4371586 0.4131424 0.4585078 0.4322828 0.4295578 0.4131424 0.4547391</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [8] 0.4276918 0.4894218 0.4585094 0.4053350 0.4675849 0.4109896 0.4136493</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [15] 0.4114623 0.3947217 0.4805304 0.4038059 0.4779146 0.4614006 0.4226421</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [22] 0.5074611 0.4330833 0.4245300 0.3928627 0.4278265 0.4280065 0.4136493</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [29] 0.3945004 0.4245300 0.3945004 0.4821564 0.4280065 0.4467370 0.4598955</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [36] 0.5103300 0.4437106 0.4547391 0.4591413 0.4056233 0.4509578 0.4053350</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [43] 0.4127578 0.4109896 0.4149233 0.4280065 0.4127578 0.4053080 0.4437106</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [50] 0.4547391 0.4274142 0.4283343 0.4107666 0.4598955 0.4278667 0.3945004</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [57] 0.4312649 0.4753346 0.5103300 0.4211954 0.4127578 0.4281658 0.4123104</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [64] 0.4322828 0.4521393 0.4202088 0.4322828 0.4201474 0.4728199 0.4758061</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [71] 0.4248229 0.5022870 0.4156400 0.4598955 0.4921736 0.4280065 0.4533058</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [78] 0.4108044 0.4481350 0.4211954 0.4598955 0.4422305 0.4690860 0.4805304</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [85] 0.4318245 0.4391582 0.4217541 0.4297099 0.4509578 0.4270903 0.4283343</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [92] 0.3945004 0.4280065 0.4509578 0.4531408 0.4598955 0.4035725 0.4832818</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [99] 0.4090853 0.4221459 0.4056233 0.4107937 0.4280065 0.4107666 0.4127798</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [106] 0.4475771 0.4805304 0.4053080 0.4278667 0.4107937 0.4071542 0.4053080</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [113] 0.4467370 0.4107666 0.4637159 0.4509578 0.4637159 0.4467370 0.3947217</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [120] 0.4547391 0.4872966 0.3928627 0.4053350 0.4805304 0.4107666 0.4248229</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [127] 0.4533058 0.4038059 0.4547391 0.4149233 0.4053080 0.4271057 0.4297099</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [134] 0.4149233 0.4245300 0.4221459 0.4217541 0.3928627 0.4588607 0.4297099</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [141] 0.4165081 0.4598955 0.4056233 0.4591413 0.4588164 0.4127798 0.4127125</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [148] 0.4322828 0.4297099 0.3966071 0.4088082 0.4564198 0.4127125 0.4547391</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [155] 0.4475761 0.4767989 0.4035725 0.4509578 0.4136493 0.4181117 0.4131424</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [162] 0.4537813 0.4056233 0.4095539 0.4588607 0.3947217 0.4127798 0.4221459</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [169] 0.4023915 0.4108044 0.3945004 0.4614006 0.4071542 0.3947217 0.4107937</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [176] 0.4271057 0.4533058 0.4283020 0.4533058 0.4095539 0.4585094 0.4882389</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [183] 0.4242738 0.4316110 0.4283020 0.4038059 0.4614006 0.4131424 0.4035725</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [190] 0.4547482 0.4035725 0.4234573 0.4275747 0.4470494 0.4142475 0.4788809</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [197] 0.4202088 0.4302131 0.4127798 0.4144607 0.4576534 0.4056233 0.4203144</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [204] 0.4280065 0.4348812 0.4053350 0.4473527 0.4318245 0.4270903 0.4103066</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [211] 0.4097051 0.4164874 0.4585094 0.3928627 0.4614006 0.4588164 0.4123104</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [218] 0.4467370 0.4280065 0.4090853 0.4301576 0.3966071 0.4201546 0.4136493</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [225] 0.4149233 0.4297099 0.4403283 0.4097051 0.4444238 0.4287129 0.4071542</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [232] 0.4038059 0.4210965 0.4245300 0.4226421 0.4129682 0.4188302 0.4090853</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [239] 0.4211954 0.4226421 0.4564198 0.4278265 0.4245300 0.4131424 0.4271057</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [246] 0.3928627 0.4107937 0.4090853 0.4056233 0.4452570 0.4142475 0.4211954</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [253] 0.4598955 0.4322828 0.4281658 0.4564198 0.4023915 0.4218897 0.4588607</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [260] 0.4280065 0.4585078 0.4203144 0.4756256 0.3966071 0.4275747 0.4533058</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [267] 0.4580026 0.4103066 0.4035725 0.4368830 0.4280065 0.4038059 0.4210965</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [274] 0.4090853 0.4355989 0.4707995 0.4745659 0.4218897 0.4276918 0.4805304</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [281] 0.4107937 0.4531408 0.4280065 0.4598955 0.4581847 0.4097582 0.4023915</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [288] 0.4053350 0.4103066 0.4226421 0.4283020 0.4136493 0.4278265 0.4038059</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [295] 0.4201546 0.4090853 0.4056233 0.4274142 0.4331256 0.4869335 0.4090853</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [302] 0.4278265 0.4598955 0.4750909 0.4226421 0.4517050 0.4466088 0.4144607</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [309] 0.4490799 0.4469703 0.4614006 0.4038059 0.4637159 0.4222818 0.4090853</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [316] 0.4217541 0.4109896 0.4127578 0.4053350 0.4109896 0.4107666 0.4122361</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [323] 0.3947217 0.3947217 0.4035725 0.4035725 0.3928627 0.3945004 0.4096469</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [330] 0.4107666 0.3947217 0.4035725 0.3945004 0.3945004 0.4127798 0.4127578</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [337] 0.3928627 0.4035725 0.4127578 0.4173361 0.3947217 0.4122361 0.4071542</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [344] 0.4053080 0.3945004 0.4053080 0.4127798 0.3947217 0.4071542 0.4035725</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [351] 0.4107666 0.3945004 0.4127798 0.3945004 0.4053080 0.3928627 0.4108044</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [358] 0.3928627 0.4127798 0.4165081 0.4271057 0.4280065 0.4164874 0.4409584</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [365] 0.4620052 0.4564198 0.4122361 0.3928627 0.3928627 0.4088082 0.4805304</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [372] 0.4588164 0.4131424 0.4103066 0.4107937 0.4035725 0.4226421 0.4467370</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [379] 0.3947217 0.4107666 0.3945004 0.4637159 0.4322828 0.4581847 0.4271057</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [386] 0.4001677 0.3945004 0.4297099 0.4209864 0.3945004 0.4211954 0.4245300</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [393] 0.4467370 0.4422305 0.4245300 0.4108044 0.4286396 0.4283343 0.3945004</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [400] 0.4053350 0.4226421 0.4533058 0.4588607 0.4023915 0.4758061 0.4127798</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [407] 0.4053080 0.3928627 0.4444238 0.4189140 0.4283020 0.4320533 0.4280065</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [414] 0.4127798 0.4217541 0.4122361 0.4356244 0.4297099 0.4322828 0.4127798</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [421] 0.4271057 0.4581847 0.4287551 0.4588164 0.4226421 0.4467370 0.4088082</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [428] 0.4707995 0.4181117 0.4211954 0.4149233 0.4188302 0.4547391 0.4209864</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [435] 0.4202088 0.4278667 0.4090853 0.4271057 0.4023915 0.4473527 0.4108044</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [442] 0.4271057 0.4209864 0.4201546 0.4023915</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in propensity_scores(.data = lalonde, treatment = "treat", response = "re78",     confounders = c("age", "educ")):</span> could not find function "propensity_scores"</span>
 <span class="r-in"><span class="co"># }</span></span>
 </code></pre></div>
     </div>
