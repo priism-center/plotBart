@@ -53,7 +53,7 @@ plot_common_support <- function(.model, rule = c('both', 'sd', 'chi')){
   values_sd <- .model$sd.cf
   threshold_chi <- rep(3.841, n)
   threshold_sd <- rep(max(.model$sd.obs) + sd(.model$sd.obs), n)
-  dat <- tibble(index = rep(1:n, 2),
+  dat <- tibble(index = rep(seq_len(n), 2),
                 support_rule = sort(rep(c('sd', 'chi'), n)),
                 support_rule_text = sort(rep(c(text_sd, text_chi), n)),
                 value = c(values_chi, values_sd),

@@ -5,7 +5,6 @@
 #' @param .model a model produced by bartCause::bartc()
 #' @param moderator the moderator as a vector
 #' @param n_bins number of bins to cut the moderator with. Defaults to the lesser of 15 and number of distinct levels of the moderator
-#' @param legend legend position. One of c('none', 'right', 'top', 'bottom')
 #'
 #' @author George Perrett, Joe Marlo
 #'
@@ -29,7 +28,7 @@
 #' )
 #' plot_moderator_c_pd(model_results, lalonde$age)
 #' }
-plot_moderator_c_pd <- function(.model, moderator, n_bins = NULL, legend = c('none', 'right', 'top', 'bottom')){
+plot_moderator_c_pd <- function(.model, moderator, n_bins = NULL){
 
   # to satisfy CMD CHECK
   ci_2.5 <- ci_97.5 <- ci_10 <- ci_90 <- NULL
@@ -41,8 +40,6 @@ plot_moderator_c_pd <- function(.model, moderator, n_bins = NULL, legend = c('no
   if (n_mod_levels <= 1) stop('dplyr::n_distinct(moderator) must be at least 2')
   if (is.null(n_bins)) n_bins <- pclamp_(15, 2, n_mod_levels)
   if (!(n_bins > 1 & n_bins <= n_mod_levels)) stop("n_bins must be greater than 1 and less than or equal to dplyr::n_distinct(moderator)")
-
-  legend <- legend[1]
 
   # extract data from model
   new_data <- as_tibble(.model$data.rsp@x)
@@ -97,7 +94,7 @@ plot_moderator_c_pd <- function(.model, moderator, n_bins = NULL, legend = c('no
     labs(title = NULL,
          x = NULL,
          y = 'CATE') +
-    theme(legend.position = legend)
+    theme(legend.position = "bottom")
 
   return(p)
 }

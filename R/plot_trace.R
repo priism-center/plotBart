@@ -32,7 +32,7 @@ plot_trace <- function(.model){
   # ensure model is a of class bartcFit
   validate_model_(.model)
 
-  n_chains <- .model$n.chains
+  n_chains <- seq_len(.model$n.chains)
 
   p <- .model %>%
     bartCause::extract('cate', combineChains = FALSE) %>%
@@ -40,8 +40,8 @@ plot_trace <- function(.model){
     as.data.frame() %>%
     tibble() %>%
     mutate(iteration = row_number()) %>%
-    pivot_longer(1:n_chains) %>%
-    mutate(Chain = factor(sub('V', '', name), levels = as.character(1:n_chains))) %>%
+    pivot_longer(n_chains) %>%
+    mutate(Chain = factor(sub('V', '', name), levels = as.character(n_chains))) %>%
     ggplot(aes(x = iteration, y = value, color = Chain)) +
     geom_line(alpha = 0.8) +
     labs(title = 'Diagnostics: Trace plot',

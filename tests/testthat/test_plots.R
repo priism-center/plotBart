@@ -90,8 +90,7 @@ out_waterfall_2 <- plot_waterfall(
 )
 out_moderator_c_pd <- plot_moderator_c_pd(
   model_results,
-  moderator = lalonde$educ,
-  legend = 'bottom')
+  moderator = lalonde$educ)
 out_moderator_c_loess <- plot_moderator_c_loess(
   model_results,
   moderator = lalonde$educ,
