@@ -1,6 +1,7 @@
 # plotBart 0.1.4
 - propensity_scores() no longer exported
 - Removed legend argument from `plot_moderator_c_pd()`. Legend can be modified using `p + theme(legend.position = "<position>")`
+- `plot_overlap_pScores()` and `propensity_scores()` now pass additional arguments to `bartCause::bartc()` which enables seed setting
 
 # plotBart 0.1.3
 - Homogenized function argument names across functions. This is code breaking as previous argument names are not supported.

@@ -10,7 +10,8 @@ plot_overlap_pScores(
   response,
   confounders,
   plot_type = c("histogram", "density"),
-  pscores = NULL
+  pscores = NULL,
+  ...
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ plot_overlap_pScores(
 \item{plot_type}{the plot type, one of c('Histogram', 'Density')}
 
 \item{pscores}{propensity scores. If not provided, then propensity scores will be calculated using BART}
+
+\item{...}{additional arguments passed to `bartCause::bartc` propensity score calculation}
 }
 \value{
 ggplot object
@@ -41,7 +44,8 @@ plot_overlap_pScores(
  response = 're78',
  confounders = c('age', 'educ'),
  plot_type = 'histogram',
- pscores = NULL
+ pscores = NULL,
+ seed = 44
 )
 }
 }

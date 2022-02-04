@@ -4,7 +4,7 @@
 \alias{propensity_scores}
 \title{Calculate propensity scores using BART}
 \usage{
-propensity_scores(.data, treatment, response, confounders)
+propensity_scores(.data, treatment, response, confounders, ...)
 }
 \arguments{
 \item{.data}{dataframe}
@@ -14,6 +14,8 @@ propensity_scores(.data, treatment, response, confounders)
 \item{response}{character. Name of the response column within .data}
 
 \item{confounders}{character list of column names denoting confounders within .data}
+
+\item{...}{additional arguments passed to `bartCause::bartc`}
 }
 \value{
 a numeric vector of propensity scores
@@ -28,7 +30,8 @@ plotBart:::propensity_scores(
   .data = lalonde,
   treatment = 'treat',
   response = 're78',
-  confounders = c('age', 'educ')
+  confounders = c('age', 'educ'),
+  seed = 44
 )
 }
 }

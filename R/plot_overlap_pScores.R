@@ -8,6 +8,7 @@
 #' @param confounders character list of column names denoting confounders within .data
 #' @param plot_type the plot type, one of c('Histogram', 'Density')
 #' @param pscores propensity scores. If not provided, then propensity scores will be calculated using BART
+#' @param ... additional arguments passed to `bartCause::bartc` propensity score calculation
 #' @author George Perrett, Joe Marlo
 #'
 #' @return ggplot object
@@ -27,10 +28,11 @@
 #'  response = 're78',
 #'  confounders = c('age', 'educ'),
 #'  plot_type = 'histogram',
-#'  pscores = NULL
+#'  pscores = NULL,
+#'  seed = 44
 #')
 #'}
-plot_overlap_pScores <- function(.data, treatment, response, confounders, plot_type = c("histogram", "density"), pscores = NULL) {
+plot_overlap_pScores <- function(.data, treatment, response, confounders, plot_type = c("histogram", "density"), pscores = NULL, ...) {
 
   # to satisfy CMD CHECK
   Z <- ..count.. <- ..density.. <- NULL
@@ -45,7 +47,8 @@ plot_overlap_pScores <- function(.data, treatment, response, confounders, plot_t
       .data = .data,
       treatment = treatment,
       response = response,
-      confounders = confounders
+      confounders = confounders,
+      ...
     )
   }
 
@@ -103,6 +106,7 @@ plot_overlap_pScores <- function(.data, treatment, response, confounders, plot_t
 #' @param treatment character. Name of the treatment column within .data
 #' @param response character. Name of the response column within .data
 #' @param confounders character list of column names denoting confounders within .data
+#' @param ... additional arguments passed to `bartCause::bartc`
 #'
 #' @return a numeric vector of propensity scores
 #'
@@ -119,10 +123,11 @@ plot_overlap_pScores <- function(.data, treatment, response, confounders, plot_t
 #'   .data = lalonde,
 #'   treatment = 'treat',
 #'   response = 're78',
-#'   confounders = c('age', 'educ')
+#'   confounders = c('age', 'educ'),
+#'   seed = 44
 #' )
 #' }
-propensity_scores <- function(.data, treatment, response, confounders){
+propensity_scores <- function(.data, treatment, response, confounders, ...){
 
   if (treatment %notin% colnames(.data)) stop('treatment not found in .data')
   if (response %notin% colnames(.data)) stop('response not found in .data')
@@ -135,7 +140,8 @@ propensity_scores <- function(.data, treatment, response, confounders){
   confounders_mat <- as.matrix(.data[, 3:ncol(.data)])
   dim.red_results <- bartCause::bartc(response = .data[[response]],
                                       treatment = .data[[treatment]],
-                                      confounders = as.matrix(.data[confounders]))
+                                      confounders = as.matrix(.data[confounders]),
+                                      ...)
 
   return(dim.red_results$p.score)
 }

@@ -28,14 +28,16 @@ out_overlap_pscores_hist <- plot_overlap_pScores(
   treatment = 'treat',
   response = 're78',
   confounders = confounders,
-  plot_type = 'histogram'
+  plot_type = 'histogram',
+  seed = 44
 )
 out_overlap_pscores_density <- plot_overlap_pScores(
   .data = lalonde,
   treatment = 'treat',
   response = 're78',
   confounders = confounders,
-  plot_type = 'density'
+  plot_type = 'density',
+  seed = 44
 )
 out_overlap_vars_hist <- plot_overlap_vars(
   .data = lalonde,
@@ -131,9 +133,9 @@ test_that("plot_common_support() output is correct", {
 })
 test_that("plot_overlap_pScores() output is correct", {
   expect_s3_class(out_overlap_pscores_hist, 'ggplot')
-  # vdiffr::expect_doppelganger('overlapPscoresHist', out_overlap_pscores_hist)
+  vdiffr::expect_doppelganger('overlapPscoresHist', out_overlap_pscores_hist)
   expect_s3_class(out_overlap_pscores_density, 'ggplot')
-  # vdiffr::expect_doppelganger('overlapPscoresDensity', out_overlap_pscores_density)
+  vdiffr::expect_doppelganger('overlapPscoresDensity', out_overlap_pscores_density)
 })
 test_that("plot_overlap_vars() output is correct", {
   expect_s3_class(out_overlap_vars_hist, 'ggplot')
