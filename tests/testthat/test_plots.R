@@ -1,4 +1,6 @@
 
+set.seed(44)
+
 # model to use in tests ---------------------------------------------------
 
 data(lalonde)
@@ -9,7 +11,8 @@ model_results <- bartCause::bartc(
   confounders = as.matrix(lalonde[, confounders]),
   estimand = 'ate',
   commonSup.rule = 'none',
-  keepTrees = TRUE
+  keepTrees = TRUE,
+  seed = 44
 )
 
 
@@ -114,38 +117,57 @@ out_moderator_search <- plot_moderator_search(
 
 # tests -------------------------------------------------------------------
 
-test_that("plot_balance() output is ggplot object", {
+test_that("plot_balance() output is correct", {
   expect_s3_class(out_balance, 'ggplot')
+  vdiffr::expect_doppelganger('balance', out_balance)
 })
-test_that("plot_common_support() output is ggplot object", {
+test_that("plot_common_support() output is correct", {
   expect_s3_class(out_support_none, 'ggplot')
+  vdiffr::expect_doppelganger('supportNone', out_support_none)
   expect_s3_class(out_support_sd, 'ggplot')
+  vdiffr::expect_doppelganger('supportSD', out_support_sd)
   expect_s3_class(out_support_chi, 'ggplot')
+  vdiffr::expect_doppelganger('supportChi', out_support_chi)
 })
-test_that("plot_overlap_pScores() output is ggplot object", {
+test_that("plot_overlap_pScores() output is correct", {
   expect_s3_class(out_overlap_pscores_hist, 'ggplot')
+  # vdiffr::expect_doppelganger('overlapPscoresHist', out_overlap_pscores_hist)
   expect_s3_class(out_overlap_pscores_density, 'ggplot')
+  # vdiffr::expect_doppelganger('overlapPscoresDensity', out_overlap_pscores_density)
 })
-test_that("plot_overlap_vars() output is ggplot object", {
+test_that("plot_overlap_vars() output is correct", {
   expect_s3_class(out_overlap_vars_hist, 'ggplot')
+  vdiffr::expect_doppelganger('overlapVarsHist', out_overlap_vars_hist)
   expect_s3_class(out_overlap_vars_density, 'ggplot')
+  vdiffr::expect_doppelganger('overlapVarsDensity', out_overlap_vars_density)
 })
-test_that("plot_trace() output is ggplot object", {
+test_that("plot_trace() output is correct", {
   expect_s3_class(out_trace, 'ggplot')
+  vdiffr::expect_doppelganger('trace', out_trace)
 })
-test_that("plot_*ATE outputs are all ggplot objects", {
+test_that("plot_*ATE outputs are all correct", {
   expect_s3_class(out_CATE, 'ggplot')
+  vdiffr::expect_doppelganger('CATE', out_CATE)
   expect_s3_class(out_PATE, 'ggplot')
+  vdiffr::expect_doppelganger('PATE', out_PATE)
   expect_s3_class(out_SATE, 'ggplot')
+  vdiffr::expect_doppelganger('SATE', out_SATE)
 })
-test_that("plot_waterfall() output is ggplot object", {
+test_that("plot_waterfall() output is correct", {
   expect_s3_class(out_waterfall, 'ggplot')
+  vdiffr::expect_doppelganger('waterfall1', out_waterfall)
   expect_s3_class(out_waterfall_2, 'ggplot')
+  vdiffr::expect_doppelganger('waterfall2', out_waterfall_2)
 })
-test_that("plot_moderator_* outputs are all ggplot objects", {
+test_that("plot_moderator_* outputs are all corrects", {
   expect_s3_class(out_moderator_c_pd, 'ggplot')
+  vdiffr::expect_doppelganger('mod_c_pd', out_moderator_c_pd)
   expect_s3_class(out_moderator_c_loess, 'ggplot')
+  vdiffr::expect_doppelganger('mod_c_loess', out_moderator_c_loess)
   expect_s3_class(out_moderator_d_density, 'ggplot')
+  vdiffr::expect_doppelganger('mod_d_density', out_moderator_d_density)
   expect_s3_class(out_moderator_d_linerange, 'ggplot')
+  vdiffr::expect_doppelganger('mod_d_linerange', out_moderator_d_linerange)
   expect_s3_class(out_moderator_search, 'ggplot')
+  vdiffr::expect_doppelganger('mod_search', out_moderator_search)
 })
