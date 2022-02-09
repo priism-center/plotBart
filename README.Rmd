@@ -64,5 +64,5 @@ plotBart is currently in development and is available to test by installing via:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("joemarlo/plotBart")
+remotes::install_github('joemarlo/plotBart@*release')
 ```

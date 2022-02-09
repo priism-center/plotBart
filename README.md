@@ -63,5 +63,5 @@ installing via:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("joemarlo/plotBart")
+remotes::install_github('joemarlo/plotBart@*release')
 ```

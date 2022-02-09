@@ -15,7 +15,7 @@ propensity_scores(.data, treatment, response, confounders, ...)
 
 \item{confounders}{character list of column names denoting confounders within .data}
 
-\item{...}{additional arguments passed to `bartCause::bartc`}
+\item{\dots}{additional arguments passed to `bartCause::bartc`}
 }
 \value{
 a numeric vector of propensity scores

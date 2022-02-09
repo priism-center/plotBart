@@ -27,7 +27,7 @@ plot_overlap_pScores(
 
 \item{pscores}{propensity scores. If not provided, then propensity scores will be calculated using BART}
 
-\item{...}{additional arguments passed to `bartCause::bartc` propensity score calculation}
+\item{\dots}{additional arguments passed to `bartCause::bartc` propensity score calculation}
 }
 \value{
 ggplot object

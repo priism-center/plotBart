@@ -8,7 +8,7 @@
 #' @param confounders character list of column names denoting confounders within .data
 #' @param plot_type the plot type, one of c('Histogram', 'Density')
 #' @param pscores propensity scores. If not provided, then propensity scores will be calculated using BART
-#' @param ... additional arguments passed to `bartCause::bartc` propensity score calculation
+#' @param \dots additional arguments passed to `bartCause::bartc` propensity score calculation
 #' @author George Perrett, Joe Marlo
 #'
 #' @return ggplot object
@@ -106,7 +106,7 @@ plot_overlap_pScores <- function(.data, treatment, response, confounders, plot_t
 #' @param treatment character. Name of the treatment column within .data
 #' @param response character. Name of the response column within .data
 #' @param confounders character list of column names denoting confounders within .data
-#' @param ... additional arguments passed to `bartCause::bartc`
+#' @param \dots additional arguments passed to `bartCause::bartc`
 #'
 #' @return a numeric vector of propensity scores
 #'
