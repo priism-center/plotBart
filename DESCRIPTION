@@ -8,8 +8,8 @@ Authors@R: c(
   )
 Description: Tools to assist diagnostic and plotting in the causal inference modeling process. Supplements the bartCause package.
 License: MIT + file LICENSE
-URL: https://joemarlo.github.io/plotBart, https://github.com/joemarlo/plotBart
-BugReports: https://github.com/joemarlo/plotBart/issues
+URL: https://priism-center.github.io/plotBart/, https://github.com/priism-center/plotBart
+BugReports: https://github.com/priism-center/plotBart/issues
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.2

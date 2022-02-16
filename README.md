@@ -7,12 +7,11 @@
 
 [![license](https://img.shields.io/badge/license-MIT%20+%20file%20LICENSE-lightgrey.svg)](/LICENSE.md)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![R-CMD-check](https://github.com/joemarlo/plotBart/workflows/R-CMD-check/badge.svg)](https://github.com/joemarlo/plotBart/actions)
+[![R-CMD-check](https://github.com/priism-center/plotBart/workflows/R-CMD-check/badge.svg)](https://github.com/priism-center/plotBart/actions)
 [![last
-commit](https://img.shields.io/github/last-commit/joemarlo/plotBart)](https://github.com/joemarlo/plotBart/commits/master)
-[![CodeFactor](https://www.codefactor.io/repository/github/joemarlo/plotbart/badge)](https://www.codefactor.io/repository/github/joemarlo/plotbart)
-[![Codecov test
-coverage](https://codecov.io/gh/joemarlo/plotBart/branch/master/graph/badge.svg)](https://codecov.io/gh/joemarlo/plotBart?branch=master)
+commit](https://img.shields.io/github/last-commit/priism-center/plotBart)](https://github.com/priism-center/plotBart/commits/master)
+[![CodeFactor](https://www.codefactor.io/repository/github/priism-center/plotbart/badge)](https://www.codefactor.io/repository/github/priism-center/plotbart)
+<!--[![Codecov test coverage](https://codecov.io/gh/priism-center/plotBart/branch/master/graph/badge.svg)](https://codecov.io/gh/joemarlo/plotBart?branch=master)-->
 <!-- badges: end -->
 
 plotBart is a diagnostic and plotting package for
@@ -63,5 +62,5 @@ installing via:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github('joemarlo/plotBart@*release')
+remotes::install_github('priism-center/plotBart@*release')
 ```
