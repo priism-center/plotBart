@@ -1,4 +1,4 @@
-#' Plot the icates conditional on a continuous moderator
+#' Partial dependency plot of a continuous moderating variable
 #'
 #' @description Plot a partial dependency plot with a continuous covariate from used in a bartCause model. Identify treatment effect variation predicted across levels of a continuous variable.
 #'
@@ -105,7 +105,7 @@ plot_moderator_c_pd <- function(.model, moderator, n_bins = NULL){
 }
 
 
-#' Plot the icates conditional on a continuous moderator
+#' Loess plot of a continuous moderating variable
 #'
 #' @description Plot the Loess prediction of ICATEs by a continuous covariate. This is an alternative to partial dependency plots to assess treatment effect heterogeneity by a continuous covariate. See Carnegie, Dorie and Hill 2019.
 #'
@@ -181,7 +181,7 @@ plot_moderator_c_loess <- function(.model, moderator, line_color = 'blue'){
   return(p)
 }
 
-#' Plot the icates conditional on a discrete moderator
+#' Plot the conditional average treatment effect conditional on a discrete moderator
 #'
 #' @description Plot the Conditional Average Treatment Effect split by a discrete moderating variable. This plot will provide a visual test of moderation by discrete variables.
 #'
@@ -259,7 +259,7 @@ plot_moderator_d_density <- function(.model, moderator, .alpha = 0.7, facet = FA
 
 
 
-#'
+#' @title Plot the posterior interval of the conditional average treatment effect grouped by a discrete variable
 #' @description Plots the range of the Conditional Average Treatment Effect grouped by a discrete variable. This is analogous to plot_moderator_d_density but is preferable for moderators with many categories. Rather than plotting the full density, the posterior range is shown.
 #'
 #' @param .model a model produced by bartCause::bartc()
@@ -342,7 +342,7 @@ plot_moderator_d_linerange <- function(.model, moderator, .alpha = 0.7, horizont
   return(p)
 }
 
-#'
+#' @title Plot a single regression tree of covariates on ICATEs
 #' 
 #' 
 #' @description Plot a single regression tree for exploratory heterogeneous effects. Fit single regression tree on bartc() icates to produce variable importance plot. This plot is useful for identifying potential moderating variables.

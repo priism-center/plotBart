@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_moderators.R
 \name{plot_moderator_c_pd}
 \alias{plot_moderator_c_pd}
-\title{Plot the icates conditional on a continuous moderator}
+\title{Partial dependency plot of a continuous moderating variable}
 \usage{
 plot_moderator_c_pd(.model, moderator, n_bins = NULL)
 }
@@ -17,7 +17,10 @@ plot_moderator_c_pd(.model, moderator, n_bins = NULL)
 ggplot object
 }
 \description{
-TODO: description
+Plot a partial dependency plot with a continuous covariate from used in a bartCause model. Identify treatment effect variation predicted across levels of a continuous variable.
+}
+\details{
+Partial dependency plots are one way to evaluate heterogeneous treatment effects that vary by values of a continuous covaraite. For more information on partial dependency plots from BART causal inference models see Green and Kern 2012.
 }
 \examples{
 \dontrun{
@@ -33,6 +36,11 @@ model_results <- bartCause::bartc(
 )
 plot_moderator_c_pd(model_results, lalonde$age)
 }
+}
+\references{
+Green, D. P., & Kern, H. L. (2012). 
+Modeling heterogeneous treatment effects in survey experiments with Bayesian additive regression trees. 
+Public opinion quarterly, 76(3), 491-511.
 }
 \author{
 George Perrett, Joe Marlo

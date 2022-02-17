@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_ATE.R
 \name{plot_PATE}
 \alias{plot_PATE}
-\title{Plot histogram or density of individual treatment effects}
+\title{Plot histogram or density of population average treatment effect}
 \usage{
 plot_PATE(
   .model,
@@ -23,7 +23,7 @@ plot_PATE(
 
 \item{ci_95}{TRUE/FALSE. Show the 95\% credible interval?}
 
-\item{reference}{numeric. Show a vertical reference line at this x-axis value}
+\item{reference}{numeric. Show a vertical reference line at this value}
 
 \item{.mean}{TRUE/FALSE. Show the mean reference line}
 
@@ -33,10 +33,10 @@ plot_PATE(
 ggplot object
 }
 \description{
-TODO: description
+Plot shows the population average treatment effect which is derived from the posterior predictive distribution of the difference between y|z=1, X and y|z=0, X.
+Means PATE will resemble CATE and SATE but PATE will account for more uncertainty and is recommended for informing inferences on the average treatment effect.
 }
 \examples{
-\dontrun{
 data(lalonde)
 confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 model_results <- bartCause::bartc(
@@ -47,7 +47,6 @@ model_results <- bartCause::bartc(
  commonSup.rule = 'none'
 )
 plot_PATE(model_results)
-}
 }
 \author{
 George Perrett, Joe Marlo

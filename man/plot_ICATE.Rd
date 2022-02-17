@@ -9,20 +9,21 @@ plot_ICATE(.model, .group_by = NULL, n_bins = 30, .alpha = 0.7)
 \arguments{
 \item{.model}{a model produced by bartCause::bartc()}
 
-\item{.group_by}{a grouping variable as a vector}
-
-\item{n_bins}{number of bins. Defaults to 30}
-
 \item{.alpha}{transparency of histograms}
+
+\item{group.by}{a grouping variable as a vector}
+
+\item{nbins}{number of bins}
 }
 \value{
 ggplot object
 }
 \description{
-TODO: description
+Plots a histogram of individual conditional average treatment effects (ICATE).
+ICATEs are the difference in each individuals predicted outcome under the treatment and predicted outcome under the control averaged over the individual.
+Plots of ICATEs are useful to identify potential heterogeneous treatment effects between different individuals. ICATE plots can be grouped by discrete variables.
 }
 \examples{
-\dontrun{
 data(lalonde)
 confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 model_results <- bartCause::bartc(
@@ -33,7 +34,6 @@ model_results <- bartCause::bartc(
  commonSup.rule = 'none'
 )
 plot_ICATE(model_results, lalonde$married)
-}
 }
 \author{
 George Perrett

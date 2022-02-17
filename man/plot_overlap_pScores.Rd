@@ -33,7 +33,7 @@ plot_overlap_pScores(
 ggplot object
 }
 \description{
-Plot histograms showing the overlap between propensity scores by treatment status. TODO: reference?
+Plot histograms showing the overlap between propensity scores by treatment status.
 }
 \examples{
 \dontrun{

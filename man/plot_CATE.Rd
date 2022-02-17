@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_ATE.R
 \name{plot_CATE}
 \alias{plot_CATE}
-\title{Plot histogram or density of individual treatment effects}
+\title{Plot the histogram or density of the conditional average treatment effect.}
 \usage{
 plot_CATE(
   .model,
@@ -23,7 +23,7 @@ plot_CATE(
 
 \item{ci_95}{TRUE/FALSE. Show the 95\% credible interval?}
 
-\item{reference}{numeric. Show a vertical reference line at this x-axis value}
+\item{reference}{numeric. Show a vertical reference line at this value}
 
 \item{.mean}{TRUE/FALSE. Show the mean reference line}
 
@@ -33,10 +33,13 @@ plot_CATE(
 ggplot object
 }
 \description{
-TODO: description
+Plot the conditional average treatment effect (CATE) of a bartCause model.
+The conditional average treatment effect is derived form taking a fitted BART model and
+making predictions for y1 = y|z = 1, X and y0 = y|z = 0, X then averaging over the population.
+This plot is an estimate the treatments average effect.
+Means of the CATE distribution will resemble SATE and PATE but the CATE distribution account for more uncertainly than SATE and less uncertainty than PATE.
 }
 \examples{
-\dontrun{
 data(lalonde)
 confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 model_results <- bartCause::bartc(
@@ -47,7 +50,6 @@ model_results <- bartCause::bartc(
  commonSup.rule = 'none'
 )
 plot_CATE(model_results)
-}
 }
 \author{
 George Perrett, Joe Marlo

@@ -13,7 +13,7 @@ plot_trace(.model)
 ggplot object
 }
 \description{
-Returns a ggplot of the estimated effect over each iteration of the model fit. TODO: describe what the plot is and how it should be used
+Returns a ggplot of the estimated effect over each iteration of the model fit. This is used to visually assess the convergence of MCMC sampling. Chains should be well mixed such that no single color is notably separate from others.
 }
 \examples{
 \dontrun{

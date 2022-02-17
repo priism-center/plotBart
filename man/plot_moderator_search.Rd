@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_moderators.R
 \name{plot_moderator_search}
 \alias{plot_moderator_search}
-\title{Plot a single regression tree for exploratory heterogeneous effects}
+\title{Plot a single regression tree of covariates on ICATEs}
 \usage{
 plot_moderator_search(.model, max_depth = c(2, 1, 3))
 }
@@ -15,7 +15,8 @@ plot_moderator_search(.model, max_depth = c(2, 1, 3))
 ggplot object
 }
 \description{
-Fit single regression tree on bartc() icates to produce variable importance plot.
+Plot a single regression tree for exploratory heterogeneous effects. Fit single regression tree on bartc() icates to produce variable importance plot. This plot is useful for identifying potential moderating variables.
+Tree depth may be set to depths 1, 2 or 3. Terminal nodes signal the Conditional Average Treatment effect within levels of moderation variables. Trees with differerent values across terminal nodes suggest strong treatment effect moderation.
 }
 \examples{
 \dontrun{

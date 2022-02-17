@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_moderators.R
 \name{plot_moderator_d_linerange}
 \alias{plot_moderator_d_linerange}
-\title{Plot the icates conditional on a discrete moderator}
+\title{Plot the posterior interval of the conditional average treatment effect grouped by a discrete variable}
 \usage{
 plot_moderator_d_linerange(.model, moderator, .alpha = 0.7, horizontal = FALSE)
 }
@@ -19,7 +19,7 @@ plot_moderator_d_linerange(.model, moderator, .alpha = 0.7, horizontal = FALSE)
 ggplot object
 }
 \description{
-TODO: description
+Plots the range of the Conditional Average Treatment Effect grouped by a discrete variable. This is analogous to plot_moderator_d_density but is preferable for moderators with many categories. Rather than plotting the full density, the posterior range is shown.
 }
 \examples{
 \dontrun{

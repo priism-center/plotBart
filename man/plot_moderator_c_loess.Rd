@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_moderators.R
 \name{plot_moderator_c_loess}
 \alias{plot_moderator_c_loess}
-\title{Plot the icates conditional on a continuous moderator}
+\title{Loess plot of a continuous moderating variable}
 \usage{
 plot_moderator_c_loess(.model, moderator, line_color = "blue")
 }
@@ -17,7 +17,7 @@ plot_moderator_c_loess(.model, moderator, line_color = "blue")
 ggplot object
 }
 \description{
-TODO: description
+Plot the Loess prediction of ICATEs by a continuous covariate. This is an alternative to partial dependency plots to assess treatment effect heterogeneity by a continuous covariate. See Carnegie, Dorie and Hill 2019.
 }
 \examples{
 \dontrun{
@@ -32,6 +32,11 @@ model_results <- bartCause::bartc(
 )
 plot_moderator_c_loess(model_results, lalonde$age)
 }
+}
+\references{
+Carnegie, N., Dorie, V., & Hill, J. L. (2019). 
+Examining treatment effect heterogeneity using BART. 
+Observational Studies, 5(2), 52-70.
 }
 \author{
 George Perrett, Joe Marlo

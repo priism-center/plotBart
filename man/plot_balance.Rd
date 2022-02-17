@@ -17,7 +17,7 @@ plot_balance(.data, treatment, confounders)
 ggplot object
 }
 \description{
-Visualize balance of variables between treatment and control groups.
+Visualize balance of variables between treatment and control groups. Balance plot reflects balance in standardized units.
 }
 \examples{
 data(lalonde)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_moderators.R
 \name{plot_moderator_d_density}
 \alias{plot_moderator_d_density}
-\title{Plot the icates conditional on a discrete moderator}
+\title{Plot the conditional average treatment effect conditional on a discrete moderator}
 \usage{
 plot_moderator_d_density(
   .model,
@@ -27,7 +27,7 @@ plot_moderator_d_density(
 ggplot object
 }
 \description{
-TODO: description
+Plot the Conditional Average Treatment Effect split by a discrete moderating variable. This plot will provide a visual test of moderation by discrete variables.
 }
 \examples{
 \dontrun{

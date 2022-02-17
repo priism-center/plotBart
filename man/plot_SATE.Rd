@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_ATE.R
 \name{plot_SATE}
 \alias{plot_SATE}
-\title{Plot histogram or density of individual treatment effects}
+\title{Plot histogram or density of sample conditional average treatment effects}
 \usage{
 plot_SATE(
   .model,
@@ -23,7 +23,7 @@ plot_SATE(
 
 \item{ci_95}{TRUE/FALSE. Show the 95\% credible interval?}
 
-\item{reference}{numeric. Show a vertical reference line at this x-axis value}
+\item{reference}{numeric. Show a vertical reference line at this value}
 
 \item{.mean}{TRUE/FALSE. Show the mean reference line}
 
@@ -33,10 +33,10 @@ plot_SATE(
 ggplot object
 }
 \description{
-TODO: description
+Plot a histogram or density of the sample average treatment effect(SATE). The sample average treatment effect is derived from taking the difference of each individuals observed outcome and a predicted counter factual outcome from a BART model averaged over the population.
+The mean of SATE will resemble means of CATE and PATE but will account for the least uncertainty.
 }
 \examples{
-\dontrun{
 data(lalonde)
 confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 model_results <- bartCause::bartc(
@@ -47,7 +47,6 @@ model_results <- bartCause::bartc(
  commonSup.rule = 'none'
 )
 plot_SATE(model_results)
-}
 }
 \author{
 George Perrett, Joe Marlo
