@@ -1,6 +1,6 @@
 #' Trace plot the estimands of a bartCause::bartc() model
 #'
-#' Returns a ggplot of the estimated effect over each iteration of the model fit. TODO: describe what the plot is and how it should be used
+#' Returns a ggplot of the estimated effect over each iteration of the model fit. This is used to visually assess the convergence of MCMC sampling. Chains should be well mixed such that no single color is notably separate from others. 
 #'
 #' @param .model a model produced by bartCause::bartc()
 #' @author Joe Marlo, George Perrett

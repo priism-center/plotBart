@@ -1,6 +1,6 @@
 #' Plot the balance
 #'
-#' Visualize balance of variables between treatment and control groups.
+#' @description Visualize balance of variables between treatment and control groups. Balance plot reflects balance in standardized units.
 #'
 #' @param .data dataframe
 #' @param treatment the column denoted treatment. Must be binary.

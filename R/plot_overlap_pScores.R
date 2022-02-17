@@ -1,6 +1,6 @@
 #' Plot the overlap via propensity score method
 #'
-#' Plot histograms showing the overlap between propensity scores by treatment status. TODO: reference?
+#' Plot histograms showing the overlap between propensity scores by treatment status. 
 #'
 #' @param .data dataframe
 #' @param treatment character. Name of the treatment column within .data

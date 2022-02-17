@@ -1,14 +1,19 @@
-#' Plot histogram or density of individual treatment effects
-#'
-#' TODO: description
+#' @description Plot the histogram or density of the conditional average treatment effect.
 #'
 #' @param .model a model produced by bartCause::bartc()
 #' @param type histogram or density
 #' @param ci_80 TRUE/FALSE. Show the 80\% credible interval?
 #' @param ci_95 TRUE/FALSE. Show the 95\% credible interval?
-#' @param reference numeric. Show a vertical reference line at this x-axis value
+#' @param reference numeric. Show a vertical reference line at this value
 #' @param .mean TRUE/FALSE. Show the mean reference line
 #' @param .median TRUE/FALSE. Show the median reference line
+#'
+#'@details Plot the conditional average treatment effect (CATE) of a bartCause model.
+#' The conditional average treatment effect is derived form taking a fitted BART model and
+#' making predictions for y1 = y|z = 1, X and y0 = y|z = 0, X then averaging over the population.
+#' This plot is an estimate the treatments average effect.
+#' Means of the CATE distribution will resemble SATE and PATE but the CATE distribution account for more uncertainly than SATE and less uncertainty than PATE.
+#'
 #'
 #' @author George Perrett, Joe Marlo
 #'
@@ -17,7 +22,6 @@
 #'
 #' @import ggplot2 bartCause
 #' @examples
-#' \dontrun{
 #' data(lalonde)
 #' confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 #' model_results <- bartCause::bartc(
@@ -28,7 +32,6 @@
 #'  commonSup.rule = 'none'
 #' )
 #' plot_CATE(model_results)
-#' }
 plot_CATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, ci_95 = FALSE, reference = NULL, .mean = FALSE, .median = FALSE){
 
   # to satisfy CMD CHECK
@@ -107,11 +110,13 @@ plot_CATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
 
 #' Plot icates
 #'
-#' TODO: description
+#' @description Plots a histogram of individual conditional average treatment effects (ICATE).
+#' ICATEs are the difference in each individuals predicted outcome under the treatment and predicted outcome under the control averaged over the individual.
+#' Plots of ICATEs are useful to identify potential heterogeneous treatment effects between different individuals. ICATE plots can be grouped by discrete variables.
 #'
 #' @param .model a model produced by bartCause::bartc()
-#' @param .group_by a grouping variable as a vector
-#' @param n_bins number of bins. Defaults to 30
+#' @param group.by a grouping variable as a vector
+#' @param nbins number of bins
 #' @param .alpha transparency of histograms
 #'
 #' @author George Perrett
@@ -122,7 +127,6 @@ plot_CATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
 #' @import ggplot2 dplyr bartCause
 #'
 #' @examples
-#' \dontrun{
 #' data(lalonde)
 #' confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 #' model_results <- bartCause::bartc(
@@ -133,7 +137,6 @@ plot_CATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
 #'  commonSup.rule = 'none'
 #' )
 #' plot_ICATE(model_results, lalonde$married)
-#' }
 plot_ICATE <- function(.model, .group_by = NULL, n_bins = 30, .alpha = .7){
 
   # to satisfy CMD CHECK
@@ -169,17 +172,19 @@ plot_ICATE <- function(.model, .group_by = NULL, n_bins = 30, .alpha = .7){
   return(p)
 }
 
-#' Plot histogram or density of individual treatment effects
+#' @description Plot histogram or density of population average treatment effect
 #'
-#' TODO: description
 #'
 #' @param .model a model produced by bartCause::bartc()
 #' @param type histogram or density
 #' @param ci_80 TRUE/FALSE. Show the 80\% credible interval?
 #' @param ci_95 TRUE/FALSE. Show the 95\% credible interval?
-#' @param reference numeric. Show a vertical reference line at this x-axis value
+#' @param reference numeric. Show a vertical reference line at this value
 #' @param .mean TRUE/FALSE. Show the mean reference line
 #' @param .median TRUE/FALSE. Show the median reference line
+#'
+#' @details Plot shows the population average treatment effect which is derived from the posterior predictive distribution of the difference between y|z=1, X and y|z=0, X.
+#' Means PATE will resemble CATE and SATE but PATE will account for more uncertainty and is recommended for informing inferences on the average treatment effect.
 #'
 #' @author George Perrett, Joe Marlo
 #'
@@ -188,7 +193,6 @@ plot_ICATE <- function(.model, .group_by = NULL, n_bins = 30, .alpha = .7){
 #'
 #' @import ggplot2 bartCause
 #' @examples
-#' \dontrun{
 #' data(lalonde)
 #' confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 #' model_results <- bartCause::bartc(
@@ -199,7 +203,6 @@ plot_ICATE <- function(.model, .group_by = NULL, n_bins = 30, .alpha = .7){
 #'  commonSup.rule = 'none'
 #' )
 #' plot_PATE(model_results)
-#' }
 plot_PATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, ci_95 = FALSE, reference = NULL, .mean = FALSE, .median = FALSE){
 
   # to satisfy CMD CHECK
@@ -276,16 +279,18 @@ plot_PATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
 
 #' Plot histogram or density of individual treatment effects
 #'
-#' TODO: description
+#' @description Plot a histogram or density of the sample average treatment effect(SATE).
 #'
 #' @param .model a model produced by bartCause::bartc()
 #' @param type histogram or density
 #' @param ci_80 TRUE/FALSE. Show the 80\% credible interval?
 #' @param ci_95 TRUE/FALSE. Show the 95\% credible interval?
-#' @param reference numeric. Show a vertical reference line at this x-axis value
+#' @param reference numeric. Show a vertical reference line at this value
 #' @param .mean TRUE/FALSE. Show the mean reference line
 #' @param .median TRUE/FALSE. Show the median reference line
 #'
+#' @details The sample average treatment effect is derived from taking the difference of each individuals observed outcome and a predicted counter factual outcome from a BART model averaged over the population.
+#' The mean of SATE will resemble means of CATE and PATE but will account for the least uncertainty.
 #' @author George Perrett, Joe Marlo
 #'
 #' @return ggplot object
@@ -293,7 +298,6 @@ plot_PATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
 #'
 #' @import ggplot2 bartCause
 #' @examples
-#' \dontrun{
 #' data(lalonde)
 #' confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 #' model_results <- bartCause::bartc(
@@ -304,7 +308,6 @@ plot_PATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
 #'  commonSup.rule = 'none'
 #' )
 #' plot_SATE(model_results)
-#' }
 plot_SATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, ci_95 = FALSE, reference = NULL, .mean = FALSE, .median = FALSE){
 
   # to satisfy CMD CHECK
