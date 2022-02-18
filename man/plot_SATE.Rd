@@ -23,7 +23,7 @@ plot_SATE(
 
 \item{ci_95}{TRUE/FALSE. Show the 95\% credible interval?}
 
-\item{reference}{numeric. Show a vertical reference line at this value}
+\item{reference}{numeric. Show a vertical reference line at this x-axis value}
 
 \item{.mean}{TRUE/FALSE. Show the mean reference line}
 
@@ -37,6 +37,7 @@ Plot a histogram or density of the sample average treatment effect(SATE). The sa
 The mean of SATE will resemble means of CATE and PATE but will account for the least uncertainty.
 }
 \examples{
+\dontrun{
 data(lalonde)
 confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 model_results <- bartCause::bartc(
@@ -47,6 +48,7 @@ model_results <- bartCause::bartc(
  commonSup.rule = 'none'
 )
 plot_SATE(model_results)
+}
 }
 \author{
 George Perrett, Joe Marlo

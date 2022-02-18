@@ -1,3 +1,6 @@
+# plotBart 0.1.5
+- Documentation is now included for each function
+
 # plotBart 0.1.4
 - propensity_scores() no longer exported
 - Removed legend argument from `plot_moderator_c_pd()`. Legend can be modified using `p + theme(legend.position = "<position>")`
@@ -11,7 +14,8 @@
 - Fixed bug in waterfall plot
 
 # plotBart 0.1.1
+- Fixed bug in pate plot
 
 # plotBart 0.1.0
-Initial release
+- Initial release
 

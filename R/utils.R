@@ -58,3 +58,32 @@ zipper_ <- function(x, y) {
   zipped <- unlist(lapply(length_out, function(i) c(x[i], y[i])))
   return(zipped)
 }
+
+# to satisfy CMD CHECK when using pipe variables
+if(getRversion() >= "2.15.1") {
+  utils::globalVariables(
+    c(
+      'x',
+      'xend',
+      'y',
+      'yend',
+      'y_new',
+      'yend_new',
+      'name',
+      'value',
+      'support_rule',
+      'index',
+      'threshold',
+      'point',
+      '.min',
+      '.max',
+      'label',
+      'Z',
+      'Z_treat',
+      '..count..',
+      '..density..',
+      'iteration',
+      'Chain'
+    )
+  )
+}

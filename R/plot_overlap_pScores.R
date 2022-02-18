@@ -1,6 +1,6 @@
 #' Plot the overlap via propensity score method
 #'
-#' Plot histograms showing the overlap between propensity scores by treatment status. 
+#' Plot histograms showing the overlap between propensity scores by treatment status.
 #'
 #' @param .data dataframe
 #' @param treatment character. Name of the treatment column within .data
@@ -33,9 +33,6 @@
 #')
 #'}
 plot_overlap_pScores <- function(.data, treatment, response, confounders, plot_type = c("histogram", "density"), pscores = NULL, ...) {
-
-  # to satisfy CMD CHECK
-  Z <- ..count.. <- ..density.. <- NULL
 
   plot_type <- tolower(plot_type[[1]])
   if (plot_type %notin% c('histogram', 'density')) stop('plot_type must be one of c("histogram", "density"')

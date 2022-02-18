@@ -37,6 +37,7 @@ Plot shows the population average treatment effect which is derived from the pos
 Means PATE will resemble CATE and SATE but PATE will account for more uncertainty and is recommended for informing inferences on the average treatment effect.
 }
 \examples{
+\dontrun{
 data(lalonde)
 confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 model_results <- bartCause::bartc(
@@ -47,6 +48,7 @@ model_results <- bartCause::bartc(
  commonSup.rule = 'none'
 )
 plot_PATE(model_results)
+}
 }
 \author{
 George Perrett, Joe Marlo

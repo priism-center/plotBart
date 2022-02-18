@@ -7,10 +7,10 @@
 #' @param n_bins number of bins to cut the moderator with. Defaults to the lesser of 15 and number of distinct levels of the moderator
 #' @details Partial dependency plots are one way to evaluate heterogeneous treatment effects that vary by values of a continuous covaraite. For more information on partial dependency plots from BART causal inference models see Green and Kern 2012.
 #' @author George Perrett, Joe Marlo
-#' 
-#' @references 
-#' Green, D. P., & Kern, H. L. (2012). 
-#' Modeling heterogeneous treatment effects in survey experiments with Bayesian additive regression trees. 
+#'
+#' @references
+#' Green, D. P., & Kern, H. L. (2012).
+#' Modeling heterogeneous treatment effects in survey experiments with Bayesian additive regression trees.
 #' Public opinion quarterly, 76(3), 491-511.
 #'
 #' @return ggplot object
@@ -114,10 +114,10 @@ plot_moderator_c_pd <- function(.model, moderator, n_bins = NULL){
 #' @param line_color the color of the loess line
 #'
 #' @author George Perrett, Joe Marlo
-#' 
-#' @references 
-#' Carnegie, N., Dorie, V., & Hill, J. L. (2019). 
-#' Examining treatment effect heterogeneity using BART. 
+#'
+#' @references
+#' Carnegie, N., Dorie, V., & Hill, J. L. (2019).
+#' Examining treatment effect heterogeneity using BART.
 #' Observational Studies, 5(2), 52-70.
 #'
 #' @return ggplot object
@@ -140,9 +140,6 @@ plot_moderator_c_pd <- function(.model, moderator, n_bins = NULL){
 #' plot_moderator_c_loess(model_results, lalonde$age)
 #' }
 plot_moderator_c_loess <- function(.model, moderator, line_color = 'blue'){
-
-  # to satisfy CMD CHECK
-  value <- NULL
 
   validate_model_(.model)
   is_numeric_vector_(moderator)
@@ -213,9 +210,6 @@ plot_moderator_c_loess <- function(.model, moderator, line_color = 'blue'){
 #' plot_moderator_d_density(model_results, lalonde$educ)
 #' }
 plot_moderator_d_density <- function(.model, moderator, .alpha = 0.7, facet = FALSE, .ncol = 1){
-
-  # to satisfy CMD CHECK
-  value <- NULL
 
   validate_model_(.model)
 
@@ -290,9 +284,6 @@ plot_moderator_d_density <- function(.model, moderator, .alpha = 0.7, facet = FA
 #' }
 plot_moderator_d_linerange <- function(.model, moderator, .alpha = 0.7, horizontal = FALSE){
 
-  # to satisfy CMD CHECK
-  value <- point <- .min <- .max <- NULL
-
   validate_model_(.model)
 
   # TODO
@@ -343,8 +334,8 @@ plot_moderator_d_linerange <- function(.model, moderator, .alpha = 0.7, horizont
 }
 
 #' @title Plot a single regression tree of covariates on ICATEs
-#' 
-#' 
+#'
+#'
 #' @description Plot a single regression tree for exploratory heterogeneous effects. Fit single regression tree on bartc() icates to produce variable importance plot. This plot is useful for identifying potential moderating variables.
 #' Tree depth may be set to depths 1, 2 or 3. Terminal nodes signal the Conditional Average Treatment effect within levels of moderation variables. Trees with differerent values across terminal nodes suggest strong treatment effect moderation.
 #'
@@ -411,9 +402,6 @@ plot_moderator_search <- function(.model, max_depth = c(2, 1, 3)){
 
 
 rpart_ggplot_ <- function(.model){
-
-  # to satisfy CMD CHECK
-  y <- yend <- x <- y_new <- xend <- yend_new <- label <- NULL
 
   # remove depth information from model so resulting plot is easy to read
   .model$frame$dev <- 1

@@ -38,8 +38,8 @@ plot_moderator_c_pd(model_results, lalonde$age)
 }
 }
 \references{
-Green, D. P., & Kern, H. L. (2012). 
-Modeling heterogeneous treatment effects in survey experiments with Bayesian additive regression trees. 
+Green, D. P., & Kern, H. L. (2012).
+Modeling heterogeneous treatment effects in survey experiments with Bayesian additive regression trees.
 Public opinion quarterly, 76(3), 491-511.
 }
 \author{

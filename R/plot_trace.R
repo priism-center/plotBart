@@ -1,6 +1,6 @@
 #' Trace plot the estimands of a bartCause::bartc() model
 #'
-#' Returns a ggplot of the estimated effect over each iteration of the model fit. This is used to visually assess the convergence of MCMC sampling. Chains should be well mixed such that no single color is notably separate from others. 
+#' Returns a ggplot of the estimated effect over each iteration of the model fit. This is used to visually assess the convergence of MCMC sampling. Chains should be well mixed such that no single color is notably separate from others.
 #'
 #' @param .model a model produced by bartCause::bartc()
 #' @author Joe Marlo, George Perrett
@@ -25,9 +25,6 @@
 #' plot_trace(.model = model_results)
 #' }
 plot_trace <- function(.model){
-
-  # to satisfy CMD CHECK
-  name <- iteration <- value <- Chain <- NULL
 
   # ensure model is a of class bartcFit
   validate_model_(.model)

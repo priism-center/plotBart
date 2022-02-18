@@ -34,12 +34,12 @@ ggplot object
 }
 \description{
 Plot the conditional average treatment effect (CATE) of a bartCause model.
-The conditional average treatment effect is derived form taking a fitted BART model and
-making predictions for y1 = y|z = 1, X and y0 = y|z = 0, X then averaging over the population.
-This plot is an estimate the treatments average effect.
-Means of the CATE distribution will resemble SATE and PATE but the CATE distribution account for more uncertainly than SATE and less uncertainty than PATE.
+The conditional average treatment effect is derived form taking the difference between
+predictions for each individual under the control condition and under the treatment condition averaged over the population.
+Means of the CATE distribution will resemble SATE and PATE but the CATE distribution accounts for more uncertainly than SATE and less uncertainty than PATE.
 }
 \examples{
+\dontrun{
 data(lalonde)
 confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 model_results <- bartCause::bartc(
@@ -50,6 +50,7 @@ model_results <- bartCause::bartc(
  commonSup.rule = 'none'
 )
 plot_CATE(model_results)
+}
 }
 \author{
 George Perrett, Joe Marlo

@@ -34,8 +34,8 @@ plot_moderator_c_loess(model_results, lalonde$age)
 }
 }
 \references{
-Carnegie, N., Dorie, V., & Hill, J. L. (2019). 
-Examining treatment effect heterogeneity using BART. 
+Carnegie, N., Dorie, V., & Hill, J. L. (2019).
+Examining treatment effect heterogeneity using BART.
 Observational Studies, 5(2), 52-70.
 }
 \author{
