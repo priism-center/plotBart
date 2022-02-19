@@ -33,9 +33,6 @@
 #' }
 plot_waterfall <- function(.model, descending = TRUE, .order = NULL, .color = NULL, .alpha = 0.5){
 
-  # to satisfy CMD CHECK
-  icate.o <- NULL
-
   validate_model_(.model)
   if(!is.null(.color)){
     if (!is.vector(.color)) stop(".color must be a vector")

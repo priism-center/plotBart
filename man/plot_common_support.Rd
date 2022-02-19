@@ -15,7 +15,7 @@ plot_common_support(.model, rule = c("both", "sd", "chi"))
 ggplot object
 }
 \description{
-Plot common support based on the standard deviation rule, chi squared rule or both. 
+Plot common support based on the standard deviation rule, chi squared rule or both.
 Returns a ggplot common support plot.
 }
 \details{
@@ -44,9 +44,9 @@ plot_common_support(model_results)
 }
 }
 \references{
-Hill, J., & Su, Y. S. (2013). 
-Assessing lack of common support in causal inference using Bayesian nonparametrics: Implications for evaluating the effect of breastfeeding on children's cognitive outcomes. 
-The Annals of Applied Statistics, 
+Hill, J., & Su, Y. S. (2013).
+Assessing lack of common support in causal inference using Bayesian nonparametrics: Implications for evaluating the effect of breastfeeding on children's cognitive outcomes.
+The Annals of Applied Statistics,
 1386-1420.
 }
 \author{

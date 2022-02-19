@@ -35,9 +35,6 @@
 #' }
 plot_moderator_c_pd <- function(.model, moderator, n_bins = NULL){
 
-  # to satisfy CMD CHECK
-  ci_2.5 <- ci_97.5 <- ci_10 <- ci_90 <- NULL
-
   validate_model_(.model)
 
   # validate n_bins argument

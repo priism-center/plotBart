@@ -1,10 +1,10 @@
 #' Plot common support based on the standard deviation rule, chi squared rule or both
-#' @description Plot common support based on the standard deviation rule, chi squared rule or both. 
-#' Returns a ggplot common support plot. 
+#' @description Plot common support based on the standard deviation rule, chi squared rule or both.
+#' Returns a ggplot common support plot.
 #'
 #' @param .model a model produced by bartCause::bartc()
 #' @param rule one of c('both', 'sd', 'chi') denoting which rule to use to identify lack of support
-#' 
+#'
 #' @details Sufficient overlap/common support is an assumption of causal inference.
 #' BART models use the uncertainly of counter factual uncertainty.
 #' When the posterior distribution of an individuals counter factual prediction extends beyond a specified cut-point that point likely has insufficient common support.
@@ -14,12 +14,12 @@
 #' Under the chi-squared rule a point is discarded if the variance between its counter factual prediction over observed prediction are statistically different under a chi-squared distribution with 1 degree of freedom. For more details on discard rules see Hill and Su 2013.
 #'
 #' When called this plot will show how many points would have been removed under the standard deviation and chi-squared rules. This plot should be used as a diagnostic for bartCause models fit without a common-support rule.
-#' @references 
-#' Hill, J., & Su, Y. S. (2013). 
-#' Assessing lack of common support in causal inference using Bayesian nonparametrics: Implications for evaluating the effect of breastfeeding on children's cognitive outcomes. 
-#' The Annals of Applied Statistics, 
+#' @references
+#' Hill, J., & Su, Y. S. (2013).
+#' Assessing lack of common support in causal inference using Bayesian nonparametrics: Implications for evaluating the effect of breastfeeding on children's cognitive outcomes.
+#' The Annals of Applied Statistics,
 #' 1386-1420.
-#' 
+#'
 #' @author George Perrett, Joe Marlo
 #'
 #' @return ggplot object
@@ -41,9 +41,6 @@
 #' plot_common_support(model_results)
 #' }
 plot_common_support <- function(.model, rule = c('both', 'sd', 'chi')){
-
-  # to satisfy CMD CHECK
-  support_rule <- index <- value <- threshold <- NULL
 
   # ensure model is a of class bartcFit
   validate_model_(.model)

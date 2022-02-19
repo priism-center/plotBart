@@ -83,7 +83,13 @@ if(getRversion() >= "2.15.1") {
       '..count..',
       '..density..',
       'iteration',
-      'Chain'
+      'Chain',
+      'icate.o',
+      'ci_2.5',
+      'ci_97.5',
+      'ci_10',
+      'ci_90'
     )
   )
 }
+
