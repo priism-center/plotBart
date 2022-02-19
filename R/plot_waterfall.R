@@ -33,8 +33,6 @@
 #' }
 plot_waterfall <- function(.model, descending = TRUE, .order = NULL, .color = NULL, .alpha = 0.5){
 
-  # TODO: descending = FALSE fails
-
   # to satisfy CMD CHECK
   icate.o <- NULL
 
