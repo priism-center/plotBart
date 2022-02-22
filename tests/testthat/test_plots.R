@@ -89,7 +89,7 @@ out_waterfall <- plot_waterfall(
 )
 out_waterfall_2 <- plot_waterfall(
   model_results,
-  # descending = FALSE,
+  descending = FALSE,
   .order = lalonde$age,
   .color = lalonde$educ
 )
