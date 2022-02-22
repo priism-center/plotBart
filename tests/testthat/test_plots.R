@@ -82,7 +82,7 @@ out_SATE <- plot_SATE(
 )
 out_waterfall <- plot_waterfall(
   model_results,
-  descending = TRUE,
+  descending = FALSE,
   .order = NULL,
   .color = NULL,
   .alpha = 0.5
