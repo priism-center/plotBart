@@ -26,5 +26,5 @@ plot_balance(lalonde, 'treat', c('re78', 'age', 'educ')) + labs(title = 'My new 
 }
 }
 \author{
-Joe Marlo
+Joseph Marlo
 }

@@ -13,7 +13,7 @@ plot_trace(.model)
 ggplot object
 }
 \description{
-Returns a ggplot of the estimated effect over each iteration of the model fit. This is used to visually assess the convergence of MCMC sampling. Chains should be well mixed such that no single color is notably separate from others.
+Returns a ggplot of the estimated effect over each iteration of the model fit. This is used to visually assess the convergence of Markov chain Monte Carlo (MCMC) sampling. Chains should be well mixed such that no single color is notably separate from others.
 }
 \examples{
 \dontrun{
@@ -30,5 +30,5 @@ plot_trace(.model = model_results)
 }
 }
 \author{
-Joe Marlo, George Perrett
+Joseph Marlo, George Perrett
 }

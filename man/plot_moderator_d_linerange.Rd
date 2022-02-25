@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_moderators.R
 \name{plot_moderator_d_linerange}
 \alias{plot_moderator_d_linerange}
-\title{Plot the posterior interval of the conditional average treatment effect grouped by a discrete variable}
+\title{Plot the posterior interval of the Conditional Average Treatment Effect grouped by a discrete variable}
 \usage{
 plot_moderator_d_linerange(.model, moderator, .alpha = 0.7, horizontal = FALSE)
 }
@@ -36,5 +36,5 @@ plot_moderator_d_linerange(model_results, lalonde$educ)
 }
 }
 \author{
-George Perrett, Joe Marlo
+George Perrett, Joseph Marlo
 }

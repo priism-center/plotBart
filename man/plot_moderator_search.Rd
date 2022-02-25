@@ -15,8 +15,8 @@ plot_moderator_search(.model, max_depth = c(2, 1, 3))
 ggplot object
 }
 \description{
-Plot a single regression tree for exploratory heterogeneous effects. Fit single regression tree on bartc() icates to produce variable importance plot. This plot is useful for identifying potential moderating variables.
-Tree depth may be set to depths 1, 2 or 3. Terminal nodes signal the Conditional Average Treatment effect within levels of moderation variables. Trees with differerent values across terminal nodes suggest strong treatment effect moderation.
+Plot a single regression tree for exploratory heterogeneous effects. Fit single regression tree on bartc() ICATEs to produce variable importance plot. This plot is useful for identifying potential moderating variables.
+Tree depth may be set to depths 1, 2 or 3. Terminal nodes signal the Conditional Average Treatment effect within levels of moderation variables. Trees with different values across terminal nodes suggest strong treatment effect moderation.
 }
 \examples{
 \dontrun{
@@ -33,5 +33,5 @@ plot_moderator_search(model_results)
 }
 }
 \author{
-George Perrett, Joe Marlo
+George Perrett, Joseph Marlo
 }

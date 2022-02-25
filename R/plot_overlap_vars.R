@@ -1,12 +1,11 @@
-#' Plot the overlap of variables
-#'
-#' Plot histograms showing the overlap between variables by treatment status.
+#' @title Plot the overlap of variables
+#' @description Plot histograms showing the overlap between variables by treatment status.
 #'
 #' @param .data dataframe
 #' @param treatment character. Name of the treatment column within .data
 #' @param confounders character list of column names denoting confounders within .data
 #' @param plot_type the plot type, one of c('histogram', 'density'). Defaults to 'histogram'
-#' @author George Perrett, Joe Marlo
+#' @author George Perrett, Joseph Marlo
 #'
 #' @return ggplot object
 #' @export

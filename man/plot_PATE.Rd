@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_ATE.R
 \name{plot_PATE}
 \alias{plot_PATE}
-\title{Plot histogram or density of population average treatment effect}
+\title{Plot histogram or density of Population Average Treatment Effect}
 \usage{
 plot_PATE(
   .model,
@@ -33,8 +33,8 @@ plot_PATE(
 ggplot object
 }
 \description{
-Plot shows the population average treatment effect which is derived from the posterior predictive distribution of the difference between y|z=1, X and y|z=0, X.
-Means PATE will resemble CATE and SATE but PATE will account for more uncertainty and is recommended for informing inferences on the average treatment effect.
+Plot shows the Population Average Treatment Effect which is derived from the posterior predictive distribution of the difference between \eqn{y | z=1, X} and \eqn{y | z=0, X}.
+Mean of PATE will resemble CATE and SATE but PATE will account for more uncertainty and is recommended for informing inferences on the average treatment effect.
 }
 \examples{
 \dontrun{
@@ -51,5 +51,5 @@ plot_PATE(model_results)
 }
 }
 \author{
-George Perrett, Joe Marlo
+George Perrett, Joseph Marlo
 }

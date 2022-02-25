@@ -14,12 +14,44 @@ model_results <- bartCause::bartc(
   seed = 2
 )
 
-# TODO: check bart model slots
-
 out <- validate_model_(model_results)
+slots <- attributes(model_results)
+
+slots_original <- list(
+  names = c(
+    'fit.rsp',
+    'data.rsp',
+    'fit.trt',
+    'mu.hat.obs',
+    'mu.hat.cf',
+    'p.score',
+    'samples.p.score',
+    'method.rsp',
+    'method.trt',
+    'estimand',
+    'commonSup.rule',
+    'commonSup.cut',
+    'name.trt',
+    'trt',
+    'sd.obs',
+    'sd.cf',
+    'commonSup.sub',
+    'missingRows',
+    'est',
+    'fitPars',
+    'call',
+    'group.by',
+    'use.ranef',
+    'group.effects',
+    'n.chains',
+    'seed'
+  ),
+  class = c('bartcFit')
+)
 
 test_that("bartCause::bartc() API still works", {
   expect_s3_class(model_results, 'bartcFit')
+  expect_identical(slots, slots_original)
 })
 
 test_that('validate_model_() works', {

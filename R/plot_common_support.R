@@ -1,26 +1,26 @@
-#' Plot common support based on the standard deviation rule, chi squared rule or both
-#' @description Plot common support based on the standard deviation rule, chi squared rule or both.
-#' Returns a ggplot common support plot.
+#' @title Plot common support based on the standard deviation rule, chi squared rule, or both
+#' @description Plot common support based on the standard deviation rule, chi squared rule, or both.
 #'
 #' @param .model a model produced by bartCause::bartc()
 #' @param rule one of c('both', 'sd', 'chi') denoting which rule to use to identify lack of support
 #'
 #' @details Sufficient overlap/common support is an assumption of causal inference.
 #' BART models use the uncertainly of counter factual uncertainty.
-#' When the posterior distribution of an individuals counter factual prediction extends beyond a specified cut-point that point likely has insufficient common support.
-#' bartCause model offer the option to automatically remove points without common support from analyses, however, this must specified during model fitting.
+#' When the posterior distribution of an individual's counterfactual prediction extends beyond a specified cut-point, that point likely has insufficient common support.
+#' bartCause model offer the option to automatically remove points without common support from analyses, however, this must be specified during model fitting.
 #' Cut-points are determined through one of two rules the standard deviation (sd) or chi-squared (chi).
-#' Under to standard deviation rule, a point has weak common support if it's posterior distribution of the counter factual deviation is grater than the maximum posterior of the observed predictions with 1 standard deviation of the distribution of standard deviations for each individuals predicted outcome under the observed assignment.
-#' Under the chi-squared rule a point is discarded if the variance between its counter factual prediction over observed prediction are statistically different under a chi-squared distribution with 1 degree of freedom. For more details on discard rules see Hill and Su 2013.
+#' Under the standard deviation rule, a point has weak common support if its posterior distribution of the counterfactual deviation is greater than the maximum posterior of the observed predictions with 1 standard deviation of the distribution of standard deviations for each individuals predicted outcome under the observed assignment.
+#' Under the chi-squared rule, a point is discarded if the variance between its counterfactual prediction over observed prediction are statistically different under a chi-squared distribution with 1 degree of freedom. For more details on discard rules see Hill and Su 2013.
 #'
 #' When called this plot will show how many points would have been removed under the standard deviation and chi-squared rules. This plot should be used as a diagnostic for bartCause models fit without a common-support rule.
+#'
 #' @references
 #' Hill, J., & Su, Y. S. (2013).
 #' Assessing lack of common support in causal inference using Bayesian nonparametrics: Implications for evaluating the effect of breastfeeding on children's cognitive outcomes.
 #' The Annals of Applied Statistics,
 #' 1386-1420.
 #'
-#' @author George Perrett, Joe Marlo
+#' @author George Perrett, Joseph Marlo
 #'
 #' @return ggplot object
 #' @export

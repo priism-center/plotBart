@@ -1,6 +1,6 @@
-#' @title Plot the histogram or density of the conditional average treatment effect.
+#' @title Plot the histogram or density of the Conditional Average Treatment Effect
 #' @description Plot the conditional average treatment effect (CATE) of a bartCause model.
-#' The conditional average treatment effect is derived form taking the difference between
+#' The conditional average treatment effect is derived from taking the difference between
 #' predictions for each individual under the control condition and under the treatment condition averaged over the population.
 #' Means of the CATE distribution will resemble SATE and PATE but the CATE distribution accounts for more uncertainly than SATE and less uncertainty than PATE.
 #'
@@ -14,7 +14,7 @@
 #' @param .median TRUE/FALSE. Show the median reference line
 #'
 #'
-#' @author George Perrett, Joe Marlo
+#' @author George Perrett, Joseph Marlo
 #'
 #' @return ggplot object
 #' @export
@@ -50,10 +50,10 @@ plot_CATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
   # calculate stats
   pate <- bartCause::extract(.model, 'cate')
   pate <- as.data.frame(pate)
-  ub <- quantile(pate$pate, .9)
-  lb <- quantile(pate$pate, .1)
-  ub.95 <- quantile(pate$pate, .975)
-  lb.95 <- quantile(pate$pate, .025)
+  ub <- quantile(pate$pate, 0.9)
+  lb <- quantile(pate$pate, 0.1)
+  ub.95 <- quantile(pate$pate, 0.975)
+  lb.95 <- quantile(pate$pate, 0.025)
   dd <- density(pate$pate)
   dd <- with(dd, data.frame(x, y))
 
@@ -106,9 +106,8 @@ plot_CATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
 }
 
 
-#' @title Plot icates
-#'
-#' @description Plots a histogram of individual conditional average treatment effects (ICATE).
+#' @title Plot Individual Conditional Average Treatment effects
+#' @description Plots a histogram of Individual Conditional Average Treatment effects (ICATE).
 #' ICATEs are the difference in each individuals predicted outcome under the treatment and predicted outcome under the control averaged over the individual.
 #' Plots of ICATEs are useful to identify potential heterogeneous treatment effects between different individuals. ICATE plots can be grouped by discrete variables.
 #'
@@ -140,7 +139,7 @@ plot_CATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
 plot_ICATE <- function(.model, .group_by = NULL, n_bins = 30, .alpha = .7){
 
   validate_model_(.model)
-  # TODO: check grouping var is valid
+  if (!is.null(.group_by)) is_discrete_(.group_by)
 
   posterior <- bartCause::extract(.model, 'icate')
   icates <- as_tibble(apply(posterior, 2, mean))
@@ -163,18 +162,15 @@ plot_ICATE <- function(.model, .group_by = NULL, n_bins = 30, .alpha = .7){
   p <- p +
     labs(title = NULL,
          x = NULL,
-         y = 'count',
+         y = 'Count',
          fill = NULL)
 
   return(p)
 }
 
-#'
-#' @title Plot histogram or density of population average treatment effect
-#'
-#' @description Plot shows the population average treatment effect which is derived from the posterior predictive distribution of the difference between y|z=1, X and y|z=0, X.
-#' Means PATE will resemble CATE and SATE but PATE will account for more uncertainty and is recommended for informing inferences on the average treatment effect.
-#'
+#' @title Plot histogram or density of Population Average Treatment Effect
+#' @description Plot shows the Population Average Treatment Effect which is derived from the posterior predictive distribution of the difference between \eqn{y | z=1, X} and \eqn{y | z=0, X}.
+#' Mean of PATE will resemble CATE and SATE but PATE will account for more uncertainty and is recommended for informing inferences on the average treatment effect.
 #'
 #' @param .model a model produced by bartCause::bartc()
 #' @param type histogram or density
@@ -184,7 +180,7 @@ plot_ICATE <- function(.model, .group_by = NULL, n_bins = 30, .alpha = .7){
 #' @param .mean TRUE/FALSE. Show the mean reference line
 #' @param .median TRUE/FALSE. Show the median reference line
 #'
-#' @author George Perrett, Joe Marlo
+#' @author George Perrett, Joseph Marlo
 #'
 #' @return ggplot object
 #' @export
@@ -274,9 +270,8 @@ plot_PATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
   return(p)
 }
 
-#' @title Plot histogram or density of sample conditional average treatment effects
-#'
-#' @description Plot a histogram or density of the sample average treatment effect(SATE). The sample average treatment effect is derived from taking the difference of each individuals observed outcome and a predicted counter factual outcome from a BART model averaged over the population.
+#' @title Plot histogram or density of Sample Average Treatment Effects
+#' @description Plot a histogram or density of the Sample Average Treatment Effect (SATE). The Sample Average Treatment Effect is derived from taking the difference of each individuals observed outcome and a predicted counter factual outcome from a BART model averaged over the population.
 #' The mean of SATE will resemble means of CATE and PATE but will account for the least uncertainty.
 #'
 #' @param .model a model produced by bartCause::bartc()
@@ -287,7 +282,7 @@ plot_PATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
 #' @param .mean TRUE/FALSE. Show the mean reference line
 #' @param .median TRUE/FALSE. Show the median reference line
 #'
-#' @author George Perrett, Joe Marlo
+#' @author George Perrett, Joseph Marlo
 #'
 #' @return ggplot object
 #' @export

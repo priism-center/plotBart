@@ -1,6 +1,5 @@
-#' Plot the overlap via propensity score method
-#'
-#' Plot histograms showing the overlap between propensity scores by treatment status.
+#' @title Plot the overlap via propensity score method
+#' @description Plot histograms showing the overlap between propensity scores by treatment status.
 #'
 #' @param .data dataframe
 #' @param treatment character. Name of the treatment column within .data
@@ -9,7 +8,7 @@
 #' @param plot_type the plot type, one of c('Histogram', 'Density')
 #' @param pscores propensity scores. If not provided, then propensity scores will be calculated using BART
 #' @param \dots additional arguments passed to `bartCause::bartc` propensity score calculation
-#' @author George Perrett, Joe Marlo
+#' @author George Perrett, Joseph Marlo
 #'
 #' @return ggplot object
 #' @export
@@ -95,9 +94,8 @@ plot_overlap_pScores <- function(.data, treatment, response, confounders, plot_t
   return(p)
 }
 
-#' Calculate propensity scores using BART
-#'
-#' Calculates propensity scores using Bayesian Additive Regression Trees via bartCause::bartc.
+#' @title Calculate propensity scores using BART
+#' @description Calculates propensity scores using Bayesian Additive Regression Trees via bartCause::bartc.
 #'
 #' @param .data dataframe
 #' @param treatment character. Name of the treatment column within .data

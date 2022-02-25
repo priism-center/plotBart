@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_ATE.R
 \name{plot_ICATE}
 \alias{plot_ICATE}
-\title{Plot icates}
+\title{Plot Individual Conditional Average Treatment effects}
 \usage{
 plot_ICATE(.model, .group_by = NULL, n_bins = 30, .alpha = 0.7)
 }
@@ -19,7 +19,7 @@ plot_ICATE(.model, .group_by = NULL, n_bins = 30, .alpha = 0.7)
 ggplot object
 }
 \description{
-Plots a histogram of individual conditional average treatment effects (ICATE).
+Plots a histogram of Individual Conditional Average Treatment effects (ICATE).
 ICATEs are the difference in each individuals predicted outcome under the treatment and predicted outcome under the control averaged over the individual.
 Plots of ICATEs are useful to identify potential heterogeneous treatment effects between different individuals. ICATE plots can be grouped by discrete variables.
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_moderators.R
 \name{plot_moderator_d_density}
 \alias{plot_moderator_d_density}
-\title{Plot the conditional average treatment effect conditional on a discrete moderator}
+\title{Plot the Conditional Average Treatment Effect conditional on a discrete moderator}
 \usage{
 plot_moderator_d_density(
   .model,

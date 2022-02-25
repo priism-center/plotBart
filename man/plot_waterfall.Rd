@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_waterfall.R
 \name{plot_waterfall}
 \alias{plot_waterfall}
-\title{Plot a waterfall}
+\title{Plot a waterfall of the ICATEs}
 \usage{
 plot_waterfall(
   .model,

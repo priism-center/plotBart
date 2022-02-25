@@ -39,5 +39,5 @@ plot_overlap_vars(
 \code{\link{plot_overlap_pScores}}
 }
 \author{
-George Perrett, Joe Marlo
+George Perrett, Joseph Marlo
 }

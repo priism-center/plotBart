@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_ATE.R
 \name{plot_CATE}
 \alias{plot_CATE}
-\title{Plot the histogram or density of the conditional average treatment effect.}
+\title{Plot the histogram or density of the Conditional Average Treatment Effect}
 \usage{
 plot_CATE(
   .model,
@@ -34,7 +34,7 @@ ggplot object
 }
 \description{
 Plot the conditional average treatment effect (CATE) of a bartCause model.
-The conditional average treatment effect is derived form taking the difference between
+The conditional average treatment effect is derived from taking the difference between
 predictions for each individual under the control condition and under the treatment condition averaged over the population.
 Means of the CATE distribution will resemble SATE and PATE but the CATE distribution accounts for more uncertainly than SATE and less uncertainty than PATE.
 }
@@ -53,5 +53,5 @@ plot_CATE(model_results)
 }
 }
 \author{
-George Perrett, Joe Marlo
+George Perrett, Joseph Marlo
 }

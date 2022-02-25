@@ -1,12 +1,11 @@
-#' Partial dependency plot of a continuous moderating variable
-#'
-#' @description Plot a partial dependency plot with a continuous covariate from used in a bartCause model. Identify treatment effect variation predicted across levels of a continuous variable.
+#' @title Partial dependency plot of a continuous moderating variable
+#' @description Plot a partial dependency plot with a continuous covariate from a bartCause model. Identify treatment effect variation predicted across levels of a continuous variable.
 #'
 #' @param .model a model produced by bartCause::bartc()
 #' @param moderator the moderator as a vector
 #' @param n_bins number of bins to cut the moderator with. Defaults to the lesser of 15 and number of distinct levels of the moderator
 #' @details Partial dependency plots are one way to evaluate heterogeneous treatment effects that vary by values of a continuous covaraite. For more information on partial dependency plots from BART causal inference models see Green and Kern 2012.
-#' @author George Perrett, Joe Marlo
+#' @author George Perrett, Joseph Marlo
 #'
 #' @references
 #' Green, D. P., & Kern, H. L. (2012).
@@ -72,7 +71,6 @@ plot_moderator_c_pd <- function(.model, moderator, n_bins = NULL){
   }
 
   # predict new data with overridden treatment columns
-  # TODO: this is slow AF
   cates <- lapply(.range, fit_pd_, z1 = new_data_z1, z0 = new_data_z0, index = index, .model = .model)
   names(cates) <- seq_along(cates)
   cates <- bind_cols(cates)
@@ -102,15 +100,14 @@ plot_moderator_c_pd <- function(.model, moderator, n_bins = NULL){
 }
 
 
-#' Loess plot of a continuous moderating variable
-#'
-#' @description Plot the Loess prediction of ICATEs by a continuous covariate. This is an alternative to partial dependency plots to assess treatment effect heterogeneity by a continuous covariate. See Carnegie, Dorie and Hill 2019.
+#' @title LOESS plot of a continuous moderating variable
+#' @description Plot the LOESS prediction of ICATEs by a continuous covariate. This is an alternative to partial dependency plots to assess treatment effect heterogeneity by a continuous covariate. See Carnegie, Dorie and Hill 2019.
 #'
 #' @param .model a model produced by bartCause::bartc()
 #' @param moderator the moderator as a vector
 #' @param line_color the color of the loess line
 #'
-#' @author George Perrett, Joe Marlo
+#' @author George Perrett, Joseph Marlo
 #'
 #' @references
 #' Carnegie, N., Dorie, V., & Hill, J. L. (2019).
@@ -175,8 +172,7 @@ plot_moderator_c_loess <- function(.model, moderator, line_color = 'blue'){
   return(p)
 }
 
-#' Plot the conditional average treatment effect conditional on a discrete moderator
-#'
+#' @title Plot the Conditional Average Treatment Effect conditional on a discrete moderator
 #' @description Plot the Conditional Average Treatment Effect split by a discrete moderating variable. This plot will provide a visual test of moderation by discrete variables.
 #'
 #' @param .model a model produced by bartCause::bartc()
@@ -209,9 +205,7 @@ plot_moderator_c_loess <- function(.model, moderator, line_color = 'blue'){
 plot_moderator_d_density <- function(.model, moderator, .alpha = 0.7, facet = FALSE, .ncol = 1){
 
   validate_model_(.model)
-
-  # TODO
-  # is_discrete(moderator)
+  is_discrete_(moderator)
 
   # adjust moderator to match estimand
   moderator <- adjust_for_estimand_(.model, moderator)
@@ -250,7 +244,7 @@ plot_moderator_d_density <- function(.model, moderator, .alpha = 0.7, facet = FA
 
 
 
-#' @title Plot the posterior interval of the conditional average treatment effect grouped by a discrete variable
+#' @title Plot the posterior interval of the Conditional Average Treatment Effect grouped by a discrete variable
 #' @description Plots the range of the Conditional Average Treatment Effect grouped by a discrete variable. This is analogous to plot_moderator_d_density but is preferable for moderators with many categories. Rather than plotting the full density, the posterior range is shown.
 #'
 #' @param .model a model produced by bartCause::bartc()
@@ -258,7 +252,7 @@ plot_moderator_d_density <- function(.model, moderator, .alpha = 0.7, facet = FA
 #' @param .alpha transparency value [0, 1]
 #' @param horizontal flip the plot horizontal?
 #'
-#' @author George Perrett, Joe Marlo
+#' @author George Perrett, Joseph Marlo
 #'
 #' @return ggplot object
 #' @export
@@ -282,9 +276,7 @@ plot_moderator_d_density <- function(.model, moderator, .alpha = 0.7, facet = FA
 plot_moderator_d_linerange <- function(.model, moderator, .alpha = 0.7, horizontal = FALSE){
 
   validate_model_(.model)
-
-  # TODO
-  # is_discrete(moderator)
+  is_discrete_(moderator)
 
   # adjust moderator to match estimand
   moderator <- adjust_for_estimand_(.model, moderator)
@@ -331,16 +323,13 @@ plot_moderator_d_linerange <- function(.model, moderator, .alpha = 0.7, horizont
 }
 
 #' @title Plot a single regression tree of covariates on ICATEs
-#'
-#'
-#' @description Plot a single regression tree for exploratory heterogeneous effects. Fit single regression tree on bartc() icates to produce variable importance plot. This plot is useful for identifying potential moderating variables.
-#' Tree depth may be set to depths 1, 2 or 3. Terminal nodes signal the Conditional Average Treatment effect within levels of moderation variables. Trees with differerent values across terminal nodes suggest strong treatment effect moderation.
-#'
+#' @description Plot a single regression tree for exploratory heterogeneous effects. Fit single regression tree on bartc() ICATEs to produce variable importance plot. This plot is useful for identifying potential moderating variables.
+#' Tree depth may be set to depths 1, 2 or 3. Terminal nodes signal the Conditional Average Treatment effect within levels of moderation variables. Trees with different values across terminal nodes suggest strong treatment effect moderation.
 #'
 #' @param .model a model produced by bartCause::bartc(). Typically store$model_results
 #' @param max_depth one of c(1, 2, 3). Maximum number of node levels within the tree. 2 is recommended
 #'
-#' @author George Perrett, Joe Marlo
+#' @author George Perrett, Joseph Marlo
 #'
 #' @import ggplot2 dplyr
 #' @importFrom ggdendro dendro_data

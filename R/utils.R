@@ -19,6 +19,12 @@ is_numeric_vector_ <- function(x){
   if (!inherits(x, 'numeric')) stop('moderator must be numeric vector')
 }
 
+is_discrete_ <- function(x){
+  # must be more than one level and all levels can't be unique
+  is_discrete <- length(unique(x)) > 1 && length(unique(x)) < length(x)
+  if (!isTRUE(is_discrete)) stop('moderator must be discrete')
+}
+
 # adjust [moderator] to match estimand
 adjust_for_estimand_ <- function(.model, x){
   validate_model_(.model)
@@ -46,18 +52,6 @@ fit_pd_ <- function(x, z1, z0, index, .model){
 }
 
 pclamp_ <- function(x, x_min, x_max) pmin(x_max, pmax(x, x_min))
-
-pmean_ <- function(...){
-  x <- data.frame(...)
-  rowMeans(x)
-}
-
-zipper_ <- function(x, y) {
-  if (length(x) != length(y)) stop('x and y must be same length')
-  length_out <- seq_along(x)
-  zipped <- unlist(lapply(length_out, function(i) c(x[i], y[i])))
-  return(zipped)
-}
 
 # to satisfy CMD CHECK when using pipe variables
 if(getRversion() >= "2.15.1") {

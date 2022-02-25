@@ -1,6 +1,4 @@
-
-#' Plot a waterfall
-#'
+#' @title Plot a waterfall of the ICATEs
 #' @description Plots the point and posterior intervals of each individuals ICATE ordered by the ICATE or a continuous variable. Points can be colored by a discrete variable.
 #' Waterfall plots are a useful visual diagnostic of possible treatment effect heterogeneity.
 #' A flat line implies little treatment effect heterogeneity while a steeper curve implies that the treatment effect varies across individuals in the sample. Ordering points by a continuous variable or coloring points by a discrete variable can be helpful to identity potential moderators of the treatment effect.
