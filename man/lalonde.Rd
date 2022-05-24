@@ -8,7 +8,7 @@
 An object of class \code{data.frame} with 445 rows and 12 columns.
 }
 \source{
-\url{https://cran.r-project.org/web/packages/arm/index.html}
+\url{https://CRAN.R-project.org/package=arm}
 }
 \usage{
 lalonde

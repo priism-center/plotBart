@@ -13,7 +13,7 @@ URL: https://priism-center.github.io/plotBart/, https://github.com/priism-center
 BugReports: https://github.com/priism-center/plotBart/issues
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.0
 Depends: 
     R (>= 2.10),
     bartCause (>= 1.0.4),
