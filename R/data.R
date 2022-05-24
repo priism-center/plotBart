@@ -1,4 +1,4 @@
 #' Lalonde dataset
 #'
-#' @source \url{https://cran.r-project.org/web/packages/arm/index.html}
+#' @source \url{https://CRAN.R-project.org/package=arm}
 "lalonde"

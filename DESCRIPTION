@@ -6,7 +6,8 @@ Authors@R: c(
   person(family = "Marlo", given = "Joseph", email = "jpm770@nyu.edu", role = c("aut", "cre")),
   person(family = "Perrett", given = "George", email = "gp77@nyu.edu", role = c("aut"))
   )
-Description: Tools to assist diagnostic and plotting in the causal inference modeling process. Supplements the bartCause package.
+Description: Functions to assist in diagnostics and plotting during the causal inference modeling process. 
+  Supplements the bartCause package.
 License: MIT + file LICENSE
 URL: https://priism-center.github.io/plotBart/, https://github.com/priism-center/plotBart
 BugReports: https://github.com/priism-center/plotBart/issues

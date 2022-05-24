@@ -6,7 +6,7 @@
 <!-- badges: start -->
 
 [![license](https://img.shields.io/badge/license-MIT%20+%20file%20LICENSE-lightgrey.svg)](/LICENSE.md)
-[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![R-CMD-check](https://github.com/priism-center/plotBart/workflows/R-CMD-check/badge.svg)](https://github.com/priism-center/plotBart/actions)
 [![last
 commit](https://img.shields.io/github/last-commit/priism-center/plotBart)](https://github.com/priism-center/plotBart/commits/master)
@@ -16,7 +16,7 @@ commit](https://img.shields.io/github/last-commit/priism-center/plotBart)](https
 
 plotBart is a diagnostic and plotting package for
 [bartCause](https://github.com/vdorie/bartCause) and
-[thinkCausal](https://github.com/gperrett/thinkCausal_dev).
+[thinkCausal](https://github.com/priism-center/thinkCausal_dev).
 
 ``` r
 library(plotBart)
