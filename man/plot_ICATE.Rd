@@ -20,7 +20,7 @@ ggplot object
 }
 \description{
 Plots a histogram of Individual Conditional Average Treatment effects (ICATE).
-ICATEs are the difference in each individuals predicted outcome under the treatment and predicted outcome under the control averaged over the individual.
+ICATEs are the difference in each individual's predicted outcome under the treatment and predicted outcome under the control averaged over the individual.
 Plots of ICATEs are useful to identify potential heterogeneous treatment effects between different individuals. ICATE plots can be grouped by discrete variables.
 }
 \examples{

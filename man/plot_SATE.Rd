@@ -33,7 +33,7 @@ plot_SATE(
 ggplot object
 }
 \description{
-Plot a histogram or density of the Sample Average Treatment Effect (SATE). The Sample Average Treatment Effect is derived from taking the difference of each individuals observed outcome and a predicted counter factual outcome from a BART model averaged over the population.
+Plot a histogram or density of the Sample Average Treatment Effect (SATE). The Sample Average Treatment Effect is derived from taking the difference of each individual's observed outcome and a predicted counterfactual outcome from a BART model averaged over the population.
 The mean of SATE will resemble means of CATE and PATE but will account for the least uncertainty.
 }
 \examples{

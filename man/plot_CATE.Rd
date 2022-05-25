@@ -36,7 +36,7 @@ ggplot object
 Plot the conditional average treatment effect (CATE) of a bartCause model.
 The conditional average treatment effect is derived from taking the difference between
 predictions for each individual under the control condition and under the treatment condition averaged over the population.
-Means of the CATE distribution will resemble SATE and PATE but the CATE distribution accounts for more uncertainly than SATE and less uncertainty than PATE.
+Means of the CATE distribution will resemble SATE and PATE but the CATE distribution accounts for more uncertainty than SATE and less uncertainty than PATE.
 }
 \examples{
 \dontrun{
