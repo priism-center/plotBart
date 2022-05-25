@@ -4,7 +4,7 @@
 #' @param .model a model produced by bartCause::bartc()
 #' @param moderator the moderator as a vector
 #' @param n_bins number of bins to cut the moderator with. Defaults to the lesser of 15 and number of distinct levels of the moderator
-#' @details Partial dependency plots are one way to evaluate heterogeneous treatment effects that vary by values of a continuous covaraite. For more information on partial dependency plots from BART causal inference models see Green and Kern 2012.
+#' @details Partial dependency plots are one way to evaluate heterogeneous treatment effects that vary by values of a continuous covariate. For more information on partial dependency plots from BART causal inference models see Green and Kern 2012.
 #' @author George Perrett, Joseph Marlo
 #'
 #' @references
@@ -326,7 +326,7 @@ plot_moderator_d_linerange <- function(.model, moderator, .alpha = 0.7, horizont
 #' @description Plot a single regression tree for exploratory heterogeneous effects. Fit single regression tree on bartc() ICATEs to produce variable importance plot. This plot is useful for identifying potential moderating variables.
 #' Tree depth may be set to depths 1, 2 or 3. Terminal nodes signal the Conditional Average Treatment effect within levels of moderation variables. Trees with different values across terminal nodes suggest strong treatment effect moderation.
 #'
-#' @param .model a model produced by bartCause::bartc(). Typically store$model_results
+#' @param .model a model produced by bartCause::bartc()
 #' @param max_depth one of c(1, 2, 3). Maximum number of node levels within the tree. 2 is recommended
 #'
 #' @author George Perrett, Joseph Marlo

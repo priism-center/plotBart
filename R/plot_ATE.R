@@ -2,7 +2,7 @@
 #' @description Plot the conditional average treatment effect (CATE) of a bartCause model.
 #' The conditional average treatment effect is derived from taking the difference between
 #' predictions for each individual under the control condition and under the treatment condition averaged over the population.
-#' Means of the CATE distribution will resemble SATE and PATE but the CATE distribution accounts for more uncertainly than SATE and less uncertainty than PATE.
+#' Means of the CATE distribution will resemble SATE and PATE but the CATE distribution accounts for more uncertainty than SATE and less uncertainty than PATE.
 #'
 #'
 #' @param .model a model produced by bartCause::bartc()
@@ -108,7 +108,7 @@ plot_CATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
 
 #' @title Plot Individual Conditional Average Treatment effects
 #' @description Plots a histogram of Individual Conditional Average Treatment effects (ICATE).
-#' ICATEs are the difference in each individuals predicted outcome under the treatment and predicted outcome under the control averaged over the individual.
+#' ICATEs are the difference in each individual's predicted outcome under the treatment and predicted outcome under the control averaged over the individual.
 #' Plots of ICATEs are useful to identify potential heterogeneous treatment effects between different individuals. ICATE plots can be grouped by discrete variables.
 #'
 #' @param .model a model produced by bartCause::bartc()
@@ -271,7 +271,7 @@ plot_PATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
 }
 
 #' @title Plot histogram or density of Sample Average Treatment Effects
-#' @description Plot a histogram or density of the Sample Average Treatment Effect (SATE). The Sample Average Treatment Effect is derived from taking the difference of each individuals observed outcome and a predicted counter factual outcome from a BART model averaged over the population.
+#' @description Plot a histogram or density of the Sample Average Treatment Effect (SATE). The Sample Average Treatment Effect is derived from taking the difference of each individual's observed outcome and a predicted counterfactual outcome from a BART model averaged over the population.
 #' The mean of SATE will resemble means of CATE and PATE but will account for the least uncertainty.
 #'
 #' @param .model a model produced by bartCause::bartc()
