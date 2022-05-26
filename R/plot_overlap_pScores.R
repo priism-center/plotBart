@@ -95,7 +95,7 @@ plot_overlap_pScores <- function(.data, treatment, response, confounders, plot_t
 }
 
 #' @title Calculate propensity scores using BART
-#' @description Calculates propensity scores using Bayesian Additive Regression Trees via bartCause::bartc.
+#' @description Calculates propensity scores using Bayesian Additive Regression Trees via `bartCause::bartc()`.
 #'
 #' @param .data dataframe
 #' @param treatment character. Name of the treatment column within .data

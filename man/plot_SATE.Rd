@@ -15,7 +15,7 @@ plot_SATE(
 )
 }
 \arguments{
-\item{.model}{a model produced by bartCause::bartc()}
+\item{.model}{a model produced by `bartCause::bartc()`}
 
 \item{type}{histogram or density}
 

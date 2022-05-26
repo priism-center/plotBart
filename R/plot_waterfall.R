@@ -3,8 +3,8 @@
 #' Waterfall plots are a useful visual diagnostic of possible treatment effect heterogeneity.
 #' A flat line implies little treatment effect heterogeneity while a steeper curve implies that the treatment effect varies across individuals in the sample. Ordering points by a continuous variable or coloring points by a discrete variable can be helpful to identify potential moderators of the treatment effect.
 #'
-#' @param .model a model produced by bartCause::bartc()
-#' @param descending order the icates by value?
+#' @param .model a model produced by `bartCause::bartc()`
+#' @param descending order the ICATEs by value?
 #' @param .order a vector representing a custom order
 #' @param .color a vector representing colors
 #' @param .alpha transparency value [0, 1]

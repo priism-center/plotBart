@@ -7,7 +7,7 @@
 plot_moderator_d_linerange(.model, moderator, .alpha = 0.7, horizontal = FALSE)
 }
 \arguments{
-\item{.model}{a model produced by bartCause::bartc()}
+\item{.model}{a model produced by `bartCause::bartc()`}
 
 \item{moderator}{the moderator as a vector}
 

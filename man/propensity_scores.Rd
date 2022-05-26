@@ -21,7 +21,7 @@ propensity_scores(.data, treatment, response, confounders, ...)
 a numeric vector of propensity scores
 }
 \description{
-Calculates propensity scores using Bayesian Additive Regression Trees via bartCause::bartc.
+Calculates propensity scores using Bayesian Additive Regression Trees via `bartCause::bartc()`.
 }
 \examples{
 \dontrun{

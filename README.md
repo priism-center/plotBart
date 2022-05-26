@@ -5,7 +5,7 @@
 
 <!-- badges: start -->
 
-[![license](https://img.shields.io/badge/license-MIT%20+%20file%20LICENSE-lightgrey.svg)](/LICENSE.md)
+[![license](https://img.shields.io/badge/license-MIT%20+%20file%20LICENSE-lightgrey.svg)](https://github.com/priism-center/plotBart/blob/master/LICENSE.md)
 [![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![R-CMD-check](https://github.com/priism-center/plotBart/workflows/R-CMD-check/badge.svg)](https://github.com/priism-center/plotBart/actions)
 [![last

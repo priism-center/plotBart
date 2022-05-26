@@ -13,9 +13,9 @@ plot_waterfall(
 )
 }
 \arguments{
-\item{.model}{a model produced by bartCause::bartc()}
+\item{.model}{a model produced by `bartCause::bartc()`}
 
-\item{descending}{order the icates by value?}
+\item{descending}{order the ICATEs by value?}
 
 \item{.order}{a vector representing a custom order}
 

@@ -7,7 +7,7 @@
 plot_moderator_c_loess(.model, moderator, line_color = "blue")
 }
 \arguments{
-\item{.model}{a model produced by bartCause::bartc()}
+\item{.model}{a model produced by `bartCause::bartc()`}
 
 \item{moderator}{the moderator as a vector}
 

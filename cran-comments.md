@@ -1,3 +1,10 @@
+## Resubmission
+This is a resubmission. I have addressed the problems:
+- In the DESCRIPTION file, single quoted 'bartCause' in the title and description fields
+- In the README, converted license URL to the full URL
+
+I have also single quoted all references to bartCause within the function documentation.
+
 * This package is a new release.
 
 ## R CMD check results

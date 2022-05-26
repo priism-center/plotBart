@@ -1,7 +1,7 @@
-#' @title Trace plot the estimands of a bartCause::bartc() model
+#' @title Trace plot the estimands of a `bartCause::bartc()` model
 #' @description Returns a ggplot of the estimated effect over each iteration of the model fit. This is used to visually assess the convergence of Markov chain Monte Carlo (MCMC) sampling. Chains should be well mixed such that no single color is notably separate from others.
 #'
-#' @param .model a model produced by bartCause::bartc()
+#' @param .model a model produced by `bartCause::bartc()`
 #' @author Joseph Marlo, George Perrett
 #'
 #' @return ggplot object

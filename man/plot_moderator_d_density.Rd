@@ -13,7 +13,7 @@ plot_moderator_d_density(
 )
 }
 \arguments{
-\item{.model}{a model produced by bartCause::bartc()}
+\item{.model}{a model produced by `bartCause::bartc()`}
 
 \item{moderator}{the moderator as a vector}
 

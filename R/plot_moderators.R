@@ -1,7 +1,7 @@
 #' @title Partial dependency plot of a continuous moderating variable
-#' @description Plot a partial dependency plot with a continuous covariate from a bartCause model. Identify treatment effect variation predicted across levels of a continuous variable.
+#' @description Plot a partial dependency plot with a continuous covariate from a 'bartCause' model. Identify treatment effect variation predicted across levels of a continuous variable.
 #'
-#' @param .model a model produced by bartCause::bartc()
+#' @param .model a model produced by `bartCause::bartc()`
 #' @param moderator the moderator as a vector
 #' @param n_bins number of bins to cut the moderator with. Defaults to the lesser of 15 and number of distinct levels of the moderator
 #' @details Partial dependency plots are one way to evaluate heterogeneous treatment effects that vary by values of a continuous covariate. For more information on partial dependency plots from BART causal inference models see Green and Kern 2012.
@@ -103,7 +103,7 @@ plot_moderator_c_pd <- function(.model, moderator, n_bins = NULL){
 #' @title LOESS plot of a continuous moderating variable
 #' @description Plot the LOESS prediction of ICATEs by a continuous covariate. This is an alternative to partial dependency plots to assess treatment effect heterogeneity by a continuous covariate. See Carnegie, Dorie and Hill 2019.
 #'
-#' @param .model a model produced by bartCause::bartc()
+#' @param .model a model produced by `bartCause::bartc()`
 #' @param moderator the moderator as a vector
 #' @param line_color the color of the loess line
 #'
@@ -175,7 +175,7 @@ plot_moderator_c_loess <- function(.model, moderator, line_color = 'blue'){
 #' @title Plot the Conditional Average Treatment Effect conditional on a discrete moderator
 #' @description Plot the Conditional Average Treatment Effect split by a discrete moderating variable. This plot will provide a visual test of moderation by discrete variables.
 #'
-#' @param .model a model produced by bartCause::bartc()
+#' @param .model a model produced by `bartCause::bartc()`
 #' @param moderator the moderator as a vector
 #' @param .alpha transparency value [0, 1]
 #' @param facet TRUE/FALSE. Create panel plots of each moderator level?
@@ -247,7 +247,7 @@ plot_moderator_d_density <- function(.model, moderator, .alpha = 0.7, facet = FA
 #' @title Plot the posterior interval of the Conditional Average Treatment Effect grouped by a discrete variable
 #' @description Plots the range of the Conditional Average Treatment Effect grouped by a discrete variable. This is analogous to plot_moderator_d_density but is preferable for moderators with many categories. Rather than plotting the full density, the posterior range is shown.
 #'
-#' @param .model a model produced by bartCause::bartc()
+#' @param .model a model produced by `bartCause::bartc()`
 #' @param moderator the moderator as a vector
 #' @param .alpha transparency value [0, 1]
 #' @param horizontal flip the plot horizontal?
@@ -326,7 +326,7 @@ plot_moderator_d_linerange <- function(.model, moderator, .alpha = 0.7, horizont
 #' @description Plot a single regression tree for exploratory heterogeneous effects. Fit single regression tree on bartc() ICATEs to produce variable importance plot. This plot is useful for identifying potential moderating variables.
 #' Tree depth may be set to depths 1, 2 or 3. Terminal nodes signal the Conditional Average Treatment effect within levels of moderation variables. Trees with different values across terminal nodes suggest strong treatment effect moderation.
 #'
-#' @param .model a model produced by bartCause::bartc()
+#' @param .model a model produced by `bartCause::bartc()`
 #' @param max_depth one of c(1, 2, 3). Maximum number of node levels within the tree. 2 is recommended
 #'
 #' @author George Perrett, Joseph Marlo

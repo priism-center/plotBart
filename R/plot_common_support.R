@@ -1,18 +1,18 @@
 #' @title Plot common support based on the standard deviation rule, chi squared rule, or both
 #' @description Plot common support based on the standard deviation rule, chi squared rule, or both.
 #'
-#' @param .model a model produced by bartCause::bartc()
+#' @param .model a model produced by `bartCause::bartc()`
 #' @param rule one of c('both', 'sd', 'chi') denoting which rule to use to identify lack of support
 #'
 #' @details Sufficient overlap/common support is an assumption of causal inference.
 #' BART models use the uncertainty of counter factual uncertainty.
 #' When the posterior distribution of an individual's counterfactual prediction extends beyond a specified cut-point, that point likely has insufficient common support.
-#' bartCause model offer the option to automatically remove points without common support from analyses, however, this must be specified during model fitting.
+#' 'bartCause' model offer the option to automatically remove points without common support from analyses, however, this must be specified during model fitting.
 #' Cut-points are determined through one of two rules: the standard deviation (sd) or chi-squared (chi).
 #' Under the standard deviation rule, a point has weak common support if its posterior distribution of the counterfactual deviation is greater than the maximum posterior of the observed predictions with 1 standard deviation of the distribution of standard deviations for each individual's predicted outcome under the observed assignment.
 #' Under the chi-squared rule, a point is discarded if the variance between its counterfactual prediction over observed prediction are statistically different under a chi-squared distribution with 1 degree of freedom. For more details on discard rules see Hill and Su 2013.
 #'
-#' When called this plot will show how many points would have been removed under the standard deviation and chi-squared rules. This plot should be used as a diagnostic for bartCause models fit without a common-support rule.
+#' When called this plot will show how many points would have been removed under the standard deviation and chi-squared rules. This plot should be used as a diagnostic for 'bartCause' models fit without a common-support rule.
 #'
 #' @references
 #' Hill, J., & Su, Y. S. (2013).

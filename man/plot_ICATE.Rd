@@ -7,7 +7,7 @@
 plot_ICATE(.model, .group_by = NULL, n_bins = 30, .alpha = 0.7)
 }
 \arguments{
-\item{.model}{a model produced by bartCause::bartc()}
+\item{.model}{a model produced by `bartCause::bartc()`}
 
 \item{.group_by}{a grouping variable as a vector}
 

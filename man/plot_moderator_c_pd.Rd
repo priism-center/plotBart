@@ -7,7 +7,7 @@
 plot_moderator_c_pd(.model, moderator, n_bins = NULL)
 }
 \arguments{
-\item{.model}{a model produced by bartCause::bartc()}
+\item{.model}{a model produced by `bartCause::bartc()`}
 
 \item{moderator}{the moderator as a vector}
 
@@ -17,7 +17,7 @@ plot_moderator_c_pd(.model, moderator, n_bins = NULL)
 ggplot object
 }
 \description{
-Plot a partial dependency plot with a continuous covariate from a bartCause model. Identify treatment effect variation predicted across levels of a continuous variable.
+Plot a partial dependency plot with a continuous covariate from a 'bartCause' model. Identify treatment effect variation predicted across levels of a continuous variable.
 }
 \details{
 Partial dependency plots are one way to evaluate heterogeneous treatment effects that vary by values of a continuous covariate. For more information on partial dependency plots from BART causal inference models see Green and Kern 2012.

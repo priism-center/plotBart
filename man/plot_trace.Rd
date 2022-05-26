@@ -2,12 +2,12 @@
 % Please edit documentation in R/plot_trace.R
 \name{plot_trace}
 \alias{plot_trace}
-\title{Trace plot the estimands of a bartCause::bartc() model}
+\title{Trace plot the estimands of a `bartCause::bartc()` model}
 \usage{
 plot_trace(.model)
 }
 \arguments{
-\item{.model}{a model produced by bartCause::bartc()}
+\item{.model}{a model produced by `bartCause::bartc()`}
 }
 \value{
 ggplot object

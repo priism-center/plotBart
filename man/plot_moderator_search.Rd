@@ -7,7 +7,7 @@
 plot_moderator_search(.model, max_depth = c(2, 1, 3))
 }
 \arguments{
-\item{.model}{a model produced by bartCause::bartc()}
+\item{.model}{a model produced by `bartCause::bartc()`}
 
 \item{max_depth}{one of c(1, 2, 3). Maximum number of node levels within the tree. 2 is recommended}
 }

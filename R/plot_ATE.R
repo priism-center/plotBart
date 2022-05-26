@@ -1,11 +1,11 @@
 #' @title Plot the histogram or density of the Conditional Average Treatment Effect
-#' @description Plot the conditional average treatment effect (CATE) of a bartCause model.
+#' @description Plot the conditional average treatment effect (CATE) of a 'bartCause' model.
 #' The conditional average treatment effect is derived from taking the difference between
 #' predictions for each individual under the control condition and under the treatment condition averaged over the population.
 #' Means of the CATE distribution will resemble SATE and PATE but the CATE distribution accounts for more uncertainty than SATE and less uncertainty than PATE.
 #'
 #'
-#' @param .model a model produced by bartCause::bartc()
+#' @param .model a model produced by `bartCause::bartc()`
 #' @param type histogram or density
 #' @param ci_80 TRUE/FALSE. Show the 80\% credible interval?
 #' @param ci_95 TRUE/FALSE. Show the 95\% credible interval?
@@ -111,7 +111,7 @@ plot_CATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
 #' ICATEs are the difference in each individual's predicted outcome under the treatment and predicted outcome under the control averaged over the individual.
 #' Plots of ICATEs are useful to identify potential heterogeneous treatment effects between different individuals. ICATE plots can be grouped by discrete variables.
 #'
-#' @param .model a model produced by bartCause::bartc()
+#' @param .model a model produced by `bartCause::bartc()`
 #' @param .group_by a grouping variable as a vector
 #' @param n_bins number of bins
 #' @param .alpha transparency of histograms
@@ -172,7 +172,7 @@ plot_ICATE <- function(.model, .group_by = NULL, n_bins = 30, .alpha = .7){
 #' @description Plot shows the Population Average Treatment Effect which is derived from the posterior predictive distribution of the difference between \eqn{y | z=1, X} and \eqn{y | z=0, X}.
 #' Mean of PATE will resemble CATE and SATE but PATE will account for more uncertainty and is recommended for informing inferences on the average treatment effect.
 #'
-#' @param .model a model produced by bartCause::bartc()
+#' @param .model a model produced by `bartCause::bartc()`
 #' @param type histogram or density
 #' @param ci_80 TRUE/FALSE. Show the 80\% credible interval?
 #' @param ci_95 TRUE/FALSE. Show the 95\% credible interval?
@@ -274,7 +274,7 @@ plot_PATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
 #' @description Plot a histogram or density of the Sample Average Treatment Effect (SATE). The Sample Average Treatment Effect is derived from taking the difference of each individual's observed outcome and a predicted counterfactual outcome from a BART model averaged over the population.
 #' The mean of SATE will resemble means of CATE and PATE but will account for the least uncertainty.
 #'
-#' @param .model a model produced by bartCause::bartc()
+#' @param .model a model produced by `bartCause::bartc()`
 #' @param type histogram or density
 #' @param ci_80 TRUE/FALSE. Show the 80\% credible interval?
 #' @param ci_95 TRUE/FALSE. Show the 95\% credible interval?
