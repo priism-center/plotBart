@@ -22,7 +22,7 @@ ggplot object
 Plots the range of the Conditional Average Treatment Effect grouped by a discrete variable. This is analogous to plot_moderator_d_density but is preferable for moderators with many categories. Rather than plotting the full density, the posterior range is shown.
 }
 \examples{
-\dontrun{
+\donttest{
 data(lalonde)
 confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 model_results <- bartCause::bartc(

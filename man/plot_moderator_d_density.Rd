@@ -30,7 +30,7 @@ ggplot object
 Plot the Conditional Average Treatment Effect split by a discrete moderating variable. This plot will provide a visual test of moderation by discrete variables.
 }
 \examples{
-\dontrun{
+\donttest{
 data(lalonde)
 confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 model_results <- bartCause::bartc(

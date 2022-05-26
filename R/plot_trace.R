@@ -11,7 +11,7 @@
 #' @importFrom bartCause extract
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data(lalonde)
 #' confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 #' model_results <- bartCause::bartc(

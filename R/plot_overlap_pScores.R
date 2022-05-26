@@ -19,7 +19,7 @@
 #' @importFrom tidyr pivot_longer
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data(lalonde)
 #' plot_overlap_pScores(
 #'  .data = lalonde,
@@ -106,22 +106,11 @@ plot_overlap_pScores <- function(.data, treatment, response, confounders, plot_t
 #' @return a numeric vector of propensity scores
 #'
 #' @keywords internal
+#' @noRd
 #'
 #' @importFrom bartCause bartc
 #'
 #' @seealso \code{\link{plot_overlap_pScores}}
-#'
-#' @examples
-#' \dontrun{
-#' data(lalonde)
-#' plotBart:::propensity_scores(
-#'   .data = lalonde,
-#'   treatment = 'treat',
-#'   response = 're78',
-#'   confounders = c('age', 'educ'),
-#'   seed = 44
-#' )
-#' }
 propensity_scores <- function(.data, treatment, response, confounders, ...){
 
   if (treatment %notin% colnames(.data)) stop('treatment not found in .data')

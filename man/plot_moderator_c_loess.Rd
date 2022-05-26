@@ -20,7 +20,7 @@ ggplot object
 Plot the LOESS prediction of ICATEs by a continuous covariate. This is an alternative to partial dependency plots to assess treatment effect heterogeneity by a continuous covariate. See Carnegie, Dorie and Hill 2019.
 }
 \examples{
-\dontrun{
+\donttest{
 data(lalonde)
 confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 model_results <- bartCause::bartc(

@@ -21,7 +21,7 @@
 #'
 #' @import ggplot2 bartCause
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data(lalonde)
 #' confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 #' model_results <- bartCause::bartc(
@@ -124,7 +124,7 @@ plot_CATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
 #' @import ggplot2 dplyr bartCause
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data(lalonde)
 #' confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 #' model_results <- bartCause::bartc(
@@ -187,7 +187,7 @@ plot_ICATE <- function(.model, .group_by = NULL, n_bins = 30, .alpha = .7){
 #'
 #' @import ggplot2 bartCause
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data(lalonde)
 #' confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 #' model_results <- bartCause::bartc(
@@ -288,7 +288,7 @@ plot_PATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
 #' @export
 #' @import ggplot2 bartCause
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data(lalonde)
 #' confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 #' model_results <- bartCause::bartc(

@@ -32,7 +32,7 @@ Waterfall plots are a useful visual diagnostic of possible treatment effect hete
 A flat line implies little treatment effect heterogeneity while a steeper curve implies that the treatment effect varies across individuals in the sample. Ordering points by a continuous variable or coloring points by a discrete variable can be helpful to identify potential moderators of the treatment effect.
 }
 \examples{
-\dontrun{
+\donttest{
 data(lalonde)
 confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 model_results <- bartCause::bartc(

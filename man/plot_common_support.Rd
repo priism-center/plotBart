@@ -29,7 +29,7 @@ Under the chi-squared rule, a point is discarded if the variance between its cou
 When called this plot will show how many points would have been removed under the standard deviation and chi-squared rules. This plot should be used as a diagnostic for 'bartCause' models fit without a common-support rule.
 }
 \examples{
-\dontrun{
+\donttest{
 data(lalonde)
 confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 model_results <- bartCause::bartc(

@@ -36,7 +36,7 @@ ggplot object
 Plot histograms showing the overlap between propensity scores by treatment status.
 }
 \examples{
-\dontrun{
+\donttest{
 data(lalonde)
 plot_overlap_pScores(
  .data = lalonde,

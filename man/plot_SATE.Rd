@@ -37,7 +37,7 @@ Plot a histogram or density of the Sample Average Treatment Effect (SATE). The S
 The mean of SATE will resemble means of CATE and PATE but will account for the least uncertainty.
 }
 \examples{
-\dontrun{
+\donttest{
 data(lalonde)
 confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 model_results <- bartCause::bartc(

@@ -19,7 +19,7 @@
 #' @importFrom stats density median na.omit predict quantile sd
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data(lalonde)
 #' confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 #' model_results <- bartCause::bartc(
@@ -121,7 +121,7 @@ plot_moderator_c_pd <- function(.model, moderator, n_bins = NULL){
 #' @importFrom bartCause extract
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data(lalonde)
 #' confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 #' model_results <- bartCause::bartc(
@@ -190,7 +190,7 @@ plot_moderator_c_loess <- function(.model, moderator, line_color = 'blue'){
 #' @importFrom bartCause extract
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data(lalonde)
 #' confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 #' model_results <- bartCause::bartc(
@@ -261,7 +261,7 @@ plot_moderator_d_density <- function(.model, moderator, .alpha = 0.7, facet = FA
 #' @importFrom bartCause extract
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data(lalonde)
 #' confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 #' model_results <- bartCause::bartc(
@@ -340,7 +340,7 @@ plot_moderator_d_linerange <- function(.model, moderator, .alpha = 0.7, horizont
 #' @export
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' data(lalonde)
 #' confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 #' model_results <- bartCause::bartc(

@@ -1,3 +1,6 @@
+# plotBart 0.1.7
+- Documentation updates for CRAN
+
 # plotBart 0.1.6
 - Documentation updates for CRAN
 

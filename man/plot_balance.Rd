@@ -20,10 +20,8 @@ ggplot object
 Visualize balance of variables between treatment and control groups. Balance plot reflects balance in standardized units.
 }
 \examples{
-\dontrun{
 data(lalonde)
 plot_balance(lalonde, 'treat', c('re78', 'age', 'educ')) + labs(title = 'My new title')
-}
 }
 \author{
 Joseph Marlo

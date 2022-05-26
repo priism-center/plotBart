@@ -1,5 +1,7 @@
 ## Resubmission
 This is a resubmission. I have addressed the problems:
+- Removed example for unexported function 'propensity_scores()'
+- Replaced \dontrun{} with \donttest{} for all examples that contain a 'bartCause::bartc()' call. These examples can take >5 seconds on many machines
 - In the DESCRIPTION file, single quoted 'bartCause' in the title and description fields
 - In the README, converted license URL to the full URL
 
