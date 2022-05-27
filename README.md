@@ -61,6 +61,10 @@ plotBart is currently in development and is available to test by
 installing via:
 
 ``` r
+# latest release on CRAN
+install.packages('plotBart')
+
+# latest development version
 # install.packages("remotes")
-remotes::install_github('priism-center/plotBart@*release')
+remotes::install_github('priism-center/plotBart)
 ```
