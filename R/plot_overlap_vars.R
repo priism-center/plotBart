@@ -41,17 +41,26 @@ plot_overlap_vars <- function(.data, treatment, confounders, plot_type = c("hist
   dat_pivoted <- pivot_longer(.data, cols = -Z_treat)
 
   if (plot_type == 'histogram'){
-
     # histograms showing overlaps
     p <- ggplot() +
-      geom_hline(yintercept = 0, linetype = 'dashed', color = 'grey60') +
-      geom_histogram(data = filter(dat_pivoted, Z_treat == 1),
-                     aes(x = value, y = ..count.., fill = Z_treat),
-                     alpha = 0.8)+
-      geom_histogram(data = filter(dat_pivoted, Z_treat == 0),
-                     aes(x = value, y = -..count.., fill = Z_treat),
-                     alpha = 0.8) +
-      scale_y_continuous(labels = function(lbl) abs(lbl)) +
+      geom_hline(yintercept = 0, linetype = 'dashed', color = 'grey60')
+
+    if(is.character(dat_pivoted)){
+      p <- p + geom_histogram(data = filter(dat_pivoted, Z_treat == 1),
+                       aes(x = value, y = ..count.., fill = Z_treat),
+                       alpha = 0.8) +
+        geom_histogram(data = filter(dat_pivoted, Z_treat == 0),
+                       aes(x = value, y = -..count.., fill = Z_treat),
+                       alpha = 0.8)
+    }else{
+      p <- p + geom_bar(data = filter(dat_pivoted, Z_treat == 1),
+                              aes(x = value, y = ..count.., fill = Z_treat),
+                              alpha = 0.8) +
+        geom_bar(data = filter(dat_pivoted, Z_treat == 0),
+                       aes(x = value, y = -..count.., fill = Z_treat),
+                       alpha = 0.8)
+    }
+     p <- p +  scale_y_continuous(labels = function(lbl) abs(lbl)) +
       scale_fill_manual(values = c('#bd332a', '#262991')) +
       facet_wrap(~name, scales = 'free', ncol = 3) +
       labs(title = "Overlap by treatment status",
@@ -62,6 +71,7 @@ plot_overlap_vars <- function(.data, treatment, confounders, plot_type = c("hist
   }
 
   if (plot_type == 'density') {
+    if (is.character(dat_pivoted$value)) stop('Density plots are unavalable for character variables')
 
     # density plots showing overlaps
     p <- ggplot() +

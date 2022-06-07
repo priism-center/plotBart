@@ -4,10 +4,16 @@
 \alias{plot_common_support}
 \title{Plot common support based on the standard deviation rule, chi squared rule, or both}
 \usage{
-plot_common_support(.model, rule = c("both", "sd", "chi"))
+plot_common_support(
+  .model,
+  .x = "Propensity Score",
+  rule = c("both", "sd", "chi")
+)
 }
 \arguments{
 \item{.model}{a model produced by `bartCause::bartc()`}
+
+\item{.x}{a character string denoting which covariate to use a the x axis default is propensity score}
 
 \item{rule}{one of c('both', 'sd', 'chi') denoting which rule to use to identify lack of support}
 }
@@ -40,6 +46,7 @@ model_results <- bartCause::bartc(
  commonSuprule = 'none'
 )
 plot_common_support(model_results)
+plot_common_support(model_results, .x = age)
 }
 }
 \references{

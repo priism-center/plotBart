@@ -2,6 +2,7 @@
 #' @description Plot common support based on the standard deviation rule, chi squared rule, or both.
 #'
 #' @param .model a model produced by `bartCause::bartc()`
+#' @param .x a character string denoting which covariate to use a the x axis default is propensity score
 #' @param rule one of c('both', 'sd', 'chi') denoting which rule to use to identify lack of support
 #'
 #' @details Sufficient overlap/common support is an assumption of causal inference.
@@ -39,8 +40,9 @@
 #'  commonSuprule = 'none'
 #' )
 #' plot_common_support(model_results)
+#' plot_common_support(model_results, .x = age)
 #' }
-plot_common_support <- function(.model, rule = c('both', 'sd', 'chi')){
+plot_common_support <- function(.model, .x = 'Propensity Score',  rule = c('both', 'sd', 'chi')){
 
   # ensure model is a of class bartcFit
   validate_model_(.model)
@@ -50,8 +52,19 @@ plot_common_support <- function(.model, rule = c('both', 'sd', 'chi')){
   if (rule == 'both') rule <- c('sd', 'chi')
 
   # calculate summary stats
-  total_sd <- sum(.model$sd.cf > max(.model$sd.obs) + sd(.model$sd.obs))
-  prop_sd <- round(total_sd / length(.model$sd.cf), 5)*100
+  sd.cut = c(trt = max(.model$sd.obs[!.model$missingRows & .model$trt > 0]), ctl = max(.model$sd.obs[!.model$missingRows & .model$trt <= 0])) + sd(.model$sd.obs[!.model$missingRows])
+  total_sd <- switch (.model$estimand,
+                      ate = sum(.model$sd.cf[.model$trt==1] > sd.cut[1]) + sum(.model$sd.cf[.model$trt==0] > sd.cut[2]),
+                      att = sum(.model$sd.cf[.model$trt==1] > sd.cut[1]),
+                      atc = sum(.model$sd.cf[.model$trt==0] > sd.cut[2])
+  )
+
+  inference_group <- switch (.model$estimand,
+                             ate = length(.model$sd.obs[!.model$missingRows]),
+                             att = length(.model$sd.obs[!.model$missingRows] & .model$trt == 1),
+                             atc = length(.model$sd.obs[!.model$missingRows] & .model$trt == 0)
+  )
+  prop_sd <- round((total_sd / inference_group)*100 , 2)
   text_sd <- paste0('Standard deviation rule: ', prop_sd, "% of cases would have been removed")
 
   # calculate summary stats
@@ -60,33 +73,45 @@ plot_common_support <- function(.model, rule = c('both', 'sd', 'chi')){
   text_chi <- paste0('Chi-squared rule: ', prop_chi, "% of cases would have been removed")
 
   # create dataframe of the sd and chi values
-  n <- length(.model$sd.cf)
-  values_chi <- (.model$sd.cf / .model$sd.obs)^2
-  values_sd <- .model$sd.cf
-  threshold_chi <- rep(3.841, n)
-  threshold_sd <- rep(max(.model$sd.obs) + sd(.model$sd.obs), n)
-  dat <- tibble(index = rep(seq_len(n), 2),
-                support_rule = sort(rep(c('sd', 'chi'), n)),
-                support_rule_text = sort(rep(c(text_sd, text_chi), n)),
-                value = c(values_chi, values_sd),
-                threshold = c(threshold_chi, threshold_sd))
+  dat <- as_tibble(.model$data.rsp@x) %>%
+    rename(`Propensity Score` = ps)
+
+  dat.sd <- dat %>%
+    mutate(sd.cut = if_else(.model$trt == 1, sd.cut[1], sd.cut[2]),
+           removed = if_else(.model$sd.cf > sd.cut, 'Removed', 'Included'),
+           support_rule = 'sd',
+           stat = .model$sd.cf,
+           sd.cf = .model$sd.cf,
+           support_rule_text = text_sd) %>%
+    select(-sd.cut)
+
+
+  dat.chi <- dat %>%
+    mutate(removed = if_else((.model$sd.cf / .model$sd.obs) ** 2 > 3.841, 'Removed', 'Included'),
+           support_rule = 'chi',
+           stat = (.model$sd.cf / .model$sd.obs) ** 2,
+           sd.cf = .model$sd.cf,
+           support_rule_text = text_chi)
+
+  dat <- rbind(dat.sd, dat.chi)
+
+  if(.model$estimand == 'att') dat <- dat[.model$trt == 1,]
+  if(.model$estimand == 'atc') dat <- dat[.model$trt == 0,]
+
 
   # plot it
   p <- dat %>%
     filter(support_rule %in% rule) %>%
-    ggplot(aes(x = index, y = value)) +
+    ggplot(aes(x = !!rlang::sym(.x), y = sd.cf, color = removed)) +
     geom_point(alpha = 0.7) +
-    geom_hline(aes(yintercept = threshold, color = 'Removal threshold'),
-               linetype = 'dashed') +
-    scale_color_manual(values = 'coral3') +
+    scale_color_manual(values = c(1, 2)) +
     facet_wrap(~support_rule_text, ncol = 1, scales = 'free_y') +
     labs(title ="Common support checks",
-         x = 'Row index',
-         y = 'Counterfactual uncertainty',
+         x = .x,
+         y = 'Predicted counterfactual standard deviation',
          color = NULL) +
     theme(legend.position = 'bottom',
           strip.text = element_text(hjust = 0))
 
   return(p)
 }
-
