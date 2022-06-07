@@ -7,12 +7,12 @@ model_results <- bartCause::bartc(
   treatment = lalonde[['treat']],
   confounders = as.matrix(lalonde[, confounders]),
   estimand = 'ate',
-  group.by = lalonde[['married']],
+  group.by = lalonde[['married']], #dbarts bug
   group.effects = TRUE,
   commonSup.rule = 'sd',
   keepTrees = TRUE,
   seed = 2
-)
+  )
 
 out <- validate_model_(model_results)
 slots <- attributes(model_results)

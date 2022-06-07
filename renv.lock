@@ -97,10 +97,15 @@
     },
     "bartCause": {
       "Package": "bartCause",
-      "Version": "1.0-4",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "1ea77f8e2aeb7f7448bed8a8cca59997",
+      "Version": "1.0-5",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "bartCause",
+      "RemoteUsername": "vdorie",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "416f5104c99ef7197e907fc7ff953111b547011a",
+      "Hash": "6aa26b58001d16615c011b0411fbd4c9",
       "Requirements": [
         "dbarts"
       ]
@@ -224,10 +229,15 @@
     },
     "dbarts": {
       "Package": "dbarts",
-      "Version": "0.9-22",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Hash": "6477aed2a548aa336b560d1ead8a2d0f",
+      "Version": "0.9-23",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "dbarts",
+      "RemoteUsername": "vdorie",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "83f3a555bceb3aa4b0ad23cb1de9472086e2c504",
+      "Hash": "543cc105e07417f7b102b27c2491ea6d",
       "Requirements": []
     },
     "desc": {
@@ -572,10 +582,10 @@
     },
     "nloptr": {
       "Package": "nloptr",
-      "Version": "2.0.2",
+      "Version": "2.0.3",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "bb394ebb0d9730f2125ca2c0a152c01e",
+      "Hash": "277c67a08f358f42b6a77826e4492f79",
       "Requirements": [
         "testthat"
       ]
