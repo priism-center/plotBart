@@ -27,6 +27,7 @@
 #' @export
 #'
 #' @import ggplot2 dplyr
+#' @importFrom rlang sym
 #'
 #' @examples
 #' \donttest{

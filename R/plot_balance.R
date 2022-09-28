@@ -6,6 +6,7 @@
 #' @param confounders character list of column names denoting the X columns of interest
 #' @param compare character of either means or variance denotes what to compare balance on
 #' @param estimand character of either ATE, ATT or ATC the causal estimand you are making inferences about
+
 #' @author Joseph Marlo & George Perrett
 #'
 #' @return ggplot object
@@ -16,6 +17,7 @@
 #'
 #' @examples
 #' data(lalonde)
+
 #' plot_balance(lalonde, 'treat', c('re78', 'age', 'educ'), compare = 'means', estimand = 'ATE') + labs(title = 'My new title')
 plot_balance <- function(.data, treatment, confounders, compare = c('means', 'variance'), estimand = c('ATE', 'ATT', 'ATC')){
 
@@ -75,7 +77,7 @@ plot_balance <- function(.data, treatment, confounders, compare = c('means', 'va
 #'
 #' @examples
 #' data(lalonde)
-#' print_balance(lalonde, 'treat', c('re78', 'age', 'educ'), estimand = 'ATE')
+#' print_balance(lalonde, 'treat', confounders = c('re78', 'age', 'educ'), estimand = 'ATE')
 
 print_balance <- function(.data, treatment, confounders, estimand = 'ATE'){
 
@@ -113,6 +115,7 @@ print_balance <- function(.data, treatment, confounders, estimand = 'ATE'){
     table[classes != 'numeric', 4] <- '--'
 
     return(table)
+
 }
 
 

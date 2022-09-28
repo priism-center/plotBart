@@ -23,7 +23,7 @@ See balance statisitics of variables between treatment and control groups.
 }
 \examples{
 data(lalonde)
-print_balance(lalonde, 'treat', c('re78', 'age', 'educ'), estimand = 'ATE')
+print_balance(lalonde, 'treat', confounders = c('re78', 'age', 'educ'), estimand = 'ATE')
 }
 \author{
 George Perrett

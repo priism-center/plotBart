@@ -23,7 +23,8 @@ Imports:
     tidyr (>= 1.1.3),
     rpart (>= 4.1.15),
     stats (>= 3.6.2),
-    ggdendro (>= 0.1.22)
+    ggdendro (>= 0.1.22),
+    rlang
 Suggests: 
     testthat,
     vdiffr,
