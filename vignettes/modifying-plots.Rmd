@@ -28,7 +28,9 @@ confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
 # plot balance across treatment and control groups
 p <- plot_balance(.data = lalonde,
                   treatment = 'treat',
-                  confounders = confounders)
+                  confounders = confounders, 
+                  compare = 'means', 
+                  estimand = 'ATE')
 p
 ```
 

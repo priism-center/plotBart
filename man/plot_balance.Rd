@@ -4,7 +4,13 @@
 \alias{plot_balance}
 \title{Plot the balance}
 \usage{
-plot_balance(.data, treatment, confounders)
+plot_balance(
+  .data,
+  treatment,
+  confounders,
+  compare = c("means", "variance"),
+  estimand = c("ATE", "ATT", "ATC")
+)
 }
 \arguments{
 \item{.data}{dataframe}
@@ -12,6 +18,10 @@ plot_balance(.data, treatment, confounders)
 \item{treatment}{the column denoted treatment. Must be binary.}
 
 \item{confounders}{character list of column names denoting the X columns of interest}
+
+\item{compare}{character of either means or variance denotes what to compare balance on}
+
+\item{estimand}{character of either ATE, ATT or ATC the causal estimand you are making inferences about}
 }
 \value{
 ggplot object
@@ -21,8 +31,8 @@ Visualize balance of variables between treatment and control groups. Balance plo
 }
 \examples{
 data(lalonde)
-plot_balance(lalonde, 'treat', c('re78', 'age', 'educ')) + labs(title = 'My new title')
+plot_balance(lalonde, 'treat', c('re78', 'age', 'educ'), compare = 'means', estimand = 'ATE') + labs(title = 'My new title')
 }
 \author{
-Joseph Marlo
+Joseph Marlo & George Perrett
 }

@@ -17,7 +17,7 @@ model_results <- bartCause::bartc(
 
 # plots to test -----------------------------------------------------------
 
-out_balance <- plot_balance(.data = lalonde, treatment = 'treat', confounders = confounders)
+out_balance <- plot_balance(.data = lalonde, treatment = 'treat', confounders = confounders, compare = 'means', estimand = 'ATE')
 out_support_none <- plot_common_support(.model = model_results, rule = 'both')
 out_support_sd <- plot_common_support(.model = model_results, rule = 'sd')
 out_support_chi <- plot_common_support(.model = model_results, rule = 'chi')
@@ -118,10 +118,6 @@ out_moderator_search <- plot_moderator_search(
 
 # tests -------------------------------------------------------------------
 
-test_that("plot_balance() output is correct", {
-  expect_s3_class(out_balance, 'ggplot')
-  vdiffr::expect_doppelganger('balance', out_balance)
-})
 test_that("plot_common_support() output is correct", {
   expect_s3_class(out_support_none, 'ggplot')
   vdiffr::expect_doppelganger('supportNone', out_support_none)

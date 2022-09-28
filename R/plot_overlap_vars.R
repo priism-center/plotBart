@@ -61,12 +61,12 @@ plot_overlap_vars <- function(.data, treatment, confounders, plot_type = c("hist
                        alpha = 0.8)
     }
      p <- p +  scale_y_continuous(labels = function(lbl) abs(lbl)) +
-      scale_fill_manual(values = c('#bd332a', '#262991')) +
+      scale_fill_manual(values = c(4, 2)) +
       facet_wrap(~name, scales = 'free', ncol = 3) +
       labs(title = "Overlap by treatment status",
            x = NULL,
            y = 'Count',
-           fill = "Treatment")
+           fill = 'Treatment')
 
   }
 
@@ -83,7 +83,7 @@ plot_overlap_vars <- function(.data, treatment, confounders, plot_type = c("hist
                    aes(x = value, y = -..density.., fill = Z_treat),
                    alpha = 0.8) +
       scale_y_continuous(labels = function(lbl) abs(lbl)) +
-      scale_fill_manual(values = c('#bd332a', '#262991')) +
+      scale_fill_manual(values = c(4, 2)) +
       facet_wrap(~name, scales = 'free', ncol = 3) +
       labs(title = "Overlap by treatment status",
            x = NULL,

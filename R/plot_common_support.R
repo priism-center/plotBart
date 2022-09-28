@@ -40,7 +40,7 @@
 #'  commonSuprule = 'none'
 #' )
 #' plot_common_support(model_results)
-#' plot_common_support(model_results, .x = age)
+#' plot_common_support(model_results, .x = 'age')
 #' }
 plot_common_support <- function(.model, .x = 'Propensity Score',  rule = c('both', 'sd', 'chi')){
 

@@ -62,7 +62,7 @@ plot_overlap_pScores <- function(.data, treatment, response, confounders, plot_t
                      aes(x = pscores, y = -..count.., fill = Z),
                      alpha = 0.8) +
       scale_y_continuous(labels = function(lbl) abs(lbl)) +
-      scale_fill_manual(values = c('#bd332a', '#262991')) +
+      scale_fill_manual(values = c(4,2)) +
       labs(title = "Overlap by treatment status",
            subtitle = 'Data should ideally be balanced vertically',
            x = NULL,
@@ -82,7 +82,7 @@ plot_overlap_pScores <- function(.data, treatment, response, confounders, plot_t
                        aes(x = pscores, y = -..density.., fill = Z),
                        alpha = 0.8) +
         scale_y_continuous(labels = function(lbl) abs(lbl)) +
-        scale_fill_manual(values = c('#bd332a', '#262991')) +
+        scale_fill_manual(values = c(4,2)) +
         labs(title = "Overlap by treatment status",
              subtitle = 'Data should ideally be balanced vertically',
              x = NULL,
