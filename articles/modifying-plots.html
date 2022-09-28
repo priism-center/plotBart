@@ -88,7 +88,9 @@
 <span><span class="co"># plot balance across treatment and control groups</span></span>
 <span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot_balance.html">plot_balance</a></span><span class="op">(</span>.data <span class="op">=</span> <span class="va">lalonde</span>,</span>
 <span>                  treatment <span class="op">=</span> <span class="st">'treat'</span>,</span>
-<span>                  confounders <span class="op">=</span> <span class="va">confounders</span><span class="op">)</span></span>
+<span>                  confounders <span class="op">=</span> <span class="va">confounders</span>, </span>
+<span>                  compare <span class="op">=</span> <span class="st">'means'</span>, </span>
+<span>                  estimand <span class="op">=</span> <span class="st">'ATE'</span><span class="op">)</span></span>
 <span><span class="va">p</span></span></code></pre></div>
 <p><img src="modifying-plots_files/figure-html/setup-1.png" width="700"></p>
 <p><br></p>
@@ -121,15 +123,15 @@
 </h3>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p</span><span class="op">$</span><span class="va">data</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 2</span></span></span>
-<span><span class="co">#&gt;   name       diff</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> age      0.107 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> black    0.043<span style="text-decoration: underline;">8</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> educ     0.144 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> hisp    -<span style="color: #BB0000;">0.170</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> married  0.094<span style="text-decoration: underline;">3</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> nodegr  -<span style="color: #BB0000;">0.306</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 7</span></span></span>
+<span><span class="co">#&gt;   name    variance_0 variance_1 mean_0  mean_1   means variance</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> age        49.8       51.2    25.1   25.8     0.107     1.01 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> black       0.144      0.133   0.827  0.843   0.043<span style="text-decoration: underline;">9</span>    0.962</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> educ        2.61       4.04   10.1   10.3     0.141     1.25 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> hisp        0.096<span style="text-decoration: underline;">5</span>     0.056<span style="text-decoration: underline;">2</span>  0.108  0.059<span style="text-decoration: underline;">5</span> -<span style="color: #BB0000;">0.175</span>     0.763</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> married     0.131      0.154   0.154  0.189   0.093<span style="text-decoration: underline;">6</span>    1.09 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> nodegr      0.139      0.208   0.835  0.708  -<span style="color: #BB0000;">0.304</span>     1.22</span></span></code></pre></div>
 <p><br></p>
 </div>
 <div class="section level3">
