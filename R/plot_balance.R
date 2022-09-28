@@ -4,7 +4,7 @@
 #' @param .data dataframe
 #' @param treatment the column denoted treatment. Must be binary.
 #' @param confounders character list of column names denoting the X columns of interest
-#' @author Joseph Marlo
+#' @author Joseph Marlo & George Perrett
 #'
 #' @return ggplot object
 #' @export
@@ -15,12 +15,13 @@
 #' @examples
 #' data(lalonde)
 #' plot_balance(lalonde, 'treat', c('re78', 'age', 'educ')) + labs(title = 'My new title')
-plot_balance <- function(.data, treatment, confounders){
+plot_balance <- function(.data, treatment, covaraites, estimand = 'ate'){
 
   if (length(table(.data[[treatment]])) != 2) stop("treatment must be binary")
 
-  p <- .data %>%
-    dplyr::select(all_of(c(confounders, treatment))) %>%
+  p <- s
+  .data %>%
+    dplyr::select(all_of(c(covaraites, treatment))) %>%
     pivot_longer(cols = -treatment) %>%
     group_by(name) %>%
     mutate(value = base::scale(value)[,1]) %>%
