@@ -17,7 +17,7 @@ model_results <- bartCause::bartc(
 
 # plots to test -----------------------------------------------------------
 
-out_balance <- plot_balance(.data = lalonde, treatment = 'treat', confounders = confounders)
+out_balance <- plot_balance(.data = lalonde, treatment = 'treat', confounders = confounders,compare = 'means', estimand = 'ATE')
 out_support_none <- plot_common_support(.model = model_results, rule = 'both')
 out_support_sd <- plot_common_support(.model = model_results, rule = 'sd')
 out_support_chi <- plot_common_support(.model = model_results, rule = 'chi')
