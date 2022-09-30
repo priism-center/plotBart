@@ -19,24 +19,40 @@
 #' data(lalonde)
 
 #' plot_balance(lalonde, 'treat', c('re78', 'age', 'educ'), compare = 'means', estimand = 'ATE') + labs(title = 'My new title')
-plot_balance <- function(.data, treatment, confounders, compare = c('means', 'variance'), estimand = c('ATE', 'ATT', 'ATC')){
+plot_balance <- function(.data, treatment, confounders, compare = c('means', 'variance', 'covariance'), estimand = c('ATE', 'ATT', 'ATC')){
 
   if (length(table(.data[[treatment]])) != 2) stop("treatment must be binary")
   compare <- match.arg(compare)
   estimand <- match.arg(estimand)
   estimand <- toupper(estimand)
 
-  if (compare %notin% c('means', 'variance')) stop("compare must be either: means or variance")
   if (estimand %notin% c('ATE', 'ATT', 'ATC')) stop("estimand must be either: ATE, ATT or ATC")
+  if(compare == 'variance')x_var <- 'variance' else x_var <- 'means'
 
-  p <- .data %>%
-    dplyr::select(all_of(c(confounders, treatment))) %>%
+  if(compare == 'covariance'){
+    # gets interactions of all columns
+    cov_dat <- combn(.data[, confounders], 2, FUN = Reduce, f = `*`)
+
+    # get column names so we know what is what
+    colnames(cov_dat) <- paste(
+      combn(names(.data[, confounders]), 2)[1, ],
+      combn(names(.data[, confounders]), 2)[2, ],
+      sep = '*')
+    # add back treatment
+    .data <- cbind.data.frame(cov_dat, treatment = .data[[treatment]])
+
+  }else{
+    .data <- .data %>%
+      dplyr::select(all_of(c(confounders, treatment)))
+  }
+
+   .data <- .data %>%
     pivot_longer(cols = -treatment) %>%
     group_by(across(c('name', treatment))) %>%
     summarize(mean = mean(value, na.rm = TRUE),
               variance = var(value),
               .groups = 'drop') %>%
-    pivot_wider(names_from = treat, values_from = c(variance, mean)) %>%
+    pivot_wider(names_from = treatment, values_from = c(variance, mean)) %>%
     mutate(means =
              case_when(
                estimand == 'ATE' ~ (mean_1 - mean_0) / sqrt((variance_1 + variance_0) /2),
@@ -45,15 +61,46 @@ plot_balance <- function(.data, treatment, confounders, compare = c('means', 'va
              ),
            variance = sqrt(variance_1/variance_0)
            ) %>%
-    ggplot(aes(x = get(compare), y = name)) +
-    geom_vline(xintercept = ifelse(compare == 'means', 0, 1), linetype = 'dashed', color = 'gray60') +
+    mutate(flag_means = if_else(means > 2 | means < -2, 1, 0),
+           flag_variance = if_else(variance > 2 | variance < .5, 1, 0),
+           flag = if(compare == 'variance') flag_variance else  flag_means,
+           means = if_else(means > 2, 2, means),
+           means = if_else(means < -2, -2, means),
+           variance = if_else(variance > 1, 1, variance),
+           variance = if_else(variance < .5, .5, variance))
+
+    p <- ggplot(.data, aes(
+      x = get(x_var),
+      y = reorder(name, get(x_var)),
+      col = as.factor(flag)
+    )) +
+    geom_vline(
+      xintercept = ifelse(x_var == 'means', 0, 1),
+      linetype = 'dashed',
+      color = 'gray60'
+    ) +
     geom_point(size = 4) +
-    labs(title = 'Balance',
-         subtitle = 'points represent the treatment group',
-         x = ifelse(compare == 'means', 'Scaled mean difference', 'Ratio of variance'),
-         y = NULL,
-         color = NULL) +
+    scale_color_manual(values = c('black', 'red')) +
+    labs(
+      title = 'Balance',
+      x = case_when(
+        compare == 'means' ~ 'Scaled mean difference',
+        compare == 'variance' ~ 'Ratio of variance',
+        compare == 'covariance' ~ 'Scaled mean difference of interactions (balance of covaraince)'
+      ),
+      y = NULL,
+      color = NULL
+    ) +
     theme(legend.position = 'none')
+
+  if (x_var == 'means')
+    p <-p + coord_cartesian(xlim = c(-2, 2))
+    else
+      p <- p + coord_cartesian(xlim = c(.5, 2)) + scale_x_continuous(trans='log10')
+
+  if(max(.data$flag) == 0) p <- p + labs(subtitle = 'points represent the treatment group')
+    else
+      p <- p + labs(subtitle = 'points represent the treatment group\nred points are imbalanced by more than 2 standard deviations')
 
   return(p)
 
@@ -96,7 +143,7 @@ print_balance <- function(.data, treatment, confounders, estimand = 'ATE'){
     summarize(mean = mean(value, na.rm = TRUE),
               variance = var(value),
               .groups = 'drop') %>%
-    pivot_wider(names_from = treat, values_from = c(variance, mean)) %>%
+    pivot_wider(names_from = treatment, values_from = c(variance, mean)) %>%
     mutate(
       raw_means = mean_1 - mean_0,
       means =

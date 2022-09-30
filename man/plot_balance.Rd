@@ -8,7 +8,7 @@ plot_balance(
   .data,
   treatment,
   confounders,
-  compare = c("means", "variance"),
+  compare = c("means", "variance", "covariance"),
   estimand = c("ATE", "ATT", "ATC")
 )
 }
