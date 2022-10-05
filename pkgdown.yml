@@ -1,9 +1,9 @@
-pandoc: 2.7.3
+pandoc: '2.5'
 pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
   modifying-plots: modifying-plots.html
-last_built: 2022-10-05T17:04Z
+last_built: 2022-10-05T17:59Z
 urls:
   reference: https://priism-center.github.io/plotBart/reference
   article: https://priism-center.github.io/plotBart/articles
