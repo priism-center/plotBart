@@ -22,6 +22,7 @@
 plot_balance <- function(.data, treatment, confounders, compare = c('means', 'variance', 'covariance'), estimand = c('ATE', 'ATT', 'ATC')){
   if(missing(treatment)) stop('enter a string indicating the name of the treatment variable')
   if (length(table(.data[[treatment]])) != 2) stop("treatment must be binary")
+  if(is.logical(.data[[treatment]])) .data[[treatment]] <- as.numeric(.data[[treatment]])
   compare <- match.arg(compare)
   estimand <- match.arg(estimand)
   estimand <- toupper(estimand)
