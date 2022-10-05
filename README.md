@@ -66,5 +66,5 @@ install.packages('plotBart')
 
 # latest development version
 # install.packages("remotes")
-remotes::install_github('priism-center/plotBart)
+remotes::install_github('priism-center/plotBart')
 ```
