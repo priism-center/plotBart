@@ -133,6 +133,7 @@ plot_balance <- function(.data, treatment, confounders, compare = c('means', 'va
 print_balance <- function(.data, treatment, confounders, estimand = 'ATE'){
 
   if (length(table(.data[[treatment]])) != 2) stop("treatment must be binary")
+  if(is.logical(.data[[treatment]])) .data[[treatment]] <- as.numeric(.data[[treatment]])
   estimand <- match.arg(estimand)
   estimand <- toupper(estimand)
 
