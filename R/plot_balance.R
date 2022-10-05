@@ -7,7 +7,7 @@
 #' @param compare character of either means or variance denotes what to compare balance on
 #' @param estimand character of either ATE, ATT or ATC the causal estimand you are making inferences about
 
-#' @author Joseph Marlo & George Perrett
+#' @author George Perrett & Joseph Marlo
 #'
 #' @return ggplot object
 #' @export
@@ -20,7 +20,7 @@
 
 #' plot_balance(lalonde, 'treat', c('re78', 'age', 'educ'), compare = 'means', estimand = 'ATE') + labs(title = 'My new title')
 plot_balance <- function(.data, treatment, confounders, compare = c('means', 'variance', 'covariance'), estimand = c('ATE', 'ATT', 'ATC')){
-
+  if(missing(treatment)) stop('enter a string indicating the name of the treatment variable')
   if (length(table(.data[[treatment]])) != 2) stop("treatment must be binary")
   compare <- match.arg(compare)
   estimand <- match.arg(estimand)
@@ -61,17 +61,17 @@ plot_balance <- function(.data, treatment, confounders, compare = c('means', 'va
              ),
            variance = sqrt(variance_1/variance_0)
            ) %>%
-    mutate(flag_means = if_else(means > 2 | means < -2, 1, 0),
+    mutate(flag_means = if_else(means > 2.5 | means < -2.5, 1, 0),
            flag_variance = if_else(variance > 2 | variance < .5, 1, 0),
            flag = if(compare == 'variance') flag_variance else  flag_means,
-           means = if_else(means > 2, 2, means),
-           means = if_else(means < -2, -2, means),
+           means = if_else(means > 2.5, 2.5, means),
+           means = if_else(means < -2.5, -2.5, means),
            variance = if_else(variance > 1, 1, variance),
            variance = if_else(variance < .5, .5, variance))
 
     p <- ggplot(.data, aes(
       x = get(x_var),
-      y = reorder(name, get(x_var)),
+      y = reorder(name, abs(get(x_var))),
       col = as.factor(flag)
     )) +
     geom_vline(
@@ -94,13 +94,16 @@ plot_balance <- function(.data, treatment, confounders, compare = c('means', 'va
     theme(legend.position = 'none')
 
   if (x_var == 'means')
-    p <-p + coord_cartesian(xlim = c(-2, 2))
+    p <-p + coord_cartesian(xlim = c(-2.5, 2.5))
     else
       p <- p + coord_cartesian(xlim = c(.5, 2)) + scale_x_continuous(trans='log10')
 
-  if(max(.data$flag) == 0) p <- p + labs(subtitle = 'points represent the treatment group')
+  if(max(.data$flag) == 0)
+    p <- p + labs(subtitle = 'points represent the treatment group')
     else
-      p <- p + labs(subtitle = 'points represent the treatment group\nred points are imbalanced by more than 2 standard deviations')
+      p <- p + labs(subtitle = if_else(compare == 'variance',
+                                       'points represent the treatment group\nred points have a variance ratio that is more than 2 times bigger or smaller than the control group',
+                                       'points represent the treatment group\nred points have standardized means that are more than 2.5 standard deviations different than the control group'))
 
   return(p)
 
