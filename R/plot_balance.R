@@ -19,7 +19,7 @@
 #' data(lalonde)
 
 #' plot_balance(lalonde, 'treat', c('re78', 'age', 'educ'), compare = 'means', estimand = 'ATE') + labs(title = 'My new title')
-plot_balance <- function(.data, treatment, confounders, compare = c('means', 'variance', 'covariance'), estimand = c('ATE', 'ATT', 'ATC')){
+plot_balance <- function(.data, treatment, confounders, compare = c('means', 'variance', 'covariance'), estimand = c('ATE', 'ATT', 'ATC'), show_top = NULL){
   if(missing(treatment)) stop('enter a string indicating the name of the treatment variable')
   if (length(table(.data[[treatment]])) != 2) stop("treatment must be binary")
   if(is.logical(.data[[treatment]])) .data[[treatment]] <- as.numeric(.data[[treatment]])
@@ -68,7 +68,10 @@ plot_balance <- function(.data, treatment, confounders, compare = c('means', 'va
            means = if_else(means > 2.5, 2.5, means),
            means = if_else(means < -2.5, -2.5, means),
            variance = if_else(variance > 1, 1, variance),
-           variance = if_else(variance < .5, .5, variance))
+           variance = if_else(variance < .5, .5, variance)) %>%
+     na.omit()
+
+   if(!is.null(show_top)) .data <- .data %>% arrange(desc(abs(if(compare == 'variance') variance else means))) %>% slice(1:show_top)
 
     p <- ggplot(.data, aes(
       x = get(x_var),
@@ -98,13 +101,15 @@ plot_balance <- function(.data, treatment, confounders, compare = c('means', 'va
     p <-p + coord_cartesian(xlim = c(-2.5, 2.5))
     else
       p <- p + coord_cartesian(xlim = c(.5, 2)) + scale_x_continuous(trans='log10')
-
-  if(max(.data$flag) == 0)
+  if(max(.data$flag) == 0){
     p <- p + labs(subtitle = 'points represent the treatment group')
-    else
+
+  }else{
       p <- p + labs(subtitle = if_else(compare == 'variance',
                                        'points represent the treatment group\nred points have a variance ratio that is more than 2 times bigger or smaller than the control group',
                                        'points represent the treatment group\nred points have standardized means that are more than 2.5 standard deviations different than the control group'))
+    }
+
 
   return(p)
 
@@ -130,7 +135,7 @@ plot_balance <- function(.data, treatment, confounders, compare = c('means', 'va
 #' data(lalonde)
 #' print_balance(lalonde, 'treat', confounders = c('re78', 'age', 'educ'), estimand = 'ATE')
 
-print_balance <- function(.data, treatment, confounders, estimand = 'ATE'){
+print_balance <- function(.data, treatment, confounders, estimand = c('ATE', 'ATT', 'ATC')){
 
   if (length(table(.data[[treatment]])) != 2) stop("treatment must be binary")
   if(is.logical(.data[[treatment]])) .data[[treatment]] <- as.numeric(.data[[treatment]])
@@ -153,13 +158,13 @@ print_balance <- function(.data, treatment, confounders, estimand = 'ATE'){
       raw_means = mean_1 - mean_0,
       means =
         case_when(
-          estimand == 'ATE' ~ (mean_1 - mean_0) / sqrt((variance_1 + variance_0) /
-                                                         2),
+          estimand == 'ATE' ~ (mean_1 - mean_0) / sqrt((variance_1 + variance_0) /2),
           estimand == 'ATT' ~ (mean_1 - mean_0) / sqrt(variance_1),
           estimand == 'ATC' ~ (mean_1 - mean_0) / sqrt(variance_0)
         ),
            variance = sqrt(variance_1/variance_0)
     ) %>%
+    na.omit() %>%
     dplyr::select(name, raw_means, means, variance) %>%
     rename(variable = name,`difference in means` = raw_means, `standardized difference in means` = means, `ratio of the variance` = variance) %>%
     mutate(across(where(is.numeric), round, 2))
@@ -170,4 +175,76 @@ print_balance <- function(.data, treatment, confounders, estimand = 'ATE'){
 
 }
 
+
+#' @title Print covariance statistics
+#' @description See balance statisitics of variables between treatment and control groups.
+#'
+#' @param .data dataframe
+#' @param treatment the column denoted treatment. Must be binary.
+#' @param confounders character list of column names denoting the X columns of interest
+#' @param estimand character of either ATE, ATT or ATC the causal estimand you are making inferences about
+#' @author George Perrett
+#'
+#' @return tibble
+#' @export
+#'
+#' @import ggplot2 dplyr
+#' @importFrom tidyr pivot_longer
+#' @importFrom stats var
+#'
+#' @examples
+#' data(lalonde)
+#' print_covariance(lalonde, 'treat', confounders = c('re78', 'age', 'educ'), estimand = 'ATE')
+
+print_covariance <- function(.data, treatment, confounders, estimand = c('ATE', 'ATT', 'ATC')){
+
+  if(missing(treatment)) stop('enter a string indicating the name of the treatment variable')
+  if (length(table(.data[[treatment]])) != 2) stop("treatment must be binary")
+  if(is.logical(.data[[treatment]])) .data[[treatment]] <- as.numeric(.data[[treatment]])
+  estimand <- match.arg(estimand)
+  estimand <- toupper(estimand)
+  classes <- sapply(.data[, confounders], class)
+
+  if (estimand %notin% c('ATE', 'ATT', 'ATC')) stop("estimand must be either: ATE, ATT or ATC")
+
+    # gets interactions of all columns
+    cov_dat <- combn(.data[, confounders], 2, FUN = Reduce, f = `*`)
+
+    # get column names so we know what is what
+    colnames(cov_dat) <- paste(
+      combn(names(.data[, confounders]), 2)[1, ],
+      combn(names(.data[, confounders]), 2)[2, ],
+      sep = '*')
+    # add back treatment
+    .data <- cbind.data.frame(cov_dat, treatment = .data[[treatment]])
+
+  table <- .data %>%
+    pivot_longer(cols = -treatment) %>%
+    group_by(across(c('name', treatment))) %>%
+    summarize(mean = mean(value, na.rm = TRUE),
+              variance = var(value),
+              .groups = 'drop') %>%
+    pivot_wider(names_from = treatment, values_from = c(variance, mean)) %>%
+    mutate(
+      raw_means = mean_1 - mean_0,
+      means =
+             case_when(
+               estimand == 'ATE' ~ (mean_1 - mean_0) / sqrt((variance_1 + variance_0) /2),
+               estimand == 'ATT' ~ (mean_1 - mean_0) / sqrt(variance_1),
+               estimand == 'ATC' ~ (mean_1 - mean_0) / sqrt(variance_0)
+             ),
+      variance = sqrt(variance_1/variance_0)
+    ) %>%
+    na.omit() %>%
+    na.omit() %>%
+    dplyr::select(name, raw_means, means, variance) %>%
+    rename(variable = name,`difference in means` = raw_means, `standardized difference in means` = means, `ratio of the variance` = variance) %>%
+    mutate(across(where(is.numeric), round, 2))
+
+    table$`ratio of the variance` <- as.character(table$`ratio of the variance`)
+    table[classes != 'numeric', 4] <- '--'
+
+    return(table)
+
+}
 

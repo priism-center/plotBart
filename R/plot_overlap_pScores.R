@@ -31,7 +31,7 @@
 #'  seed = 44
 #')
 #'}
-plot_overlap_pScores <- function(.data, treatment, response, confounders, plot_type = c("histogram", "density"), pscores = NULL, ...) {
+plot_overlap_pScores <- function(.data, treatment, confounders, plot_type = c("histogram", "density"),clip = NULL, pscores = NULL, ...) {
 
   plot_type <- tolower(plot_type[[1]])
   if (plot_type %notin% c('histogram', 'density')) stop('plot_type must be one of c("histogram", "density"')
@@ -42,7 +42,6 @@ plot_overlap_pScores <- function(.data, treatment, response, confounders, plot_t
     pscores <- propensity_scores(
       .data = .data,
       treatment = treatment,
-      response = response,
       confounders = confounders,
       ...
     )
@@ -50,6 +49,8 @@ plot_overlap_pScores <- function(.data, treatment, response, confounders, plot_t
 
   dat <- data.frame(Z = coerce_to_logical_(.data[[treatment]]),
                     pscores = pscores)
+
+  if(!is.null(clip)) {dat <- dat %>% filter(pscores > min(clip) & pscores < max(clip))}
 
   if (plot_type == 'histogram'){
 
@@ -64,7 +65,6 @@ plot_overlap_pScores <- function(.data, treatment, response, confounders, plot_t
       scale_y_continuous(labels = function(lbl) abs(lbl)) +
       scale_fill_manual(values = c(4,2)) +
       labs(title = "Overlap by treatment status",
-           subtitle = 'Data should ideally be balanced vertically',
            x = NULL,
            y = 'Count',
            fill = "Treatment")
@@ -84,7 +84,6 @@ plot_overlap_pScores <- function(.data, treatment, response, confounders, plot_t
         scale_y_continuous(labels = function(lbl) abs(lbl)) +
         scale_fill_manual(values = c(4,2)) +
         labs(title = "Overlap by treatment status",
-             subtitle = 'Data should ideally be balanced vertically',
              x = NULL,
              y = 'Count',
              fill = "Treatment")
@@ -111,10 +110,9 @@ plot_overlap_pScores <- function(.data, treatment, response, confounders, plot_t
 #' @importFrom bartCause bartc
 #'
 #' @seealso \code{\link{plot_overlap_pScores}}
-propensity_scores <- function(.data, treatment, response, confounders, ...){
+propensity_scores <- function(.data, treatment, confounders){
 
   if (treatment %notin% colnames(.data)) stop('treatment not found in .data')
-  if (response %notin% colnames(.data)) stop('response not found in .data')
   if (any(confounders %notin% colnames(.data))) stop('Not all confounders are found in .data')
 
   # coerce treatment column to logical
@@ -122,10 +120,8 @@ propensity_scores <- function(.data, treatment, response, confounders, ...){
 
   # run the Bart model
   confounders_mat <- as.matrix(.data[, 3:ncol(.data)])
-  dim.red_results <- bartCause::bartc(response = .data[[response]],
-                                      treatment = .data[[treatment]],
-                                      confounders = as.matrix(.data[confounders]),
-                                      ...)
+  dim.red_results <- dbarts::bart2(.data[[treatment]] ~ as.matrix(.data[confounders]))
+  p.score <- apply(dbarts::extract(dim.red_results, 'ev'), 2, mean)
 
-  return(dim.red_results$p.score)
+  return(p.score)
 }
