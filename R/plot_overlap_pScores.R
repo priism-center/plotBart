@@ -3,7 +3,6 @@
 #'
 #' @param .data dataframe
 #' @param treatment character. Name of the treatment column within .data
-#' @param response character. Name of the response column within .data
 #' @param confounders character list of column names denoting confounders within .data
 #' @param min_x numeric value specifying the minimum propensity score value to be shown on the x axis
 #' @param max_x numeric value specifying the maximum propensity score value to be shown on the x axis

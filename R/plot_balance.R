@@ -14,6 +14,8 @@
 #'
 #' @import ggplot2 dplyr
 #' @importFrom tidyr pivot_longer pivot_wider
+#' @importFrom utils combn
+#' @importFrom stats reorder
 #' @examples
 #' data(lalonde)
 
