@@ -24,7 +24,6 @@ out_support_chi <- plot_common_support(.model = model_results, rule = 'chi')
 out_overlap_pscores_hist <- plot_overlap_pScores(
   .data = lalonde,
   treatment = 'treat',
-  response = 're78',
   confounders = confounders,
   plot_type = 'histogram',
   seed = 44

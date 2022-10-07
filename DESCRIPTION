@@ -24,7 +24,8 @@ Imports:
     rpart (>= 4.1.15),
     stats (>= 3.6.2),
     ggdendro (>= 0.1.22),
-    rlang
+    rlang, 
+    dbarts
 Suggests: 
     testthat,
     vdiffr,

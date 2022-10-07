@@ -45,7 +45,7 @@ plot_overlap_vars <- function(.data, treatment, confounders, plot_type = c("hist
     p <- ggplot() +
       geom_hline(yintercept = 0, linetype = 'dashed', color = 'grey60')
 
-    if(is.character(dat_pivoted)){
+    if(!is.character(dat_pivoted)){
       p <- p + geom_histogram(data = filter(dat_pivoted, Z_treat == 1),
                        aes(x = value, y = ..count.., fill = Z_treat),
                        alpha = 0.8) +

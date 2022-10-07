@@ -14,12 +14,11 @@
 #'
 #' @import ggplot2 dplyr
 #' @importFrom tidyr pivot_longer pivot_wider
-#'
 #' @examples
 #' data(lalonde)
 
 #' plot_balance(lalonde, 'treat', c('re78', 'age', 'educ'), compare = 'means', estimand = 'ATE') + labs(title = 'My new title')
-plot_balance <- function(.data, treatment, confounders, compare = c('means', 'variance', 'covariance'), estimand = c('ATE', 'ATT', 'ATC'), show_top = NULL){
+plot_balance <- function(.data, treatment, confounders, compare = c('means', 'variance', 'covariance'), estimand = c('ATE', 'ATT', 'ATC')){
   if(missing(treatment)) stop('enter a string indicating the name of the treatment variable')
   if (length(table(.data[[treatment]])) != 2) stop("treatment must be binary")
   if(is.logical(.data[[treatment]])) .data[[treatment]] <- as.numeric(.data[[treatment]])
@@ -70,8 +69,6 @@ plot_balance <- function(.data, treatment, confounders, compare = c('means', 'va
            variance = if_else(variance > 1, 1, variance),
            variance = if_else(variance < .5, .5, variance)) %>%
      na.omit()
-
-   if(!is.null(show_top)) .data <- .data %>% arrange(desc(abs(if(compare == 'variance') variance else means))) %>% slice(1:show_top)
 
     p <- ggplot(.data, aes(
       x = get(x_var),
@@ -145,6 +142,7 @@ print_balance <- function(.data, treatment, confounders, estimand = c('ATE', 'AT
   if (estimand %notin% c('ATE', 'ATT', 'ATC')) stop("estimand must be either: ATE, ATT or ATC")
 
   classes <- sapply(.data[, confounders], class)
+  classes <- classes[order(classes)]
 
   table <- .data %>%
     dplyr::select(all_of(c(confounders, treatment))) %>%
@@ -166,9 +164,16 @@ print_balance <- function(.data, treatment, confounders, estimand = c('ATE', 'AT
     ) %>%
     na.omit() %>%
     dplyr::select(name, raw_means, means, variance) %>%
-    rename(variable = name,`difference in means` = raw_means, `standardized difference in means` = means, `ratio of the variance` = variance) %>%
-    mutate(across(where(is.numeric), round, 2))
+    rename(variable = name,
+           `difference in means` = raw_means,
+           `standardized difference in means` = means,
+           `ratio of the variance` = variance) %>%
+    mutate(across(where(is.numeric), round, 2)) %>%
+    arrange(variable)
+
+    table$`standardized difference in means` <- as.character(table$`standardized difference in means`)
     table$`ratio of the variance` <- as.character(table$`ratio of the variance`)
+    table[classes != 'numeric', 3] <- '--'
     table[classes != 'numeric', 4] <- '--'
 
     return(table)

@@ -7,9 +7,10 @@
 plot_overlap_pScores(
   .data,
   treatment,
-  response,
   confounders,
   plot_type = c("histogram", "density"),
+  min_x = NULL,
+  max_x = NULL,
   pscores = NULL,
   ...
 )
@@ -19,15 +20,19 @@ plot_overlap_pScores(
 
 \item{treatment}{character. Name of the treatment column within .data}
 
-\item{response}{character. Name of the response column within .data}
-
 \item{confounders}{character list of column names denoting confounders within .data}
 
 \item{plot_type}{the plot type, one of c('Histogram', 'Density')}
 
+\item{min_x}{numeric value specifying minimum propensity score value to be shown on the x axis}
+
+\item{max_x}{numeric value specifying minimum propensity score value to be shown on the x axis}
+
 \item{pscores}{propensity scores. If not provided, then propensity scores will be calculated using BART}
 
-\item{\dots}{additional arguments passed to `bartCause::bartc` propensity score calculation}
+\item{\dots}{additional arguments passed to `dbarts::bart2` propensity score calculation}
+
+\item{response}{character. Name of the response column within .data}
 }
 \value{
 ggplot object

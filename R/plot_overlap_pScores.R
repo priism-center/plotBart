@@ -5,9 +5,11 @@
 #' @param treatment character. Name of the treatment column within .data
 #' @param response character. Name of the response column within .data
 #' @param confounders character list of column names denoting confounders within .data
+#' @param min_x numeric value specifying the minimum propensity score value to be shown on the x axis
+#' @param max_x numeric value specifying the maximum propensity score value to be shown on the x axis
 #' @param plot_type the plot type, one of c('Histogram', 'Density')
 #' @param pscores propensity scores. If not provided, then propensity scores will be calculated using BART
-#' @param \dots additional arguments passed to `bartCause::bartc` propensity score calculation
+#' @param \dots additional arguments passed to `dbarts::bart2` propensity score calculation
 #' @author George Perrett, Joseph Marlo
 #'
 #' @return ggplot object
@@ -31,7 +33,7 @@
 #'  seed = 44
 #')
 #'}
-plot_overlap_pScores <- function(.data, treatment, confounders, plot_type = c("histogram", "density"),clip = NULL, pscores = NULL, ...) {
+plot_overlap_pScores <- function(.data, treatment, confounders, plot_type = c("histogram", "density"),min_x = NULL, max_x = NULL, pscores = NULL, ...) {
 
   plot_type <- tolower(plot_type[[1]])
   if (plot_type %notin% c('histogram', 'density')) stop('plot_type must be one of c("histogram", "density"')
@@ -50,7 +52,9 @@ plot_overlap_pScores <- function(.data, treatment, confounders, plot_type = c("h
   dat <- data.frame(Z = coerce_to_logical_(.data[[treatment]]),
                     pscores = pscores)
 
-  if(!is.null(clip)) {dat <- dat %>% filter(pscores > min(clip) & pscores < max(clip))}
+  if(!is.null(min_x)) {dat <- dat %>% filter(pscores >= min_x)}
+  if(!is.null(max_x)) {dat <- dat %>% filter(pscores <= max_x)}
+
 
   if (plot_type == 'histogram'){
 
@@ -100,17 +104,17 @@ plot_overlap_pScores <- function(.data, treatment, confounders, plot_type = c("h
 #' @param treatment character. Name of the treatment column within .data
 #' @param response character. Name of the response column within .data
 #' @param confounders character list of column names denoting confounders within .data
-#' @param \dots additional arguments passed to `bartCause::bartc`
+#' @param \dots additional arguments passed to `dbarts::barts()`
 #'
 #' @return a numeric vector of propensity scores
 #'
 #' @keywords internal
 #' @noRd
 #'
-#' @importFrom bartCause bartc
+#' @importFrom dbarts bart2
 #'
 #' @seealso \code{\link{plot_overlap_pScores}}
-propensity_scores <- function(.data, treatment, confounders){
+propensity_scores <- function(.data, treatment, confounders, ...){
 
   if (treatment %notin% colnames(.data)) stop('treatment not found in .data')
   if (any(confounders %notin% colnames(.data))) stop('Not all confounders are found in .data')

@@ -4,7 +4,7 @@
 \alias{print_balance}
 \title{Print balance statistics}
 \usage{
-print_balance(.data, treatment, confounders, estimand = "ATE")
+print_balance(.data, treatment, confounders, estimand = c("ATE", "ATT", "ATC"))
 }
 \arguments{
 \item{.data}{dataframe}
