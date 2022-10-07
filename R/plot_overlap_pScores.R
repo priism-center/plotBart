@@ -25,7 +25,6 @@
 #' plot_overlap_pScores(
 #'  .data = lalonde,
 #'  treatment = 'treat',
-#'  response = 're78',
 #'  confounders = c('age', 'educ'),
 #'  plot_type = 'histogram',
 #'  pscores = NULL,
@@ -101,7 +100,6 @@ plot_overlap_pScores <- function(.data, treatment, confounders, plot_type = c("h
 #'
 #' @param .data dataframe
 #' @param treatment character. Name of the treatment column within .data
-#' @param response character. Name of the response column within .data
 #' @param confounders character list of column names denoting confounders within .data
 #' @param \dots additional arguments passed to `dbarts::barts()`
 #'

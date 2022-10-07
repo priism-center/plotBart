@@ -24,15 +24,13 @@ plot_overlap_pScores(
 
 \item{plot_type}{the plot type, one of c('Histogram', 'Density')}
 
-\item{min_x}{numeric value specifying minimum propensity score value to be shown on the x axis}
+\item{min_x}{numeric value specifying the minimum propensity score value to be shown on the x axis}
 
-\item{max_x}{numeric value specifying minimum propensity score value to be shown on the x axis}
+\item{max_x}{numeric value specifying the maximum propensity score value to be shown on the x axis}
 
 \item{pscores}{propensity scores. If not provided, then propensity scores will be calculated using BART}
 
 \item{\dots}{additional arguments passed to `dbarts::bart2` propensity score calculation}
-
-\item{response}{character. Name of the response column within .data}
 }
 \value{
 ggplot object
@@ -46,7 +44,6 @@ data(lalonde)
 plot_overlap_pScores(
  .data = lalonde,
  treatment = 'treat',
- response = 're78',
  confounders = c('age', 'educ'),
  plot_type = 'histogram',
  pscores = NULL,
