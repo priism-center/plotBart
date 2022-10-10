@@ -213,7 +213,7 @@ print_covariance <- function(.data, treatment, confounders, estimand = c('ATE', 
   classes <- sapply(.data[, confounders], class)
 
   if (estimand %notin% c('ATE', 'ATT', 'ATC')) stop("estimand must be either: ATE, ATT or ATC")
-
+    browser()
     # gets interactions of all columns
     cov_dat <- combn(.data[, confounders], 2, FUN = Reduce, f = `*`)
 
@@ -243,15 +243,44 @@ print_covariance <- function(.data, treatment, confounders, estimand = c('ATE', 
       variance = sqrt(variance_1/variance_0)
     ) %>%
     na.omit() %>%
-    na.omit() %>%
-    dplyr::select(name, raw_means, means, variance) %>%
+    dplyr::select(name, means) %>%
+    arrange(desc(means)) %>%
     rename(variable = name,`difference in means` = raw_means, `standardized difference in means` = means, `ratio of the variance` = variance) %>%
     mutate(across(where(is.numeric), round, 2))
 
-    table$`ratio of the variance` <- as.character(table$`ratio of the variance`)
-    table[classes != 'numeric', 4] <- '--'
-
     return(table)
 
+}
+
+
+#' @title Plot the covariance
+#' @description Visualize balance of the covariance of variables between treatment and control groups. Balance plot reflects balance in standardized units.
+#'
+#' @param .data dataframe
+#' @param treatment the column denoted treatment. Must be binary.
+#' @param confounders character list of column names denoting the X columns of interest
+
+#' @author George Perrett
+#'
+#' @return ggplot object
+#' @export
+#'
+#' @import ggplot2 dplyr GGally
+#' @examples
+#' data(lalonde)
+
+#' plot_covariance(lalonde, 'treat', c('re75','re74' , 'age', 'educ')) + labs(title = 'My new title')
+
+plot_covariance <- function(.data, treat, confounders){
+  .data$treatment <- .data[[treat]]
+  .data[, confounders] <- apply(.data[, confounders], 2, function(i) (i - mean(i))/sd(i))
+  .data %>%
+    ggpairs(
+      upper = list(continuous = "density"),
+      lower = list(continuous = "points"),
+      columns = confounders,
+      aes(colour= as.factor(treatment), alpha = .7)) +
+    scale_color_manual(values = c('blue', 'red')) +
+    scale_fill_manual(values = c('blue', 'red'))
 }
 
