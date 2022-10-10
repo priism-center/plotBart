@@ -64,7 +64,7 @@ plot_balance <- function(.data, treatment, confounders, compare = c('means', 'va
            variance = sqrt(variance_1/variance_0)
            ) %>%
     mutate(flag_means = if_else(means > 2.5 | means < -2.5, 1, 0),
-           flag_variance = if_else(variance > 2 | variance < .5, 1, 0),
+           flag_variance = if_else(variance > 4 | variance < .25, 1, 0),
            flag = if(compare == 'variance') flag_variance else  flag_means,
            means = if_else(means > 2.5, 2.5, means),
            means = if_else(means < -2.5, -2.5, means),
@@ -88,7 +88,7 @@ plot_balance <- function(.data, treatment, confounders, compare = c('means', 'va
       title = 'Balance',
       x = case_when(
         compare == 'means' ~ 'Scaled mean difference',
-        compare == 'variance' ~ 'Ratio of variance',
+        compare == 'variance' ~ 'Ratio of variance (log scale)',
         compare == 'covariance' ~ 'Scaled mean difference of interactions (balance of covaraince)'
       ),
       y = NULL,
@@ -99,7 +99,7 @@ plot_balance <- function(.data, treatment, confounders, compare = c('means', 'va
   if (x_var == 'means')
     p <-p + coord_cartesian(xlim = c(-2.5, 2.5))
     else
-      p <- p + coord_cartesian(xlim = c(.5, 2)) + scale_x_continuous(trans='log10')
+      p <- p + coord_cartesian(xlim = c(.25, 4)) + scale_x_continuous(trans='log10')
   if(max(.data$flag) == 0){
     p <- p + labs(subtitle = 'points represent the treatment group')
 
@@ -264,7 +264,7 @@ print_covariance <- function(.data, treatment, confounders, estimand = c('ATE', 
 #' @return ggplot object
 #' @export
 #'
-#' @import ggplot2 dplyr GGally
+#' @import ggplot2 dplyr
 #' @examples
 #' data(lalonde)
 
@@ -274,7 +274,7 @@ plot_covariance <- function(.data, treatment, confounders){
   .data$treatment <- .data[[treatment]]
   .data[, confounders] <- apply(.data[, confounders], 2, function(i) (i - mean(i))/sd(i))
   .data %>%
-    ggpairs(
+    GGally::ggpairs(
       upper = list(continuous = "density"),
       lower = list(continuous = "points"),
       columns = confounders,

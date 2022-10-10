@@ -4,14 +4,14 @@
 \alias{plot_covariance}
 \title{Plot the covariance}
 \usage{
-plot_covariance(.data, treat, confounders)
+plot_covariance(.data, treatment, confounders)
 }
 \arguments{
 \item{.data}{dataframe}
 
-\item{confounders}{character list of column names denoting the X columns of interest}
-
 \item{treatment}{the column denoted treatment. Must be binary.}
+
+\item{confounders}{character list of column names denoting the X columns of interest}
 }
 \value{
 ggplot object
