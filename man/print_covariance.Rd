@@ -24,7 +24,7 @@ print_covariance(
 tibble
 }
 \description{
-See balance statisitics of variables between treatment and control groups.
+See balance statisitics of covariance for specidied variables between treatment and control groups.
 }
 \examples{
 data(lalonde)

@@ -213,7 +213,6 @@ print_covariance <- function(.data, treatment, confounders, estimand = c('ATE', 
   classes <- sapply(.data[, confounders], class)
 
   if (estimand %notin% c('ATE', 'ATT', 'ATC')) stop("estimand must be either: ATE, ATT or ATC")
-    browser()
     # gets interactions of all columns
     cov_dat <- combn(.data[, confounders], 2, FUN = Reduce, f = `*`)
 
@@ -245,7 +244,7 @@ print_covariance <- function(.data, treatment, confounders, estimand = c('ATE', 
     na.omit() %>%
     dplyr::select(name, means) %>%
     arrange(desc(means)) %>%
-    rename(variable = name,`difference in means` = raw_means, `standardized difference in means` = means, `ratio of the variance` = variance) %>%
+    rename(variable = name,`standardized difference in means` = means) %>%
     mutate(across(where(is.numeric), round, 2))
 
     return(table)
@@ -271,8 +270,8 @@ print_covariance <- function(.data, treatment, confounders, estimand = c('ATE', 
 
 #' plot_covariance(lalonde, 'treat', c('re75','re74' , 'age', 'educ')) + labs(title = 'My new title')
 
-plot_covariance <- function(.data, treat, confounders){
-  .data$treatment <- .data[[treat]]
+plot_covariance <- function(.data, treatment, confounders){
+  .data$treatment <- .data[[treatment]]
   .data[, confounders] <- apply(.data[, confounders], 2, function(i) (i - mean(i))/sd(i))
   .data %>%
     ggpairs(
