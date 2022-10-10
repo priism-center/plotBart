@@ -184,7 +184,7 @@ print_balance <- function(.data, treatment, confounders, estimand = c('ATE', 'AT
 
 
 #' @title Print covariance statistics
-#' @description See balance statisitics of variables between treatment and control groups.
+#' @description See balance statisitics of covariance for specidied variables between treatment and control groups.
 #'
 #' @param .data dataframe
 #' @param treatment the column denoted treatment. Must be binary.
