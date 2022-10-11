@@ -25,6 +25,7 @@ Imports:
     rpart (>= 4.1.15),
     stats (>= 3.6.2),
     ggdendro (>= 0.1.22),
+    patchwork (>= 1.1.1),
     rlang, 
     dbarts
 Suggests: 
