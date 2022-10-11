@@ -17,7 +17,8 @@ RoxygenNote: 7.2.0
 Depends: 
     R (>= 2.10),
     bartCause (>= 1.0.4),
-    ggplot2 (>= 3.3.2)
+    ggplot2 (>= 3.3.2), 
+    patchwork (>= 1.1.1)
 Imports: 
     dplyr (>= 1.0.5),
     GGally (>= 2.1.2),
@@ -25,7 +26,6 @@ Imports:
     rpart (>= 4.1.15),
     stats (>= 3.6.2),
     ggdendro (>= 0.1.22),
-    patchwork (>= 1.1.1),
     rlang, 
     dbarts
 Suggests: 
