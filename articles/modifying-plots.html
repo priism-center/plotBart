@@ -123,17 +123,12 @@
 </h3>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p</span><span class="op">$</span><span class="va">data</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 10</span></span></span>
-<span><span class="co">#&gt;   name    varianc…¹ varia…² mean_0  mean_1   means varia…³ flag_…⁴ flag_…⁵  flag</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> age       49.8    51.2    25.1   25.8     0.107    1           0       0     0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> black      0.144   0.133   0.827  0.843   0.043<span style="text-decoration: underline;">9</span>   0.962       0       0     0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> educ       2.61    4.04   10.1   10.3     0.141    1           0       0     0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> hisp       0.096<span style="text-decoration: underline;">5</span>  0.056<span style="text-decoration: underline;">2</span>  0.108  0.059<span style="text-decoration: underline;">5</span> -<span style="color: #BB0000;">0.175</span>    0.763       0       0     0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> married    0.131   0.154   0.154  0.189   0.093<span style="text-decoration: underline;">6</span>   1           0       0     0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> nodegr     0.139   0.208   0.835  0.708  -<span style="color: #BB0000;">0.304</span>    1           0       0     0</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with abbreviated variable names ¹​variance_0, ²​variance_1, ³​variance,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   ⁴​flag_means, ⁵​flag_variance</span></span></span></code></pre></div>
+<span><span class="co">#&gt;   name variance_FALSE variance_TRUE mean_FALSE mean_TRUE       type     means</span></span>
+<span><span class="co">#&gt; 1  age      49.811761     51.194301   25.05385  25.81622 continuous 0.1072771</span></span>
+<span><span class="co">#&gt; 2 educ       2.606044      4.042714   10.08846  10.34595 continuous 0.1412198</span></span>
+<span><span class="co">#&gt;   variance     order flag_means flag_variance flag</span></span>
+<span><span class="co">#&gt; 1 1.013783 0.1072771          0             0    0</span></span>
+<span><span class="co">#&gt; 2 1.245506 0.1412198          0             0    0</span></span></code></pre></div>
 <p><br></p>
 </div>
 <div class="section level3">
