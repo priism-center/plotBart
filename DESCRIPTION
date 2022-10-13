@@ -1,7 +1,7 @@
 Package: plotBart
 Type: Package
 Title: Diagnostic and Plotting Functions to Supplement 'bartCause'
-Version: 0.1.8
+Version: 0.1.13
 Authors@R: c(
   person("Joseph", "Marlo", email = "jpm770@nyu.edu", role = c("aut", "cre")),
   person("George", "Perrett", email = "gp77@nyu.edu", role = c("aut"))
