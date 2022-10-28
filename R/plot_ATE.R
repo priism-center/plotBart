@@ -67,7 +67,7 @@ plot_CATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
   # histogram
   if (type == 'histogram'){
     p <- p +
-      geom_histogram(fill = 'grey60') +
+      geom_histogram(fill = 'grey60', ccolor = 'black') +
       labs(y = 'Frequency')
 
     # add credible intervals
@@ -149,13 +149,13 @@ plot_ICATE <- function(.model, .group_by = NULL, n_bins = 30, .alpha = .7){
 
   # create base plot
   p <- ggplot(icates, aes(x = value)) +
-    geom_histogram(bins = n_bins)
+    geom_histogram(bins = n_bins, color = 'black')
 
   # add grouping
   if(!is.null(.group_by)){
     p <- ggplot(data = icates,
                 aes(x = value, fill = as.factor(.group_by))) +
-      geom_histogram(position = 'identity', bins = n_bins, alpha = .alpha)
+      geom_histogram(position = 'identity', bins = n_bins, alpha = .alpha, col = 'black')
   }
 
   # add labels
@@ -233,7 +233,7 @@ plot_PATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
   # histogram
   if (type == 'histogram'){
     p <- p +
-      geom_histogram(fill = 'grey60') +
+      geom_histogram(fill = 'grey60', color = 'black') +
       labs(y = 'Frequency')
 
     # add credible intervals
@@ -334,12 +334,12 @@ plot_SATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
   # histogram
   if (type == 'histogram'){
     p <- p +
-      geom_histogram(fill = 'grey60') +
+      geom_histogram(fill = 'grey60', color = 'black') +
       labs(y = 'Frequency')
 
     # add credible intervals
-    if (isTRUE(ci_95)) p <- p + geom_segment(x = lb, xend = ub, y = 0, yend = 0, size = 3, color = 'grey10')
-    if (isTRUE(ci_80)) p <- p + geom_segment(x = lb.95, xend = ub.95, y = 0, yend = 0, size = 1.5, color = 'grey25')
+    if (isTRUE(ci_80)) p <- p + geom_segment(x = lb, xend = ub, y = 0, yend = 0, size = 3, color = 'grey10')
+    if (isTRUE(ci_95)) p <- p + geom_segment(x = lb.95, xend = ub.95, y = 0, yend = 0, size = 1.5, color = 'grey25')
   }
 
   # density

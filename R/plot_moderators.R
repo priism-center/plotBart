@@ -200,18 +200,24 @@ plot_moderator_c_loess <- function(.model, moderator, line_color = 'blue'){
 #'  estimand = 'ate',
 #'  commonSuprule = 'none'
 #' )
-#' plot_moderator_d_density(model_results, lalonde$educ)
+#' plot_moderator_d(model_results, lalonde$educ)
 #' }
-plot_moderator_d_density <- function(.model, moderator, .alpha = 0.7, facet = FALSE, .ncol = 1){
-
+plot_moderator_d <- function(.model, moderator, type = c('density', 'histogram', 'errorbar'), .alpha = 0.7, facet = FALSE, .ncol = 1){
+  type <- type[1]
   validate_model_(.model)
   is_discrete_(moderator)
-
+  if(type %notin%c('density', 'histogram', 'errorbar')) stop('type must be either density, histogram errorbar')
   # adjust moderator to match estimand
   moderator <- adjust_for_estimand_(.model, moderator)
 
+  estimand <- switch (.model$estimand,
+    ate = 'CATE',
+    att = 'CATT',
+    atc = 'CATC'
+  )
   # extract and rotate posterior
   posterior <- bartCause::extract(.model, 'icate')
+
   posterior <- posterior %>%
     t() %>%
     as.data.frame() %>%
@@ -227,12 +233,46 @@ plot_moderator_d_density <- function(.model, moderator, .alpha = 0.7, facet = FA
   rownames(dat) <- seq_len(nrow(dat))
 
   # plot it
-  p <- ggplot(dat, aes(value, fill = moderator)) +
-    geom_density(alpha = .alpha) +
-    labs(title = NULL,
-         x = 'CATE',
-         y = NULL) +
-    theme(legend.position = 'bottom')
+  p <- ggplot(dat, aes(value, fill = moderator))
+
+  if(type == 'density'){
+    p <- p + geom_density(alpha = .alpha) +
+      labs(title = NULL,
+           x = estimand,
+           y = NULL) +
+      theme(legend.position = 'bottom')
+  }else if(type == 'histogram'){
+    p <- p +
+      geom_histogram(
+        alpha = .alpha,
+        col = 'black',
+        position = 'identity') +
+      labs(title = NULL,
+           x = estimand,
+           y = NULL) +
+      theme(legend.position = 'bottom')
+  } else{
+    # tidy up the data
+    dat <- dat %>%
+      group_by(moderator) %>%
+      mutate(.min = quantile(value, .025),
+             .max = quantile(value, .975),
+             point = mean(value)) %>%
+      dplyr::select(-value) %>%
+      arrange(desc(point)) %>%
+      ungroup() %>%
+      distinct()
+
+    # plot it
+    p <- ggplot(dat, aes(x = moderator, y = point, color = moderator)) +
+      geom_point(size = 2) +
+      geom_linerange(aes(ymin = .min, ymax = .max), alpha = .alpha) +
+      labs(title = NULL,
+           x = element_blank(),
+           y = estimand) +
+      theme(legend.position = 'bottom')
+  }
+
 
   # add faceting
   if(isTRUE(facet)){

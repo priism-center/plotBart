@@ -115,13 +115,15 @@ propensity_scores <- function(.data, treatment, confounders, ...){
 
   if (treatment %notin% colnames(.data)) stop('treatment not found in .data')
   if (any(confounders %notin% colnames(.data))) stop('Not all confounders are found in .data')
+  if('factor' %in% sapply(.data[, confounders], class)) stop('factor and character variables must be converted to numeric or logical indicator variables')
+  if('character' %in% sapply(.data[, confounders], class)) stop('factor and character variables must be converted to numeric or logical indicator variables')
 
   # coerce treatment column to logical
   .data[[treatment]] <- coerce_to_logical_(.data[[treatment]])
 
   # run the Bart model
-  confounders_mat <- as.matrix(.data[, 3:ncol(.data)])
-  dim.red_results <- dbarts::bart2(.data[[treatment]] ~ as.matrix(.data[confounders]))
+  confounders_mat <- as.matrix(.data[, confounders])
+  dim.red_results <- dbarts::bart2(.data[[treatment]] ~ confounders_mat)
   p.score <- apply(dbarts::extract(dim.red_results, 'ev'), 2, mean)
 
   return(p.score)

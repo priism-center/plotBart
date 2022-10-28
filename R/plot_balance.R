@@ -22,9 +22,10 @@
 #' plot_balance(lalonde, 'treat', c('re78', 'age', 'educ'), compare = 'means', estimand = 'ATE') + labs(title = 'My new title')
 plot_balance <- function(.data, treatment, confounders, compare = c('means', 'variance', 'covariance'), estimand = c('ATE', 'ATT', 'ATC')){
   if(missing(treatment)) stop('enter a string indicating the name of the treatment variable')
+  if('factor' %in% sapply(.data[, confounders], class)) stop('factor variables must be converted to numeric or logical indicator variables')
+  if('character' %in% sapply(.data[, confounders], class)) stop('factor variables must be converted to numeric or logical indicator variables')
 
   if (length(table(.data[[treatment]])) != 2) stop("treatment must be binary")
-
   .data[[treatment]] <- coerce_to_logical_(.data[[treatment]])
 
     # make sure arguments are set
@@ -69,9 +70,10 @@ plot_balance <- function(.data, treatment, confounders, compare = c('means', 'va
    .data <- .data %>%
     pivot_longer(cols = -treatment) %>%
     group_by(across(c('name', treatment))) %>%
-    summarize(mean = mean(value, na.rm = TRUE),
-              variance = var(value),
-              .groups = 'drop') %>%
+    summarize(
+      variance = var(value, na.rm = TRUE),
+      mean = mean(value, na.rm = TRUE),
+      .groups = 'drop') %>%
     pivot_wider(names_from = treatment, values_from = c(variance, mean)) %>%
     arrange(name)
 
@@ -106,7 +108,6 @@ plot_balance <- function(.data, treatment, confounders, compare = c('means', 'va
            variance = if_else(variance > 4, 4, variance),
            variance = if_else(variance < .25, .25, variance)) %>%
      na.omit()
-
 
    p1 <- .data %>%
      filter(type != 'continuous') %>%
@@ -164,7 +165,7 @@ plot_balance <- function(.data, treatment, confounders, compare = c('means', 'va
         title = 'Balance',
         subtitle = if_else(
           max(.data$flag) != 0,
-          'points represent the treatment group\nred points have a variance ratio that is more than 4 times bigger or smaller than the control group',
+          'points represent the treatment group\nred points are beyond 4 times different',
           'points represent the treatment group'
         )
       )
@@ -178,19 +179,19 @@ plot_balance <- function(.data, treatment, confounders, compare = c('means', 'va
         title = 'Balance',
         subtitle = if_else(
           max(.data$flag) != 0,
-          'points represent the treatment group\nred points have standardized means that are more than 2 standard deviations different than the control group',
+          'points represent the treatment group\nred points are beyond 2 standard deviations.',
           'points represent the treatment group'
         )
       )
 
       p <- p1 + p2
 
-    }else if(unique(.data$type == 'continuous')){
+    }else if(unique(.data$type) == 'continuous'){
       p <- p2 + labs(
         title = 'Balance',
         subtitle = if_else(
           max(.data$flag) != 0,
-          'points represent the treatment group\nred points have standardized means that are more than 2 standard deviations different than the control group',
+          'points represent the treatment group\nred points are beyond 2 standard deviations.',
           'points represent the treatment group'
         )
       )

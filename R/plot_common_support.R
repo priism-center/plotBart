@@ -62,15 +62,21 @@ plot_common_support <- function(.model, .x = 'Propensity Score',  rule = c('both
 
   inference_group <- switch (.model$estimand,
                              ate = length(.model$sd.obs[!.model$missingRows]),
-                             att = length(.model$sd.obs[!.model$missingRows] & .model$trt == 1),
-                             atc = length(.model$sd.obs[!.model$missingRows] & .model$trt == 0)
+                             att = sum(!.model$missingRows & .model$trt == 1),
+                             atc = sum(!.model$missingRows & .model$trt == 0)
   )
+
   prop_sd <- round((total_sd / inference_group)*100 , 2)
   text_sd <- paste0('Standard deviation rule: ', prop_sd, "% of cases would have been removed")
 
   # calculate summary stats
-  total_chi <- sum((.model$sd.cf / .model$sd.obs) ** 2 > 3.841)
-  prop_chi <- round(total_chi / length(.model$sd.cf), 5)*100
+  total_chi <- switch (.model$estimand,
+    ate = sum((.model$sd.cf / .model$sd.obs) ** 2 > 3.841),
+    att = sum((.model$sd.cf[.model$trt == 1] / .model$sd.obs[.model$trt == 1]) ** 2 > 3.841),
+    atc = sum((.model$sd.cf[.model$trt == 0] / .model$sd.obs[.model$trt == 0]) ** 2 > 3.841)
+  )
+
+  prop_chi <- round(total_chi / inference_group, 2)*100
   text_chi <- paste0('Chi-squared rule: ', prop_chi, "% of cases would have been removed")
 
   # create dataframe of the sd and chi values
@@ -96,9 +102,8 @@ plot_common_support <- function(.model, .x = 'Propensity Score',  rule = c('both
 
   dat <- rbind(dat.sd, dat.chi)
 
-  if(.model$estimand == 'att') dat <- dat[.model$trt == 1,]
-  if(.model$estimand == 'atc') dat <- dat[.model$trt == 0,]
-
+  if(.model$estimand == 'att') dat <- dat[rep(.model$trt, 2) == 1,]
+  if(.model$estimand == 'atc') dat <- dat[rep(.model$trt, 2) == 0,]
 
   # plot it
   p <- dat %>%
@@ -116,3 +121,93 @@ plot_common_support <- function(.model, .x = 'Propensity Score',  rule = c('both
 
   return(p)
 }
+
+
+plot_predicted_common_support <- function(.model, max_depth = 3, rule = c('both', 'sd', 'chi')){
+
+  # ensure model is a of class bartcFit
+  validate_model_(.model)
+
+  rule <- rule[1]
+  if (rule %notin% c('both', 'sd', 'chi')) stop('rule must be one of c("both", "sd", "chi")')
+
+
+  # calculate summary stats
+  sd.cut = c(trt = max(.model$sd.obs[!.model$missingRows & .model$trt > 0]), ctl = max(.model$sd.obs[!.model$missingRows & .model$trt <= 0])) + sd(.model$sd.obs[!.model$missingRows])
+
+  # create dataframe of the sd and chi values
+  dat <- as_tibble(.model$data.rsp@x)
+
+  dat.sd <- dat %>%
+    mutate(sd.cut = if_else(.model$trt == 1, sd.cut[1], sd.cut[2]),
+           removed = if_else(.model$sd.cf > sd.cut, 1, 0)) %>%
+    select(-sd.cut)
+
+  dat.chi <- dat %>%
+    mutate(removed = if_else((.model$sd.cf / .model$sd.obs) ** 2 > 3.841, 1, 0))
+
+
+  dat.chi <- switch (.model$estimand,
+                 ate = dat.chi[, names(dat.chi) %notin% c('ps', .model$name.trt)],
+                 att = dat.chi[.model$trt == 1, names(dat.chi) %notin% c('ps', .model$name.trt)],
+                 atc = dat.chi[.model$trt == 0, names(dat.chi) %notin% c('ps', .model$name.trt)])
+
+  dat.sd <- switch (.model$estimand,
+                     ate = dat.sd[, names(dat.sd) %notin% c('ps', .model$name.trt)],
+                     att = dat.sd[.model$trt == 1,names(dat.sd) %notin% c('ps', .model$name.trt)],
+                     atc = dat.sd[.model$trt == 0,names(dat.sd) %notin% c('ps', .model$name.trt)])
+
+
+  chi.tree <- rpart::rpart(removed ~ ., dat.chi, maxdepth = max_depth)
+  chi.p <- tryCatch(
+    rpart_ggplot_(chi.tree) +
+      labs(
+        title = 'Predictors of Non-Overlap',
+        subtitle = 'y = probability of removal\nn = cases per group',
+        x = paste('Chi-Squared Rule\nCases removed due to lack of overlap: ',
+                  sum(dat.chi$removed))
+      ),
+    error = function(e)
+      FALSE
+  )
+
+  sd.tree <- rpart::rpart(removed ~ ., dat.sd, maxdepth = max_depth)
+  sd.p <- tryCatch(
+    rpart_ggplot_(sd.tree) + labs(
+      title = 'Predictors of Non-Overlap',
+      subtitle = 'y = probability of removal\nn = cases per group',
+      x = paste('Standard Deviation Rule\nCases removed due to lack of overlap: ',
+                sum(dat.sd$removed))
+    ),
+    error = function(e)
+      FALSE
+  )
+  p <- switch (rule,
+    both =
+      if (isFALSE(sd.p) &isFALSE(chi.p)) {
+        p <- message('no cases were removed under the standard deviation or chi-squared rules')
+      } else if (!isFALSE(sd.p) & !isFALSE(chi.p)) {
+        chi.p <- chi.p + labs(title = NULL, subtitle = NULL)
+        p <- sd.p + chi.p
+      } else if (isFALSE(sd.p)) {
+        p <- chi.p
+      } else{
+        p <- sd.p
+      },
+    sd =
+      if (isFALSE(sd.p)) {
+        p <- message('no cases were removed under the standard deviation rule')
+      } else{
+        p <- sd.p
+      },
+    chi =
+      if (isFALSE(chi.p)) {
+        p <- message('no cases were removed under the chi squared rule')
+      } else{
+        p <- chi.p
+      }
+  )
+
+  return(p)
+}
+
