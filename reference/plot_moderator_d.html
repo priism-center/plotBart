@@ -60,7 +60,7 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plot_moderator_d</span><span class="op">(</span></span>
 <span>  <span class="va">.model</span>,</span>
 <span>  <span class="va">moderator</span>,</span>
-<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"density"</span>, <span class="st">"histogram"</span><span class="op">)</span>,</span>
+<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"density"</span>, <span class="st">"histogram"</span>, <span class="st">"errorbar"</span><span class="op">)</span>,</span>
 <span>  .alpha <span class="op">=</span> <span class="fl">0.7</span>,</span>
 <span>  facet <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  .ncol <span class="op">=</span> <span class="fl">1</span></span>
@@ -75,6 +75,10 @@
 
 <dt>moderator</dt>
 <dd><p>the moderator as a vector</p></dd>
+
+
+<dt>type</dt>
+<dd><p>string to specify if you would like to plot a histogram, density or error bar plot</p></dd>
 
 
 <dt>.alpha</dt>
