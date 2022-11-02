@@ -180,6 +180,7 @@ plot_moderator_c_loess <- function(.model, moderator, line_color = 'blue'){
 #' @param .alpha transparency value [0, 1]
 #' @param facet TRUE/FALSE. Create panel plots of each moderator level?
 #' @param .ncol number of columns to use when faceting
+#' @param type string to specify if you would like to plot a histogram, density or error bar plot
 #'
 #' @author George Perrett
 #'

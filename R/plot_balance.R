@@ -19,7 +19,11 @@
 #' @examples
 #' data(lalonde)
 
-#' plot_balance(lalonde, 'treat', c('re78', 'age', 'educ'), compare = 'means', estimand = 'ATE') + labs(title = 'My new title')
+#' plot_balance(lalonde, 'treat', c('re78', 'age', 'educ'),
+#' compare = 'means', estimand = 'ATE') +
+#' labs(title = 'My new title')
+#'
+
 plot_balance <- function(.data, treatment, confounders, compare = c('means', 'variance', 'covariance'), estimand = c('ATE', 'ATT', 'ATC')){
   if(missing(treatment)) stop('enter a string indicating the name of the treatment variable')
   if('factor' %in% sapply(.data[, confounders], class)) stop('factor variables must be converted to numeric or logical indicator variables')
@@ -236,8 +240,11 @@ print_balance <- function(.data, treatment, confounders, estimand = c('ATE', 'AT
 
   if (estimand %notin% c('ATE', 'ATT', 'ATC')) stop("estimand must be either: ATE, ATT or ATC")
 
-  data_types <- apply(.data[, confounders], 2, function(i) identical(unique(i)[order(unique(i))], c(0, 1))) %>%
+  data_types <-
+    apply(.data[, confounders], 2, function(i)
+      identical(unique(i)[order(unique(i))], c(0, 1))) %>%
     as.data.frame()
+
   data_types$name<- rownames(data_types)
   names(data_types)[1] <- 'type'
 
@@ -252,11 +259,11 @@ print_balance <- function(.data, treatment, confounders, estimand = c('ATE', 'AT
     summarize(mean = mean(value, na.rm = TRUE),
               variance = var(value),
               .groups = 'drop') %>%
-    pivot_wider(names_from = treatment, values_from = c(variance, mean)) %>%
-    mutate(
+    tidyr::pivot_wider(names_from = treatment, values_from = c(variance, mean)) %>%
+    dplyr::mutate(
       raw_means = mean_TRUE - mean_FALSE,
       means =
-        case_when(
+        dplyr::case_when(
           estimand == 'ATE' ~ (mean_TRUE - mean_FALSE) / sqrt((variance_TRUE + variance_FALSE) /2),
           estimand == 'ATT' ~ (mean_TRUE - mean_FALSE) / sqrt(variance_TRUE),
           estimand == 'ATC' ~ (mean_TRUE - mean_FALSE) / sqrt(variance_FALSE)
@@ -265,12 +272,12 @@ print_balance <- function(.data, treatment, confounders, estimand = c('ATE', 'AT
     ) %>%
     na.omit() %>%
     dplyr::select(name, raw_means, means, variance) %>%
-    rename(variable = name,
+    dplyr::rename(variable = name,
            `difference in means` = raw_means,
            `standardized difference in means` = means,
            `ratio of the variance` = variance) %>%
-    mutate(across(where(is.numeric), round, 2)) %>%
-    arrange(variable)
+    dplyr::mutate(across(where(is.numeric), round, 2)) %>%
+    dplyr::arrange(variable)
 
     table$`standardized difference in means` <- as.character(table$`standardized difference in means`)
     table$`ratio of the variance` <- as.character(table$`ratio of the variance`)

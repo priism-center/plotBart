@@ -67,7 +67,7 @@ plot_overlap_pScores <- function(.data, treatment, confounders, plot_type = c("h
       scale_y_continuous(labels = function(lbl) abs(lbl)) +
       scale_fill_manual(values = c(4,2)) +
       labs(title = "Overlap by treatment status",
-           x = NULL,
+           x = 'Propensity Score',
            y = 'Count',
            fill = "Treatment")
 
@@ -124,7 +124,7 @@ propensity_scores <- function(.data, treatment, confounders, ...){
   # run the Bart model
   confounders_mat <- as.matrix(.data[, confounders])
   dim.red_results <- dbarts::bart2(.data[[treatment]] ~ confounders_mat)
-  p.score <- apply(dbarts::extract(dim.red_results, 'ev'), 2, mean)
+  p.score <- fitted(dim.red_results)
 
   return(p.score)
 }

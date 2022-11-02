@@ -1,5 +1,29 @@
-
-# plot density of residual (predicted y - observed y)
+#' @title Plot the model residual
+#' @description Visualize balance of variables between treatment and control groups. Balance plot reflects balance in standardized units.
+#'
+#' @param .model a model produced by `bartCause::bartc()`
+#'
+#' @author George Perrett & Joseph Marlo
+#'
+#' @return ggplot object
+#' @export
+#'
+#' @import ggplot2
+#' @importFrom tidyr pivot_longer pivot_wider
+#' @importFrom stats rnorm
+#' @examples
+#' \donttest{
+#' data(lalonde)
+#' confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
+#' model_results <- bartCause::bartc(
+#'  response = lalonde[['re78']],
+#'  treatment = lalonde[['treat']],
+#'  confounders = as.matrix(lalonde[, confounders]),
+#'  estimand = 'ate',
+#'  commonSup.rule = 'none'
+#' )
+#' plot_residual_density(model_results)
+#' }
 plot_residual_density <- function(.model){
 
   # ensure model is a of class bartcFit

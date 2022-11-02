@@ -97,17 +97,18 @@ out_moderator_c_loess <- plot_moderator_c_loess(
   model_results,
   moderator = lalonde$educ,
   line_color = 'blue')
-out_moderator_d_density <- plot_moderator_d_density(
+out_moderator_d_density <- plot_moderator_d(
   model_results,
+  type = 'density',
   moderator = lalonde$educ,
   .alpha = 0.7,
   facet = FALSE,
   .ncol = 1)
-out_moderator_d_linerange <- plot_moderator_d_linerange(
+out_moderator_d_linerange <- plot_moderator_d(
   model_results,
+  type = 'errorbar',
   moderator = lalonde$educ,
-  .alpha = 0.7,
-  horizontal = FALSE)
+  .alpha = 0.7)
 out_moderator_search <- plot_moderator_search(
   model_results,
   max_depth = 2
@@ -166,3 +167,4 @@ test_that("plot_moderator_* outputs are all corrects", {
   expect_s3_class(out_moderator_search, 'ggplot')
   # vdiffr::expect_doppelganger('mod_search', out_moderator_search)
 })
+

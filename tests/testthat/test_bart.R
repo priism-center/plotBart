@@ -57,3 +57,4 @@ test_that("bartCause::bartc() API still works", {
 test_that('validate_model_() works', {
   expect_null(out)
 })
+

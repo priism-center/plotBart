@@ -7,7 +7,7 @@
 plot_moderator_d(
   .model,
   moderator,
-  type = c("density", "histogram"),
+  type = c("density", "histogram", "errorbar"),
   .alpha = 0.7,
   facet = FALSE,
   .ncol = 1
@@ -17,6 +17,8 @@ plot_moderator_d(
 \item{.model}{a model produced by `bartCause::bartc()`}
 
 \item{moderator}{the moderator as a vector}
+
+\item{type}{string to specify if you would like to plot a histogram, density or error bar plot}
 
 \item{.alpha}{transparency value [0, 1]}
 
