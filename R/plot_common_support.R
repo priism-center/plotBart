@@ -3,6 +3,7 @@
 #'
 #' @param .model a model produced by `bartCause::bartc()`
 #' @param .x a character string denoting which covariate to use a the x axis default is propensity score
+#' @param .y a character string denoting which covariate to use a the y axis default is the common support statistic
 #' @param rule one of c('both', 'sd', 'chi') denoting which rule to use to identify lack of support
 #'
 #' @details Sufficient overlap/common support is an assumption of causal inference.

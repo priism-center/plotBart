@@ -4,6 +4,8 @@
 #' @param .data dataframe
 #' @param treatment character. Name of the treatment column within .data
 #' @param confounders character list of column names denoting confounders within .data
+#' @param min_x numeric value specifying the minimum value to be shown on the x axis
+#' @param max_x numeric value specifying the maximum value to be shown on the x axis
 #' @param plot_type the plot type, one of c('histogram', 'density'). Defaults to 'histogram'
 #' @author George Perrett, Joseph Marlo
 #'
@@ -23,7 +25,7 @@
 #'  confounders = c('age', 'educ'),
 #'  plot_type = 'Histogram'
 #')
-plot_overlap_vars <- function(.data, treatment, confounders, plot_type = c("histogram", "density")){
+plot_overlap_vars <- function(.data, treatment, confounders, plot_type = c("histogram", "density"), min_x = NULL, max_x = NULL){
 
   plot_type <- tolower(plot_type[1])
   if (plot_type %notin% c('histogram', 'density')) stop('plot_type must be one of c("histogram", "density"')
@@ -37,6 +39,9 @@ plot_overlap_vars <- function(.data, treatment, confounders, plot_type = c("hist
   .data <- .data[, c(treatment, confounders)]
   colnames(.data) <- c("Z_treat", confounders)
 
+  if(!is.null(min_x)) {.data <- .data[.data[[confounders]] >= min_x, ]}
+  if(!is.null(max_x)) {dat_pivoted <- .data[.data[[confounders]] <= man_x, ]}
+
   # pivot the data
   dat_pivoted <- pivot_longer(.data, cols = -Z_treat)
 
@@ -48,7 +53,7 @@ plot_overlap_vars <- function(.data, treatment, confounders, plot_type = c("hist
     if(is.numeric(dat_pivoted$value)){
       p <- p + geom_histogram(data = filter(dat_pivoted, Z_treat == 1),
                        aes(x = value, y = ..count.., fill = Z_treat),
-                       alpha = 0.8) +
+                       alpha = 0.8, color = 'black') +
         geom_histogram(data = filter(dat_pivoted, Z_treat == 0),
                        aes(x = value, y = -..count.., fill = Z_treat),
                        alpha = 0.8)

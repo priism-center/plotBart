@@ -63,7 +63,7 @@ plot_overlap_pScores <- function(.data, treatment, confounders, plot_type = c("h
                      alpha = 0.8) +
       geom_histogram(data = filter(dat, Z == 0),
                      aes(x = pscores, y = -..count.., fill = Z),
-                     alpha = 0.8) +
+                     alpha = 0.8, color = 'black') +
       scale_y_continuous(labels = function(lbl) abs(lbl)) +
       scale_fill_manual(values = c(4,2)) +
       labs(title = "Overlap by treatment status",
