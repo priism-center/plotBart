@@ -43,7 +43,7 @@
 #' plot_common_support(model_results)
 #' plot_common_support(model_results, .x = 'age')
 #' }
-plot_common_support <- function(.model, .x = 'Propensity Score',  rule = c('both', 'sd', 'chi')){
+plot_common_support <- function(.model, .x = 'Propensity Score', .y = 'stat',  rule = c('both', 'sd', 'chi')){
 
   # ensure model is a of class bartcFit
   validate_model_(.model)
@@ -67,7 +67,7 @@ plot_common_support <- function(.model, .x = 'Propensity Score',  rule = c('both
   )
 
   prop_sd <- round((total_sd / inference_group)*100 , 2)
-  text_sd <- paste0('Standard deviation rule: ', prop_sd, "% of cases would have been removed")
+  text_sd <- paste0('Standard deviation rule: ', prop_sd, "% of cases are removed")
 
   # calculate summary stats
   total_chi <- switch (.model$estimand,
@@ -77,7 +77,7 @@ plot_common_support <- function(.model, .x = 'Propensity Score',  rule = c('both
   )
 
   prop_chi <- round(total_chi / inference_group, 2)*100
-  text_chi <- paste0('Chi-squared rule: ', prop_chi, "% of cases would have been removed")
+  text_chi <- paste0('Chi-squared rule: ', prop_chi, "% of cases would are removed")
 
   # create dataframe of the sd and chi values
   dat <- as_tibble(.model$data.rsp@x) %>%
@@ -108,13 +108,13 @@ plot_common_support <- function(.model, .x = 'Propensity Score',  rule = c('both
   # plot it
   p <- dat %>%
     filter(support_rule %in% rule) %>%
-    ggplot(aes(x = !!rlang::sym(.x), y = sd.cf, color = removed)) +
+    ggplot(aes(x = !!rlang::sym(.x), y = !!rlang::sym(.y), color = removed)) +
     geom_point(alpha = 0.7) +
     scale_color_manual(values = c(1, 2)) +
     facet_wrap(~support_rule_text, ncol = 1, scales = 'free_y') +
     labs(title ="Common support checks",
          x = .x,
-         y = 'Predicted counterfactual standard deviation',
+         y = if(.y == 'stat') 'Removal statistic' else .y,
          color = NULL) +
     theme(legend.position = 'bottom',
           strip.text = element_text(hjust = 0))
