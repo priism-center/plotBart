@@ -31,7 +31,10 @@ Visualize balance of variables between treatment and control groups. Balance plo
 }
 \examples{
 data(lalonde)
-plot_balance(lalonde, 'treat', c('re78', 'age', 'educ'), compare = 'means', estimand = 'ATE') + labs(title = 'My new title')
+plot_balance(lalonde, 'treat', c('re78', 'age', 'educ'),
+compare = 'means', estimand = 'ATE') +
+labs(title = 'My new title')
+
 }
 \author{
 George Perrett & Joseph Marlo

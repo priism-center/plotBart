@@ -8,7 +8,9 @@ plot_overlap_vars(
   .data,
   treatment,
   confounders,
-  plot_type = c("histogram", "density")
+  plot_type = c("histogram", "density"),
+  min_x = NULL,
+  max_x = NULL
 )
 }
 \arguments{
@@ -19,6 +21,10 @@ plot_overlap_vars(
 \item{confounders}{character list of column names denoting confounders within .data}
 
 \item{plot_type}{the plot type, one of c('histogram', 'density'). Defaults to 'histogram'}
+
+\item{min_x}{numeric value specifying the minimum value to be shown on the x axis}
+
+\item{max_x}{numeric value specifying the maximum value to be shown on the x axis}
 }
 \value{
 ggplot object

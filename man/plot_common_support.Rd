@@ -7,6 +7,7 @@
 plot_common_support(
   .model,
   .x = "Propensity Score",
+  .y = "stat",
   rule = c("both", "sd", "chi")
 )
 }
@@ -14,6 +15,8 @@ plot_common_support(
 \item{.model}{a model produced by `bartCause::bartc()`}
 
 \item{.x}{a character string denoting which covariate to use a the x axis default is propensity score}
+
+\item{.y}{a character string denoting which covariate to use a the y axis default is the common support statistic}
 
 \item{rule}{one of c('both', 'sd', 'chi') denoting which rule to use to identify lack of support}
 }
