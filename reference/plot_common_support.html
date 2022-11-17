@@ -60,6 +60,7 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plot_common_support</span><span class="op">(</span></span>
 <span>  <span class="va">.model</span>,</span>
 <span>  .x <span class="op">=</span> <span class="st">"Propensity Score"</span>,</span>
+<span>  .y <span class="op">=</span> <span class="st">"stat"</span>,</span>
 <span>  rule <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"both"</span>, <span class="st">"sd"</span>, <span class="st">"chi"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -72,6 +73,10 @@
 
 <dt>.x</dt>
 <dd><p>a character string denoting which covariate to use a the x axis default is propensity score</p></dd>
+
+
+<dt>.y</dt>
+<dd><p>a character string denoting which covariate to use a the y axis default is the common support statistic</p></dd>
 
 
 <dt>rule</dt>
