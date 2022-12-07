@@ -387,16 +387,17 @@ plot_SATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
   lb.95 <- tapply(sates$value, sates$name, function(i){quantile(i, .025)})
   ub.95 <- tapply(sates$value, sates$name, function(i){quantile(i, .975)})
 
-  # for ci of histogrms
-  if(type == 'histogram' & (isTRUE(ci_95)| isTRUE(ci_80))){
-    sates <- sates %>%
-      group_by(name) %>%
-      mutate(ub = quantile(value, .9),
-             lb = quantile(value, .1),
-             ub.95 = quantile(value, .975),
-             lb.95 = quantile(value, .025)) %>%
-      ungroup()
-  }
+  # for cis and summaries
+  sates <- sates %>%
+    group_by(name) %>%
+    mutate(ub = quantile(value, .9),
+           lb = quantile(value, .1),
+           ub.95 = quantile(value, .975),
+           lb.95 = quantile(value, .025),
+           sate_mean = mean(value),
+           sate_median = median(value)) %>%
+    ungroup()
+
 
   # calculate densities and use bind_rows() to roll into a single df for ggplot
   dd <- tapply(sates$value, sates$name, density)
@@ -465,8 +466,8 @@ plot_SATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
     }
   }
   # add reference lines
-  if (isTRUE(.mean)) p <- p + geom_vline(data = sates, aes(xintercept = mean(sate), linetype = 'mean'))
-  if (isTRUE(.median)) p <- p + geom_vline(data = sates, aes(xintercept = median(sate), linetype = 'median'))
+  if (isTRUE(.mean)) p <- p + geom_vline(data = sates, aes(xintercept = sate_mean, linetype = 'mean'))
+  if (isTRUE(.median)) p <- p + geom_vline(data = sates, aes(xintercept = sate_median, linetype = 'median'))
   if (!is.null(reference)) p <- p + geom_vline(xintercept = reference)
 
   return(p)
