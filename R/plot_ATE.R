@@ -320,6 +320,7 @@ plot_PATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
 #' @param reference numeric. Show a vertical reference line at this x-axis value
 #' @param .mean TRUE/FALSE. Show the mean reference line
 #' @param .median TRUE/FALSE. Show the median reference line
+#' @param check_overlap TRUE/FALSE include sensitivity analyses of overlap removal
 #'
 #' @author George Perrett, Joseph Marlo
 #'
