@@ -11,7 +11,8 @@ plot_SATE(
   ci_95 = FALSE,
   reference = NULL,
   .mean = FALSE,
-  .median = FALSE
+  .median = FALSE,
+  check_overlap = F
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ plot_SATE(
 \item{.mean}{TRUE/FALSE. Show the mean reference line}
 
 \item{.median}{TRUE/FALSE. Show the median reference line}
+
+\item{check_overlap}{TRUE/FALSE include sensitivity analyses of overlap removal}
 }
 \value{
 ggplot object

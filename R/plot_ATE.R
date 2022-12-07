@@ -245,7 +245,9 @@ plot_PATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
                  y = dd[[i]]$y,
                  name = names(dd)[i],
                  lb.95 = lb.95[[names(dd)[i]]],
-                 ub.95 = ub.95[[names(dd)[i]]])
+                 ub.95 = ub.95[[names(dd)[i]]],
+                 lb = lb[[names(dd)[i]]],
+                 ub = ub[[names(dd)[i]]])
     }) %>%
     bind_rows()
 
@@ -290,20 +292,20 @@ plot_PATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
     if (isTRUE(ci_95)){
       p <- p +
         geom_ribbon(data = subset(dd, x > lb.95 & x < ub.95),
-                    aes(x = x, y = y, ymax = y),
+                    aes(x = x, y = y, ymax = y, group = name),
                     ymin = 0, fill = "grey40", colour = NA, alpha = 0.8)
     }
     if (isTRUE(ci_80)){
       p <- p +
         geom_ribbon(data = subset(dd, x > lb & x < ub),
-                    aes(x = x, y = y, ymax = y),
+                    aes(x = x, y = y, ymax = y, group = name),
                     ymin = 0, fill = "grey30", colour = NA, alpha = 0.8)
     }
   }
 
   # add reference lines
-  if (isTRUE(.mean)) p <- p + geom_vline(data = pate, aes(xintercept = mean(pate), linetype = 'mean'))
-  if (isTRUE(.median)) p <- p + geom_vline(data = pate, aes(xintercept = median(pate), linetype = 'median'))
+  if (isTRUE(.mean)) p <- p + geom_vline(data = pates, aes(xintercept = mean(pate), linetype = 'mean'))
+  if (isTRUE(.median)) p <- p + geom_vline(data = pates, aes(xintercept = median(pate), linetype = 'median'))
   if (!is.null(reference)) p <- p + geom_vline(xintercept = reference)
 
   return(p)
@@ -404,7 +406,9 @@ plot_SATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
                  y = dd[[i]]$y,
                  name = names(dd)[i],
                  lb.95 = lb.95[[names(dd)[i]]],
-                 ub.95 = ub.95[[names(dd)[i]]])
+                 ub.95 = ub.95[[names(dd)[i]]],
+                 lb = lb[[names(dd)[i]]],
+                 ub = ub[[names(dd)[i]]])
     }) %>%
     bind_rows()
 
@@ -450,19 +454,19 @@ plot_SATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
     if (isTRUE(ci_95)){
       p <- p +
         geom_ribbon(data = subset(dd, x > lb.95 & x < ub.95),
-                    aes(x = x, y = y, ymax = y),
+                    aes(x = x, y = y, ymax = y, group = name),
                     ymin = 0, fill = "grey40", colour = NA, alpha = 0.8)
     }
     if (isTRUE(ci_80)){
       p <- p +
         geom_ribbon(data = subset(dd, x > lb & x < ub),
-                    aes(x = x, y = y, ymax = y),
+                    aes(x = x, y = y, ymax = y, group = name),
                     ymin = 0, fill = "grey30", colour = NA, alpha = 0.8)
     }
   }
   # add reference lines
-  if (isTRUE(.mean)) p <- p + geom_vline(data = sate, aes(xintercept = mean(sate), linetype = 'mean'))
-  if (isTRUE(.median)) p <- p + geom_vline(data = sate, aes(xintercept = median(sate), linetype = 'median'))
+  if (isTRUE(.mean)) p <- p + geom_vline(data = sates, aes(xintercept = mean(sate), linetype = 'mean'))
+  if (isTRUE(.median)) p <- p + geom_vline(data = sates, aes(xintercept = median(sate), linetype = 'median'))
   if (!is.null(reference)) p <- p + geom_vline(xintercept = reference)
 
   return(p)
