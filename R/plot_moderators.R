@@ -172,6 +172,139 @@ plot_moderator_c_loess <- function(.model, moderator, line_color = 'blue'){
   return(p)
 }
 
+
+#' @title Auto-Bin a plot of a continuous moderating variable into a discrete moderating variable
+#' @description Use a regression tree to optimally bin a continous variable
+#'
+#' @param .model a model produced by `bartCause::bartc()`
+#' @param moderator the moderator as a vector
+#' @param .alpha transparency value [0, 1]
+#' @param facet TRUE/FALSE. Create panel plots of each moderator level?
+#' @param .ncol number of columns to use when faceting
+#' @param type string to specify if you would like to plot a histogram, density or error bar plot
+#'@param .name sting representing the name of the moderating variable
+#'
+#' @author George Perrett
+#'
+#'
+#' @return ggplot object
+#' @export
+#'
+#' @import ggplot2 dplyr
+#' @importFrom bartCause extract
+#' @importFrom rpart rpart
+#'
+#' @examples
+#' \donttest{
+#' data(lalonde)
+#' confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
+#' model_results <- bartCause::bartc(
+#'  response = lalonde[['re78']],
+#'  treatment = lalonde[['treat']],
+#'  confounders = as.matrix(lalonde[, confounders]),
+#'  estimand = 'ate',
+#'  commonSuprule = 'none'
+#' )
+#' plot_moderator_c_bin(model_results, lalonde$age, .name = 'age')
+#' }
+plot_moderator_c_bin <- function(.model, moderator,type = c('density', 'histogram', 'errorbar'), .alpha = 0.7, facet = FALSE, .ncol = 1, .name = 'bin'){
+
+  validate_model_(.model)
+  is_numeric_vector_(moderator)
+  type <- type[1]
+
+  # adjust moderator to match estimand
+  moderator <- adjust_for_estimand_(.model, moderator)
+  estimand <- switch (.model$estimand,
+                      ate = 'CATE',
+                      att = 'CATT',
+                      atc = 'CATC'
+  )
+  # extract the posterior
+  posterior <- bartCause::extract(.model, 'icate')
+
+  # get icate point est
+  icate.m <- apply(posterior, 2, mean)
+
+  # fit regression tree
+  tree <- rpart::rpart(icate.m ~ moderator)
+
+  # get bins from regression tree
+  bins <- dplyr::tibble(splits = tree$where)
+  subgroups <- dplyr::tibble(splits = tree$where,
+                             x = moderator) %>%
+    dplyr::group_by(splits) %>%
+    dplyr::summarise(min = min(x), max = max(x)) %>%
+    dplyr::arrange(min) %>%
+    dplyr::mutate(subgroup = paste0(.name,':', min,'-', max))
+
+  bins <- bins %>% dplyr::left_join(subgroups)
+
+  # roatate posterior
+  posterior <- posterior %>%
+    t() %>%
+    as.data.frame() %>%
+    as_tibble()
+
+  # split posterior into list of dfs by each level of moderator
+  split_posterior <- split(posterior, bins$subgroup)
+  posterior_means <- lapply(split_posterior, colMeans)
+
+  # unlist into a data.frame for plotting
+  dat <- data.frame(value = unlist(posterior_means))
+  dat$moderator <- sub("\\..*", '', rownames(dat))
+  rownames(dat) <- seq_len(nrow(dat))
+
+  # plot it
+  p <- ggplot(dat, aes(value, fill = moderator))
+
+  if(type == 'density'){
+    p <- p + geom_density(alpha = .alpha) +
+      labs(title = NULL,
+           x = estimand,
+           y = NULL) +
+      theme(legend.position = 'bottom')
+  }else if(type == 'histogram'){
+    p <- p +
+      geom_histogram(
+        alpha = .alpha,
+        col = 'black',
+        position = 'identity') +
+      labs(title = NULL,
+           x = estimand,
+           y = NULL) +
+      theme(legend.position = 'bottom')
+  } else{
+    # tidy up the data
+    dat <- dat %>%
+      group_by(moderator) %>%
+      mutate(.min = quantile(value, .025),
+             .max = quantile(value, .975),
+             point = mean(value)) %>%
+      dplyr::select(-value) %>%
+      arrange(desc(point)) %>%
+      ungroup() %>%
+      distinct()
+
+    # plot it
+    p <- ggplot(dat, aes(x = moderator, y = point, color = moderator)) +
+      geom_point(size = 2) +
+      geom_linerange(aes(ymin = .min, ymax = .max), alpha = .alpha) +
+      labs(title = NULL,
+           x = element_blank(),
+           y = estimand) +
+      theme(legend.position = 'bottom')
+  }
+
+
+  # add faceting
+  if(isTRUE(facet)){
+    p <- p + facet_wrap(~moderator, ncol = .ncol)
+  }
+
+  return(p)
+}
+
 #' @title Plot the Conditional Average Treatment Effect conditional on a discrete moderator
 #' @description Plot the Conditional Average Treatment Effect split by a discrete moderating variable. This plot will provide a visual test of moderation by discrete variables.
 #'
