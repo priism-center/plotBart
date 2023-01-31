@@ -12,7 +12,7 @@ The mean of SATE will resemble means of CATE and PATE but will account for the l
     
     <a class="navbar-brand me-2" href="../index.html">plotBart</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.20</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.21</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -68,7 +68,7 @@ The mean of SATE will resemble means of CATE and PATE but will account for the l
 <span>  reference <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  .mean <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  .median <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  check_overlap <span class="op">=</span> <span class="cn">F</span></span>
+<span>  view_overlap <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NULL</span>, <span class="st">"none"</span>, <span class="st">"sd"</span>, <span class="st">"chisq"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -102,8 +102,8 @@ The mean of SATE will resemble means of CATE and PATE but will account for the l
 <dd><p>TRUE/FALSE. Show the median reference line</p></dd>
 
 
-<dt>check_overlap</dt>
-<dd><p>TRUE/FALSE include sensitivity analyses of overlap removal</p></dd>
+<dt>view_overlap</dt>
+<dd><p>enter overlap rules to view how different bartCause removal rules would have influenced results. If set to an argument other than NULL the common support rule of your bartCause model is automatically included.</p></dd>
 
 </dl></div>
     <div class="section level2">
