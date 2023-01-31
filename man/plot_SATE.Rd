@@ -12,7 +12,7 @@ plot_SATE(
   reference = NULL,
   .mean = FALSE,
   .median = FALSE,
-  check_overlap = F
+  view_overlap = c(NULL, "none", "sd", "chisq")
 )
 }
 \arguments{
@@ -30,7 +30,7 @@ plot_SATE(
 
 \item{.median}{TRUE/FALSE. Show the median reference line}
 
-\item{check_overlap}{TRUE/FALSE include sensitivity analyses of overlap removal}
+\item{view_overlap}{enter overlap rules to view how different bartCause removal rules would have influenced results. If set to an argument other than NULL the common support rule of your bartCause model is automatically included.}
 }
 \value{
 ggplot object
