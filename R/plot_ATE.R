@@ -322,7 +322,8 @@ plot_PATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
 #' @param reference numeric. Show a vertical reference line at this x-axis value
 #' @param .mean TRUE/FALSE. Show the mean reference line
 #' @param .median TRUE/FALSE. Show the median reference line
-#' @param view_overlap enter overlap rules to view how different bartCause removal rules would have influenced results. If set to an argument other than NULL the common support rule of your bartCause model is automatically included.
+#' @param check_overlap TRUE/FALSE. Check if any overlap rules are applicable
+#' @param overlap_rule enter overlap rules to view how different bartCause removal rules would have influenced results. Only applicable if check_overlap is TRUE.
 #'
 #' @author George Perrett, Joseph Marlo
 #'
@@ -342,14 +343,19 @@ plot_PATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
 #' )
 #' plot_SATE(model_results)
 #' }
-plot_SATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, ci_95 = FALSE, reference = NULL, .mean = FALSE, .median = FALSE, view_overlap = c(NULL, 'none', 'sd', 'chisq')){
+plot_SATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, ci_95 = FALSE, reference = NULL, .mean = FALSE, .median = FALSE, check_overlap = FALSE, overlap_rule = c('none', 'sd', 'chisq')){
 
   validate_model_(.model)
   type <- tolower(type[1])
 
-  if (type %notin% c('histogram', 'density')) stop("type must be 'histogram' or 'density'")
+  if(isFALSE(check_overlap)){
+    overlap_rule <- .model$commonSup.rule
+  }
 
-  # set title
+  if (type %notin% c('histogram', 'density')) stop("type must be 'histogram' or 'density'")
+  if (sum(overlap_rule[order(overlap_rule)] %notin% c('chisq', 'none', 'sd')) > 0) stop("'none',  'se' and 'chisq' are only accepted overlap rules")
+
+   # set title
   .title <- switch(
     .model$estimand,
     ate = "Posterior of Sample Average Treatment Effect",
@@ -372,10 +378,13 @@ plot_SATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
   sate_overlap <- apply_overlap_rules(.model)
 
   # get different sates
+  sates <- tibble(
+    none = apply(sate.samples, 2, mean),
+    sd = apply(sate.samples[!sate_overlap$ind_sd_removed,], 2, mean),
+    chisq = apply(sate.samples[!sate_overlap$ind_chisq_removed,], 2, mean)
+  )
 
-  sates <- tibble(none = apply(sate.samples, 2, mean))
-  sates$sd <- apply(sate.samples[!sate_overlap$ind_sd_removed,], 2, mean)
-  sates$chisq <-apply(sate.samples[!sate_overlap$ind_chisq_removed,], 2, mean)
+  sates <- sates[, overlap_rule]
 
   # pivot to long form now we just have name(what type of sate) and value
   sates <- pivot_longer(sates, cols = 1:length(sates))
@@ -420,22 +429,22 @@ plot_SATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
          x = toupper(.model$estimand))
 
   # apply overlap rules
-  if(!is.null(view_overlap)){
-    if(.model$commonSup.rule %notin% view_overlap){
-      view_overlap <- c(view_overlap, .model$commonSup.rule)
+  if(isTRUE(check_overlap)){
+    if(.model$commonSup.rule %notin% overlap_rule){
+      overlap_rule <- c(overlap_rule, .model$commonSup.rule)
     }
     # facet if removal rules would create different results
     .facet_lab <- vector()
 
-    if('none' %in% view_overlap){
+    if('none' %in% overlap_rule){
       .facet_lab <- c(.facet_lab, `none` = "No overlap rule applied: 0 cases (0%) were removed")
     }
 
-    if('sd' %in% view_overlap){
+    if('sd' %in% overlap_rule){
       .facet_lab <- c(.facet_lab, `sd` = paste0("Standard deviation overlap rule applied: ", sate_overlap$sum_sd_removed, ' cases (',round((sate_overlap$sum_sd_removed/nrow(sate.samples)*100), 2) ,'%) were removed'))
     }
 
-    if('chisq' %in% view_overlap){
+    if('chisq' %in% overlap_rule){
       .facet_lab <- c(.facet_lab, `chisq` = paste0("Chi-squard overlap rule applied: ", sate_overlap$sum_chisq_removed, ' cases (',round((sate_overlap$sum_chisq_removed/nrow(sate.samples)*100), 2) ,'%) were removed'))
     }
 
