@@ -40,7 +40,7 @@ plot_overlap_vars <- function(.data, treatment, confounders, plot_type = c("hist
   colnames(.data) <- c("Z_treat", confounders)
 
   if(!is.null(min_x)) {.data <- .data[.data[[confounders]] >= min_x, ]}
-  if(!is.null(max_x)) {dat_pivoted <- .data[.data[[confounders]] <= man_x, ]}
+  if(!is.null(max_x)) {.data <- .data[.data[[confounders]] <= man_x, ]}
 
   # pivot the data
   dat_pivoted <- pivot_longer(.data, cols = -Z_treat)
@@ -56,7 +56,7 @@ plot_overlap_vars <- function(.data, treatment, confounders, plot_type = c("hist
                        alpha = 0.8, color = 'black') +
         geom_histogram(data = filter(dat_pivoted, Z_treat == 0),
                        aes(x = value, y = -..count.., fill = Z_treat),
-                       alpha = 0.8)
+                       alpha = 0.8, color = 'black')
     }else{
       p <- p + geom_bar(data = filter(dat_pivoted, Z_treat == 1),
                               aes(x = value, y = ..count.., fill = Z_treat),
