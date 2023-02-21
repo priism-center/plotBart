@@ -40,7 +40,7 @@ plot_overlap_vars <- function(.data, treatment, confounders, plot_type = c("hist
   colnames(.data) <- c("Z_treat", confounders)
 
   if(!is.null(min_x)) {.data <- .data[.data[[confounders]] >= min_x, ]}
-  if(!is.null(max_x)) {.data <- .data[.data[[confounders]] <= man_x, ]}
+  if(!is.null(max_x)) {.data <- .data[.data[[confounders]] <= max_x, ]}
 
   # pivot the data
   dat_pivoted <- pivot_longer(.data, cols = -Z_treat)
