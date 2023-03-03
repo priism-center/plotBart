@@ -51,6 +51,50 @@ fit_pd_ <- function(x, z1, z0, index, .model){
   return(cate)
 }
 
+apply_overlap_rules <- function(.model){
+
+  sd.cut <- c(trt = max(.model$sd.obs[!.model$missingRows & .model$trt > 0]), ctl = max(.model$sd.obs[!.model$missingRows & .model$trt <= 0])) + sd(.model$sd.obs[!.model$missingRows])
+  sd.stat <- .model$sd.cf
+
+  total.sd <- switch (.model$estimand,
+                            ate = sum(.model$sd.cf[.model$trt==1] > sd.cut[1]) + sum(.model$sd.cf[.model$trt==0] > sd.cut[2]),
+                            att = sum(.model$sd.cf[.model$trt==1] > sd.cut[1]),
+                            atc = sum(.model$sd.cf[.model$trt==0] > sd.cut[2])
+  )
+
+  sd.removed <- switch (.model$estimand,
+                              ate = ifelse(.model$trt == 1, sd.stat > sd.cut[1], sd.stat >sd.cut[2]),
+                              att = .model$sd.cf[.model$trt==1] > sd.cut[1],
+                              atc = .model$sd.cf[.model$trt==0] > sd.cut[2]
+  )
+
+  ## chi sqr rule
+  chi.cut <- 3.841
+  chi.stat <- (.model$sd.cf / .model$sd.obs) ** 2
+  total.chi <- switch (
+    .model$estimand,
+    ate = sum((.model$sd.cf / .model$sd.obs) ** 2 > 3.841),
+    att = sum((.model$sd.cf[.model$trt == 1] / .model$sd.obs[.model$trt == 1]) ** 2 > 3.841),
+    atc = sum((.model$sd.cf[.model$trt == 0] / .model$sd.obs[.model$trt == 0]) ** 2 > 3.841)
+  )
+  chi.removed <- switch(
+    .model$estimand,
+    ate = ifelse(chi.stat > chi.cut, 1, 0),
+    att = ifelse(chi.stat[.model$trt == 1] > chi.cut, 1, 0),
+    atc = ifelse(chi.stat[.model$trt == 0] > chi.cut, 1, 0)
+  )
+
+  list(
+    ind_chisq_removed = chi.removed,
+    sum_chisq_removed = total.chi,
+    stat_chi = chi.stat,
+    ind_sd_removed = sd.removed,
+    sum_sd_removed = total.sd,
+    stat_sd = sd.stat
+  )
+
+}
+
 
 #
 # rpart_ggplot_overlap <- function(.model){

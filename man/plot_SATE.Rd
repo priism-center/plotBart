@@ -11,7 +11,9 @@ plot_SATE(
   ci_95 = FALSE,
   reference = NULL,
   .mean = FALSE,
-  .median = FALSE
+  .median = FALSE,
+  check_overlap = FALSE,
+  overlap_rule = c("none", "sd", "chisq")
 )
 }
 \arguments{
@@ -28,6 +30,10 @@ plot_SATE(
 \item{.mean}{TRUE/FALSE. Show the mean reference line}
 
 \item{.median}{TRUE/FALSE. Show the median reference line}
+
+\item{check_overlap}{TRUE/FALSE. Check if any overlap rules are applicable}
+
+\item{overlap_rule}{enter overlap rules to view how different bartCause removal rules would have influenced results. Only applicable if check_overlap is TRUE.}
 }
 \value{
 ggplot object

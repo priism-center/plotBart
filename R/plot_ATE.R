@@ -200,7 +200,6 @@ plot_ICATE <- function(.model, .group_by = NULL, n_bins = 30, .alpha = .7){
 #' plot_PATE(model_results)
 #' }
 plot_PATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, ci_95 = FALSE, reference = NULL, .mean = FALSE, .median = FALSE){
-
   validate_model_(.model)
   type <- tolower(type[1])
   if (type %notin% c('histogram', 'density')) stop("type must be 'histogram' or 'density'")
@@ -208,28 +207,70 @@ plot_PATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
   # set title
   .title <- switch(
     .model$estimand,
-    ate = "Posterior of Average Treatment Effect",
-    att = "Posterior of Average Treatment Effect of the Treated",
-    atc = "Posterior of Average Treatment Effect of the Control"
+    ate = "Posterior of Sample Average Treatment Effect",
+    att = "Posterior of Sample Average Treatment Effect of the Treated",
+    atc = "Posterior of Sample Average Treatment Effect of the Control"
   )
 
   # calculate stats
-  pate <- bartCause::extract(.model)
-  pate <- as.data.frame(pate)
-  ub <- quantile(pate$pate, .9)
-  lb <- quantile(pate$pate, .1)
-  ub.95 <- quantile(pate$pate, .975)
-  lb.95 <- quantile(pate$pate, .025)
-  dd <- density(pate$pate)
-  dd <- with(dd, data.frame(x, y))
+  y.1 <- extract(.model, 'y.1')
+  y.0 <- extract(.model, 'y.0')
+  pate.samples <- t(y.1 - y.0)
+
+  # check overlap
+  pate_overlap <- apply_overlap_rules(.model)
+
+  # get different pates if warning is activeated
+  pates <- tibble(none = apply(pate.samples, 2, mean))
+
+  if (pate_overlap$sum_sd_removed > 0 | pate_overlap$sum_chisq_removed > 0) {
+    pates$sd <- apply(pate.samples[!pate_overlap$ind_sd_removed,], 2, mean)
+    pates$chisq <-apply(pate.samples[!pate_overlap$ind_chisq_removed,], 2, mean)
+  }
+
+
+  # pivot to long form now we just have name(what type of sate) and value
+  pates <- pivot_longer(pates, cols = 1:length(pates))
+  # caclulate bounds for each type of sate (no overlap, sd and chisq)
+  ub <- tapply(pates$value, pates$name, function(i){quantile(i, .9)})
+  lb <- tapply(pates$value, pates$name, function(i){quantile(i, .1)})
+  lb.95 <- tapply(pates$value, pates$name, function(i){quantile(i, .025)})
+  ub.95 <- tapply(pates$value, pates$name, function(i){quantile(i, .975)})
+
+  # calculate densities and use bind_rows() to roll into a single df for ggplot
+  dd <- tapply(pates$value, pates$name, density)
+  dd <-
+    lapply(1:length(dd), function(i) {
+      data.frame(x = dd[[i]]$x,
+                 y = dd[[i]]$y,
+                 name = names(dd)[i],
+                 lb.95 = lb.95[[names(dd)[i]]],
+                 ub.95 = ub.95[[names(dd)[i]]],
+                 lb = lb[[names(dd)[i]]],
+                 ub = ub[[names(dd)[i]]])
+    }) %>%
+    bind_rows()
+
 
   # build base plot
-  p <- ggplot(pate, aes(pate)) +
+  p <- ggplot(pates, aes(value)) +
     scale_linetype_manual(values = c(2, 3)) +
     theme(legend.title = element_blank()) +
     labs(title = .title,
          x = toupper(.model$estimand))
 
+  # facet if removal rules would create different results
+  if(length(unique(pates$name)) > 1){
+    .facet_lab <- c(
+      `none` = "No overlap rule applied: 0 cases (0%) were removed",
+      `sd` = paste0("Standard deviation overlap rule applied: ", pate_overlap$sum_sd_removed, ' cases (',round((pate_overlap$sum_sd_removed/nrow(pate.samples)*100), 2) ,'%) were removed'),
+      `chisq` = paste0("Chi-squard overlap rule applied: ", pate_overlap$sum_chisq_removed, ' cases (',round((pate_overlap$sum_chisq_removed/nrow(pate.samples)*100), 2) ,'%) were removed')
+    )
+    p <- p +
+      facet_wrap(~ factor(name,
+                          levels = c('none', 'sd', 'chisq')),
+                 ncol = 1, labeller = as_labeller(.facet_lab))
+  }
   # histogram
   if (type == 'histogram'){
     p <- p +
@@ -251,20 +292,20 @@ plot_PATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
     if (isTRUE(ci_95)){
       p <- p +
         geom_ribbon(data = subset(dd, x > lb.95 & x < ub.95),
-                    aes(x = x, y = y, ymax = y),
+                    aes(x = x, y = y, ymax = y, group = name),
                     ymin = 0, fill = "grey40", colour = NA, alpha = 0.8)
     }
     if (isTRUE(ci_80)){
       p <- p +
         geom_ribbon(data = subset(dd, x > lb & x < ub),
-                    aes(x = x, y = y, ymax = y),
+                    aes(x = x, y = y, ymax = y, group = name),
                     ymin = 0, fill = "grey30", colour = NA, alpha = 0.8)
     }
   }
 
   # add reference lines
-  if (isTRUE(.mean)) p <- p + geom_vline(data = pate, aes(xintercept = mean(pate), linetype = 'mean'))
-  if (isTRUE(.median)) p <- p + geom_vline(data = pate, aes(xintercept = median(pate), linetype = 'median'))
+  if (isTRUE(.mean)) p <- p + geom_vline(data = pates, aes(xintercept = mean(pate), linetype = 'mean'))
+  if (isTRUE(.median)) p <- p + geom_vline(data = pates, aes(xintercept = median(pate), linetype = 'median'))
   if (!is.null(reference)) p <- p + geom_vline(xintercept = reference)
 
   return(p)
@@ -281,6 +322,8 @@ plot_PATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
 #' @param reference numeric. Show a vertical reference line at this x-axis value
 #' @param .mean TRUE/FALSE. Show the mean reference line
 #' @param .median TRUE/FALSE. Show the median reference line
+#' @param check_overlap TRUE/FALSE. Check if any overlap rules are applicable
+#' @param overlap_rule enter overlap rules to view how different bartCause removal rules would have influenced results. Only applicable if check_overlap is TRUE.
 #'
 #' @author George Perrett, Joseph Marlo
 #'
@@ -300,36 +343,116 @@ plot_PATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
 #' )
 #' plot_SATE(model_results)
 #' }
-plot_SATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, ci_95 = FALSE, reference = NULL, .mean = FALSE, .median = FALSE){
+plot_SATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, ci_95 = FALSE, reference = NULL, .mean = FALSE, .median = FALSE, check_overlap = FALSE, overlap_rule = c('none', 'sd', 'chisq')){
 
   validate_model_(.model)
   type <- tolower(type[1])
-  if (type %notin% c('histogram', 'density')) stop("type must be 'histogram' or 'density'")
 
-  # set title
+  if(isFALSE(check_overlap)){
+    overlap_rule <- .model$commonSup.rule
+  }
+
+  if (type %notin% c('histogram', 'density')) stop("type must be 'histogram' or 'density'")
+  if (sum(overlap_rule[order(overlap_rule)] %notin% c('chisq', 'none', 'sd')) > 0) stop("'none',  'se' and 'chisq' are only accepted overlap rules")
+
+   # set title
   .title <- switch(
     .model$estimand,
-    ate = "Posterior of Average Treatment Effect",
-    att = "Posterior of Average Treatment Effect of the Treated",
-    atc = "Posterior of Average Treatment Effect of the Control"
+    ate = "Posterior of Sample Average Treatment Effect",
+    att = "Posterior of Sample Average Treatment Effect of the Treated",
+    atc = "Posterior of Sample Average Treatment Effect of the Control"
+  )
+
+  .sign <- switch (.model$estimand,
+    ate = (2 * .model$trt - 1),
+    att = (2 * .model$trt[.model$trt == 1] - 1),
+    atc = (2 * .model$trt[.model$trt == 0] - 1)
   )
 
   # calculate stats
-  pate <- bartCause::extract(.model, 'sate')
-  pate <- as.data.frame(pate)
-  ub <- quantile(pate$pate, .9)
-  lb <- quantile(pate$pate, .1)
-  ub.95 <- quantile(pate$pate, .975)
-  lb.95 <- quantile(pate$pate, .025)
-  dd <- density(pate$pate)
-  dd <- with(dd, data.frame(x, y))
+  mu_obs <- extract(.model, 'mu.obs')
+  y_cf <- extract(.model, 'y.cf')
+  sate.samples <- t(mu_obs - y_cf)*.sign
+
+  # check overlap
+  sate_overlap <- apply_overlap_rules(.model)
+
+  # get different sates
+  sates <- tibble(
+    none = apply(sate.samples, 2, mean),
+    sd = apply(sate.samples[!sate_overlap$ind_sd_removed,], 2, mean),
+    chisq = apply(sate.samples[!sate_overlap$ind_chisq_removed,], 2, mean)
+  )
+
+  sates <- sates[, overlap_rule]
+
+  # pivot to long form now we just have name(what type of sate) and value
+  sates <- pivot_longer(sates, cols = 1:length(sates))
+  # caclulate bounds for each type of sate (no overlap, sd and chisq)
+  ub <- tapply(sates$value, sates$name, function(i){quantile(i, .9)})
+  lb <- tapply(sates$value, sates$name, function(i){quantile(i, .1)})
+  lb.95 <- tapply(sates$value, sates$name, function(i){quantile(i, .025)})
+  ub.95 <- tapply(sates$value, sates$name, function(i){quantile(i, .975)})
+
+  # for cis and summaries
+  sates <- sates %>%
+    group_by(name) %>%
+    mutate(ub = quantile(value, .9),
+           lb = quantile(value, .1),
+           ub.95 = quantile(value, .975),
+           lb.95 = quantile(value, .025),
+           sate_mean = mean(value),
+           sate_median = median(value)) %>%
+    ungroup()
+
+
+  # calculate densities and use bind_rows() to roll into a single df for ggplot
+  dd <- tapply(sates$value, sates$name, density)
+  dd <-
+    lapply(1:length(dd), function(i) {
+      data.frame(x = dd[[i]]$x,
+                 y = dd[[i]]$y,
+                 name = names(dd)[i],
+                 lb.95 = lb.95[[names(dd)[i]]],
+                 ub.95 = ub.95[[names(dd)[i]]],
+                 lb = lb[[names(dd)[i]]],
+                 ub = ub[[names(dd)[i]]])
+    }) %>%
+    bind_rows()
+
 
   # build base plot
-  p <- ggplot(pate, aes(pate)) +
+  p <- ggplot(sates, aes(value)) +
     scale_linetype_manual(values = c(2, 3)) +
     theme(legend.title = element_blank()) +
     labs(title = .title,
          x = toupper(.model$estimand))
+
+  # apply overlap rules
+  if(isTRUE(check_overlap)){
+    if(.model$commonSup.rule %notin% overlap_rule){
+      overlap_rule <- c(overlap_rule, .model$commonSup.rule)
+    }
+    # facet if removal rules would create different results
+    .facet_lab <- vector()
+
+    if('none' %in% overlap_rule){
+      .facet_lab <- c(.facet_lab, `none` = "No overlap rule applied: 0 cases (0%) were removed")
+    }
+
+    if('sd' %in% overlap_rule){
+      .facet_lab <- c(.facet_lab, `sd` = paste0("Standard deviation overlap rule applied: ", sate_overlap$sum_sd_removed, ' cases (',round((sate_overlap$sum_sd_removed/nrow(sate.samples)*100), 2) ,'%) were removed'))
+    }
+
+    if('chisq' %in% overlap_rule){
+      .facet_lab <- c(.facet_lab, `chisq` = paste0("Chi-squard overlap rule applied: ", sate_overlap$sum_chisq_removed, ' cases (',round((sate_overlap$sum_chisq_removed/nrow(sate.samples)*100), 2) ,'%) were removed'))
+    }
+
+    p <- p +
+      facet_wrap(~ factor(name,
+                          levels = c('none', 'sd', 'chisq')),
+                 ncol = 1, labeller = as_labeller(.facet_lab))
+  }
 
   # histogram
   if (type == 'histogram'){
@@ -338,8 +461,8 @@ plot_SATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
       labs(y = 'Frequency')
 
     # add credible intervals
-    if (isTRUE(ci_80)) p <- p + geom_segment(x = lb, xend = ub, y = 0, yend = 0, size = 3, color = 'grey10')
-    if (isTRUE(ci_95)) p <- p + geom_segment(x = lb.95, xend = ub.95, y = 0, yend = 0, size = 1.5, color = 'grey25')
+    if (isTRUE(ci_80)) p <- p + geom_segment(aes(x = lb, xend = ub, y = 0, yend = 0), size = 3, color = 'grey10')
+    if (isTRUE(ci_95)) p <- p + geom_segment(aes(x = lb.95, xend = ub.95, y = 0, yend = 0), size = 1.5, color = 'grey25')
   }
 
   # density
@@ -352,20 +475,19 @@ plot_SATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
     if (isTRUE(ci_95)){
       p <- p +
         geom_ribbon(data = subset(dd, x > lb.95 & x < ub.95),
-                    aes(x = x, y = y, ymax = y),
+                    aes(x = x, y = y, ymax = y, group = name),
                     ymin = 0, fill = "grey40", colour = NA, alpha = 0.8)
     }
     if (isTRUE(ci_80)){
       p <- p +
         geom_ribbon(data = subset(dd, x > lb & x < ub),
-                    aes(x = x, y = y, ymax = y),
+                    aes(x = x, y = y, ymax = y, group = name),
                     ymin = 0, fill = "grey30", colour = NA, alpha = 0.8)
     }
   }
-
   # add reference lines
-  if (isTRUE(.mean)) p <- p + geom_vline(data = pate, aes(xintercept = mean(pate), linetype = 'mean'))
-  if (isTRUE(.median)) p <- p + geom_vline(data = pate, aes(xintercept = median(pate), linetype = 'median'))
+  if (isTRUE(.mean)) p <- p + geom_vline(data = sates, aes(xintercept = sate_mean, linetype = 'mean'))
+  if (isTRUE(.median)) p <- p + geom_vline(data = sates, aes(xintercept = sate_median, linetype = 'median'))
   if (!is.null(reference)) p <- p + geom_vline(xintercept = reference)
 
   return(p)

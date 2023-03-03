@@ -1,3 +1,19 @@
+# plotBart 0.1.21
+- Added `view_overlap` argument to `plot_SATE()`function. 
+- Allows user to view what results would have been under alternative common support rules. 
+
+# plotBart 0.1.20
+- Added `plot_moderator_c_bin()` function. 
+
+# plotBart 0.1.10
+- Documentation updates for CRAN
+
+# plotBart 0.1.9
+- Documentation updates for CRAN
+
+# plotBart 0.1.8
+- Documentation updates for CRAN
+
 # plotBart 0.1.7
 - Documentation updates for CRAN
 

@@ -73,7 +73,7 @@ plot_waterfall <- function(.model, descending = TRUE, .order = NULL, .color = NU
   # create base plot
   p <- ggplot(dat, aes(x = icate.o, y = icate.m)) +
     geom_linerange(aes(ymin = icate.lci, ymax = icate.uci),
-                   alpha = .alpha, color = 'grey10') +
+                   alpha = .alpha, color = 'grey60') +
     geom_point() +
     labs(title = NULL,
          x = 'Ordered icates',

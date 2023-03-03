@@ -78,7 +78,7 @@ plot_common_support <- function(.model, .x = NULL, .y = NULL,  rule = c('both', 
   )
 
   prop_chi <- round(total_chi / inference_group, 2)*100
-  text_chi <- paste0('Chi-squared rule: ', prop_chi, "% of cases would are removed")
+  text_chi <- paste0('Chi-squared rule: ', prop_chi, "% of cases are removed")
 
   # create dataframe of the sd and chi values
   dat <- as_tibble(.model$data.rsp@x) %>%
