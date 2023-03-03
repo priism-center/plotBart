@@ -9,6 +9,7 @@ plot_overlap_pScores(
   treatment,
   confounders,
   plot_type = c("histogram", "density"),
+  trim = TRUE,
   min_x = NULL,
   max_x = NULL,
   pscores = NULL,
@@ -23,6 +24,8 @@ plot_overlap_pScores(
 \item{confounders}{character list of column names denoting confounders within .data}
 
 \item{plot_type}{the plot type, one of c('Histogram', 'Density')}
+
+\item{trim}{a logical if set to true y axis will be trimmed to better visualize areas of overlap}
 
 \item{min_x}{numeric value specifying the minimum propensity score value to be shown on the x axis}
 

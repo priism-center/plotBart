@@ -4,6 +4,7 @@
 #' @param .data dataframe
 #' @param treatment character. Name of the treatment column within .data
 #' @param confounders character list of column names denoting confounders within .data
+#' @param trim a logical if set to true y axis will be trimmed to better visualize areas of overlap
 #' @param min_x numeric value specifying the minimum propensity score value to be shown on the x axis
 #' @param max_x numeric value specifying the maximum propensity score value to be shown on the x axis
 #' @param plot_type the plot type, one of c('Histogram', 'Density')
@@ -31,7 +32,7 @@
 #'  seed = 44
 #')
 #'}
-plot_overlap_pScores <- function(.data, treatment, confounders, plot_type = c("histogram", "density"),min_x = NULL, max_x = NULL, pscores = NULL, ...) {
+plot_overlap_pScores <- function(.data, treatment, confounders, plot_type = c("histogram", "density"), trim = TRUE, min_x = NULL, max_x = NULL, pscores = NULL, ...) {
 
   plot_type <- tolower(plot_type[[1]])
   if (plot_type %notin% c('histogram', 'density')) stop('plot_type must be one of c("histogram", "density"')
@@ -50,17 +51,17 @@ plot_overlap_pScores <- function(.data, treatment, confounders, plot_type = c("h
   dat <- data.frame(Z = coerce_to_logical_(.data[[treatment]]),
                     pscores = pscores)
 
+
   if(!is.null(min_x)) {dat <- dat %>% filter(pscores >= min_x)}
   if(!is.null(max_x)) {dat <- dat %>% filter(pscores <= max_x)}
 
 
   if (plot_type == 'histogram'){
-
     p <- ggplot() +
       geom_hline(yintercept = 0, linetype = 'dashed', color = 'grey60') +
       geom_histogram(data = filter(dat, Z == 1),
                      aes(x = pscores, y = ..count.., fill = Z),
-                     alpha = 0.8) +
+                     alpha = 0.8, color = 'black') +
       geom_histogram(data = filter(dat, Z == 0),
                      aes(x = pscores, y = -..count.., fill = Z),
                      alpha = 0.8, color = 'black') +
@@ -91,6 +92,13 @@ plot_overlap_pScores <- function(.data, treatment, confounders, plot_type = c("h
              fill = "Treatment")
 
     }
+
+  # trim if applicable
+  if(isTRUE(trim)){
+    if(layer_scales(p)$y$range$range[1] < -30 | layer_scales(p)$y$range$range[2] > 30){
+      p <- p + coord_cartesian(ylim = c(-30, 30)) + labs(subtitle = 'Y axis has been trimmed to better visualize overlap')
+    }
+  }
 
   return(p)
 }

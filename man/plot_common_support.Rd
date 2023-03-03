@@ -6,17 +6,17 @@
 \usage{
 plot_common_support(
   .model,
-  .x = "Propensity Score",
-  .y = "stat",
+  .x = NULL,
+  .y = NULL,
   rule = c("both", "sd", "chi")
 )
 }
 \arguments{
 \item{.model}{a model produced by `bartCause::bartc()`}
 
-\item{.x}{a character string denoting which covariate to use a the x axis default is propensity score}
+\item{.x}{a character string denoting which covariate to use a the x axis default is to use a regression tree to predict the variable with least common support.}
 
-\item{.y}{a character string denoting which covariate to use a the y axis default is the common support statistic}
+\item{.y}{a character string denoting which covariate to use a the y axis default is the outcome variable y}
 
 \item{rule}{one of c('both', 'sd', 'chi') denoting which rule to use to identify lack of support}
 }
@@ -49,7 +49,7 @@ model_results <- bartCause::bartc(
  commonSuprule = 'none'
 )
 plot_common_support(model_results)
-plot_common_support(model_results, .x = 'age')
+plot_common_support(model_results)
 }
 }
 \references{

@@ -2,8 +2,8 @@
 #' @description Plot common support based on the standard deviation rule, chi squared rule, or both.
 #'
 #' @param .model a model produced by `bartCause::bartc()`
-#' @param .x a character string denoting which covariate to use a the x axis default is propensity score
-#' @param .y a character string denoting which covariate to use a the y axis default is the common support statistic
+#' @param .x a character string denoting which covariate to use a the x axis default is to use a regression tree to predict the variable with least common support.
+#' @param .y a character string denoting which covariate to use a the y axis default is the outcome variable y
 #' @param rule one of c('both', 'sd', 'chi') denoting which rule to use to identify lack of support
 #'
 #' @details Sufficient overlap/common support is an assumption of causal inference.
@@ -42,9 +42,9 @@
 #'  commonSuprule = 'none'
 #' )
 #' plot_common_support(model_results)
-#' plot_common_support(model_results, .x = 'age')
+#' plot_common_support(model_results)
 #' }
-plot_common_support <- function(.model, .x = 'Propensity Score', .y = 'stat',  rule = c('both', 'sd', 'chi')){
+plot_common_support <- function(.model, .x = NULL, .y = NULL,  rule = c('both', 'sd', 'chi')){
 
   # ensure model is a of class bartcFit
   validate_model_(.model)
@@ -84,6 +84,10 @@ plot_common_support <- function(.model, .x = 'Propensity Score', .y = 'stat',  r
   dat <- as_tibble(.model$data.rsp@x) %>%
     rename(`Propensity Score` = ps)
 
+  dat$y <- .model$data.rsp@y
+  dat$trt <- .model$trt
+
+
   dat.sd <- dat %>%
     mutate(sd.cut = if_else(.model$trt == 1, sd.cut[1], sd.cut[2]),
            removed = if_else(.model$sd.cf > sd.cut, 'Removed', 'Included'),
@@ -106,14 +110,35 @@ plot_common_support <- function(.model, .x = 'Propensity Score', .y = 'stat',  r
   if(.model$estimand == 'att') dat <- dat[rep(.model$trt, 2) == 1,]
   if(.model$estimand == 'atc') dat <- dat[rep(.model$trt, 2) == 0,]
 
+  if(is.null(.y)) .y <- 'y'
+
+  if(is.null(.x)){
+    .x <- predicted_common_support(.model)
+    .x$var <- ifelse(is.nan(.x$complexity), 'Propensity Score', .x$var)
+
+    if('chi' %notin% rule) .x <- .x[1,1]
+    if('sd' %notin% rule) .x <- .x[2,1]
+    if(length(rule) == 2) {
+      if (length(unique(.x[['var']])) == 1) {
+        .x <-  .x[1, 1]
+      } else{
+        .x[is.nan(.x$complexity), 'complexity'] <-  0
+        .x <- .x[.x$complexity == max(x$complexity), 1]
+      }
+    }
+  }
+
+
   # plot it
   p <- dat %>%
     filter(support_rule %in% rule) %>%
-    ggplot(aes(x = !!rlang::sym(.x), y = !!rlang::sym(.y), color = removed)) +
+    ggplot(aes(x = !!rlang::sym(.x), y = !!rlang::sym(.y), color = removed, shape = as.logical(trt))) +
     geom_point(alpha = 0.7) +
     scale_color_manual(values = c(1, 2)) +
+    scale_shape_manual(values = c(21,19)) +
     facet_wrap(~support_rule_text, ncol = 1, scales = 'free_y') +
     labs(title ="Common support checks",
+         shape = .model$name.trt,
          x = .x,
          y = if(.y == 'stat') 'Removal statistic' else .y,
          color = NULL) +
@@ -124,6 +149,35 @@ plot_common_support <- function(.model, .x = 'Propensity Score', .y = 'stat',  r
 }
 
 
+#' @title Plot a regression tree predicting variables with lack of overlap
+#' @description Identify variables that predict lack of overlap
+#'
+#' @param .model a model produced by `bartCause::bartc()`
+#' @param max_depth a number indicatin the max depth of the tree. Higher numbers are more prone to overfitting.
+#' @param rule one of c('both', 'sd', 'chi') denoting which rule to use to identify lack of support
+#
+#' @author George Perrett, Joseph Marlo
+#'
+#' @return ggplot object
+#' @export
+#'
+#' @import ggplot2 dplyr rpart
+#' @importFrom rlang sym
+#'
+#' @examples
+#' \donttest{
+#' data(lalonde)
+#' confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
+#' model_results <- bartCause::bartc(
+#'  response = lalonde[['re78']],
+#'  treatment = lalonde[['treat']],
+#'  confounders = as.matrix(lalonde[, confounders]),
+#'  estimand = 'ate',
+#'  commonSuprule = 'none'
+#' )
+#' plot_predicted_common_support (model_results)
+#' plot_predicted_common_support (model_results, max_depth = 2, rule = 'chi')
+#' }
 plot_predicted_common_support <- function(.model, max_depth = 3, rule = c('both', 'sd', 'chi')){
 
   # ensure model is a of class bartcFit
@@ -183,6 +237,7 @@ plot_predicted_common_support <- function(.model, max_depth = 3, rule = c('both'
     error = function(e)
       FALSE
   )
+
   p <- switch (rule,
     both =
       if (isFALSE(sd.p) &isFALSE(chi.p)) {
@@ -210,5 +265,56 @@ plot_predicted_common_support <- function(.model, max_depth = 3, rule = c('both'
   )
 
   return(p)
+}
+
+
+predicted_common_support <- function(.model, max_depth = 1){
+
+  # ensure model is a of class bartcFit
+  validate_model_(.model)
+
+  rule <- 'both'
+  if (rule %notin% c('both', 'sd', 'chi')) stop('rule must be one of c("both", "sd", "chi")')
+
+
+  # calculate summary stats
+  sd.cut = c(trt = max(.model$sd.obs[!.model$missingRows & .model$trt > 0]), ctl = max(.model$sd.obs[!.model$missingRows & .model$trt <= 0])) + sd(.model$sd.obs[!.model$missingRows])
+
+  # create dataframe of the sd and chi values
+  dat <- as_tibble(.model$data.rsp@x)
+
+  dat.sd <- dat %>%
+    mutate(sd.cut = if_else(.model$trt == 1, sd.cut[1], sd.cut[2]),
+           removed = if_else(.model$sd.cf > sd.cut, 1, 0)) %>%
+    select(-sd.cut)
+
+  dat.chi <- dat %>%
+    mutate(removed = if_else((.model$sd.cf / .model$sd.obs) ** 2 > 3.841, 1, 0))
+
+
+  dat.chi <- switch (.model$estimand,
+                     ate = dat.chi[, names(dat.chi) %notin% c('ps', .model$name.trt)],
+                     att = dat.chi[.model$trt == 1, names(dat.chi) %notin% c('ps', .model$name.trt)],
+                     atc = dat.chi[.model$trt == 0, names(dat.chi) %notin% c('ps', .model$name.trt)])
+
+  dat.sd <- switch (.model$estimand,
+                    ate = dat.sd[, names(dat.sd) %notin% c('ps', .model$name.trt)],
+                    att = dat.sd[.model$trt == 1,names(dat.sd) %notin% c('ps', .model$name.trt)],
+                    atc = dat.sd[.model$trt == 0,names(dat.sd) %notin% c('ps', .model$name.trt)])
+
+
+  chi.tree <- rpart::rpart(removed ~ ., dat.chi, maxdepth = max_depth)
+
+
+  sd.tree <- rpart::rpart(removed ~ ., dat.sd, maxdepth = max_depth)
+
+  chi <- chi.tree$frame[1,]
+  chi$rule <- 'chi'
+  sd <- sd.tree$frame[1,]
+  sd$rule <- 'sd'
+
+  out <- rbind(sd, chi)
+  return(out)
+
 }
 

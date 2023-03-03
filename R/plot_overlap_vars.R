@@ -56,14 +56,14 @@ plot_overlap_vars <- function(.data, treatment, confounders, plot_type = c("hist
                        alpha = 0.8, color = 'black') +
         geom_histogram(data = filter(dat_pivoted, Z_treat == 0),
                        aes(x = value, y = -..count.., fill = Z_treat),
-                       alpha = 0.8)
+                       alpha = 0.8, color = 'black')
     }else{
       p <- p + geom_bar(data = filter(dat_pivoted, Z_treat == 1),
                               aes(x = value, y = ..count.., fill = Z_treat),
-                              alpha = 0.8) +
+                              alpha = 0.8, color = 'black') +
         geom_bar(data = filter(dat_pivoted, Z_treat == 0),
                        aes(x = value, y = -..count.., fill = Z_treat),
-                       alpha = 0.8)
+                       alpha = 0.8, color = 'black')
     }
      p <- p +  scale_y_continuous(labels = function(lbl) abs(lbl)) +
       scale_fill_manual(values = c(4, 2)) +
