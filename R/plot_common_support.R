@@ -129,13 +129,20 @@ plot_common_support <- function(.model, .x = NULL, .y = NULL,  rule = c('both', 
   }
 
 
+  # shapes depend on estimand
+  .shape <- switch (.model$estimand ,
+    'att' = 19,
+    'atc' = 21,
+    'ate' = c(21, 19)
+  )
+
   # plot it
   p <- dat %>%
     filter(support_rule %in% rule) %>%
     ggplot(aes(x = !!rlang::sym(.x), y = !!rlang::sym(.y), color = removed, shape = as.logical(trt))) +
     geom_point(alpha = 0.7) +
     scale_color_manual(values = c(1, 2)) +
-    scale_shape_manual(values = c(21,19)) +
+    scale_shape_manual(values = .shape) +
     facet_wrap(~support_rule_text, ncol = 1, scales = 'free_y') +
     labs(title ="Common support checks",
          shape = .model$name.trt,
