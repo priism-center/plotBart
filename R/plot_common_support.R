@@ -123,7 +123,7 @@ plot_common_support <- function(.model, .x = NULL, .y = NULL,  rule = c('both', 
         .x <-  .x[1, 1]
       } else{
         .x[is.nan(.x$complexity), 'complexity'] <-  0
-        .x <- .x[.x$complexity == max(x$complexity), 1]
+        .x <- .x[.x$complexity == max(.x$complexity), 1]
       }
     }
   }
