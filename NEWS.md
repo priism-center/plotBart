@@ -1,3 +1,6 @@
+# plotBart 0.1.22
+- minor bug fix
+
 # plotBart 0.1.21
 - Added `view_overlap` argument to `plot_SATE()`function. 
 - Allows user to view what results would have been under alternative common support rules. 
