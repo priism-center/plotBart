@@ -4,10 +4,12 @@
 \alias{plot_trace}
 \title{Trace plot the estimands of a `bartCause::bartc()` model}
 \usage{
-plot_trace(.model)
+plot_trace(.model, type = c("cate", "sate", "pate", "sigma"))
 }
 \arguments{
 \item{.model}{a model produced by `bartCause::bartc()`}
+
+\item{type}{parameter to plot options are average treatment effects: `cate`, `sate` and `pate` as well as posterior predicitve uncertainty `sigma`}
 }
 \value{
 ggplot object

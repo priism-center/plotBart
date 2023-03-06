@@ -108,12 +108,10 @@ plot_residual_predicted <- function(.model, covariate = NULL){
   }
   if(rlang::is_null(covariate)){
     p <- p + geom_hline(yintercept = 0) +
-      labs(x = "Predicted Y", y = "Residual") +
-      theme_minimal()
+      labs(x = "Predicted Y", y = "Residual")
   }else{
     p <- p + geom_hline(yintercept = 0) +
-      labs(x = covariate, y = "Residual") +
-      theme_minimal()
+      labs(x = covariate, y = "Residual")
   }
   return(p)
 }
