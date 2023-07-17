@@ -236,7 +236,7 @@ plot_moderator_c_bin <- function(.model, moderator,type = c('density', 'histogra
     dplyr::group_by(splits) %>%
     dplyr::summarise(min = min(x), max = max(x)) %>%
     dplyr::arrange(min) %>%
-    dplyr::mutate(subgroup = paste0(.name,':', min,'-', max))
+    dplyr::mutate(subgroup = paste0(.name,':', round(min, 2) ,'-', round(max, 2)))
 
   bins <- bins %>% dplyr::left_join(subgroups)
 

@@ -1,3 +1,6 @@
+# plotBart 0.1.24
+- update SATE wih bartCause changes
+
 # plotBart 0.1.23
 - added `plot_trank()` function
 - added adition paramaters to `plot_trace()`

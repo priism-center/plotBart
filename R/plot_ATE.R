@@ -48,17 +48,17 @@ plot_CATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
   )
 
   # calculate stats
-  pate <- bartCause::extract(.model, 'cate')
-  pate <- as.data.frame(pate)
-  ub <- quantile(pate$pate, 0.9)
-  lb <- quantile(pate$pate, 0.1)
-  ub.95 <- quantile(pate$pate, 0.975)
-  lb.95 <- quantile(pate$pate, 0.025)
-  dd <- density(pate$pate)
+  cate <- bartCause::extract(.model, 'cate')
+  cate <- as.data.frame(cate)
+  ub <- quantile(cate$cate, 0.9)
+  lb <- quantile(cate$cate, 0.1)
+  ub.95 <- quantile(cate$cate, 0.975)
+  lb.95 <- quantile(cate$cate, 0.025)
+  dd <- density(cate$cate)
   dd <- with(dd, data.frame(x, y))
 
   # build base plot
-  p <- ggplot(pate, aes(pate)) +
+  p <- ggplot(cate, aes(cate)) +
     scale_linetype_manual(values = c(2, 3)) +
     theme(legend.title = element_blank()) +
     labs(title = .title,
@@ -98,8 +98,8 @@ plot_CATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
   }
 
   # add reference lines
-  if (isTRUE(.mean)) p <- p + geom_vline(data = pate, aes(xintercept = mean(pate), linetype = 'mean'))
-  if (isTRUE(.median)) p <- p + geom_vline(data = pate, aes(xintercept = median(pate), linetype = 'median'))
+  if (isTRUE(.mean)) p <- p + geom_vline(data = cate, aes(xintercept = mean(cate), linetype = 'mean'))
+  if (isTRUE(.median)) p <- p + geom_vline(data = cate, aes(xintercept = median(cate), linetype = 'median'))
   if (!is.null(reference)) p <- p + geom_vline(xintercept = reference)
 
   return(p)
@@ -364,15 +364,15 @@ plot_SATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
   )
 
   .sign <- switch (.model$estimand,
-    ate = (2 * .model$trt - 1),
-    att = (2 * .model$trt[.model$trt == 1] - 1),
-    atc = (2 * .model$trt[.model$trt == 0] - 1)
+    ate = (2 *.model$trt - 1),
+    att = (2 *.model$trt[.model$trt == 1] - 1),
+    atc = (2 *.model$trt[.model$trt == 0] - 1)
   )
 
   # calculate stats
-  mu_obs <- extract(.model, 'mu.obs')
+  y_obs <- .model$data.rsp@y
   y_cf <- extract(.model, 'y.cf')
-  sate.samples <- t(mu_obs - y_cf)*.sign
+  sate.samples <- (y_obs - t(y_cf))*.sign
 
   # check overlap
   sate_overlap <- apply_overlap_rules(.model)
