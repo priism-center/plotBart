@@ -370,7 +370,12 @@ plot_SATE <- function(.model, type = c('histogram', 'density'), ci_80 = FALSE, c
   )
 
   # calculate stats
-  y_obs <- .model$data.rsp@y
+  y_obs <- switch (.model$estimand,
+                   ate = .model$data.rsp@y,
+                   att = .model$data.rsp@y[.model$trt == 1],
+                   atc = .model$data.rsp@y[.model$trt == 0]
+  )
+
   y_cf <- extract(.model, 'y.cf')
   sate.samples <- (y_obs - t(y_cf))*.sign
 

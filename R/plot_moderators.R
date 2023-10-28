@@ -220,6 +220,7 @@ plot_moderator_c_bin <- function(.model, moderator,type = c('density', 'histogra
                       att = 'CATT',
                       atc = 'CATC'
   )
+
   # extract the posterior
   posterior <- bartCause::extract(.model, 'icate')
 
@@ -230,7 +231,9 @@ plot_moderator_c_bin <- function(.model, moderator,type = c('density', 'histogra
   tree <- rpart::rpart(icate.m ~ moderator)
 
   # get bins from regression tree
-  bins <- dplyr::tibble(splits = tree$where)
+  bins <- dplyr::tibble(splits = tree$where,
+                        x = moderator)
+
   subgroups <- dplyr::tibble(splits = tree$where,
                              x = moderator) %>%
     dplyr::group_by(splits) %>%
@@ -244,19 +247,19 @@ plot_moderator_c_bin <- function(.model, moderator,type = c('density', 'histogra
   posterior <- posterior %>%
     t() %>%
     as.data.frame() %>%
-    as_tibble()
-
-  # split posterior into list of dfs by each level of moderator
-  split_posterior <- split(posterior, bins$subgroup)
-  posterior_means <- lapply(split_posterior, colMeans)
-
-  # unlist into a data.frame for plotting
-  dat <- data.frame(value = unlist(posterior_means))
-  dat$moderator <- sub("\\..*", '', rownames(dat))
-  rownames(dat) <- seq_len(nrow(dat))
+    as_tibble() %>%
+    mutate(moderator = bins$subgroup)
+  check <- posterior %>%
+    group_by(moderator) %>%
+    summarise_all(mean)
+  # marginalize
+  posterior <- posterior %>%
+    group_by(moderator) %>%
+    summarise_all(mean) %>%
+    pivot_longer(cols = 2:ncol(posterior))
 
   # plot it
-  p <- ggplot(dat, aes(value, fill = moderator))
+  p <- ggplot(posterior, aes(value, fill = moderator))
 
   if(type == 'density'){
     p <- p + geom_density(alpha = .alpha) +
