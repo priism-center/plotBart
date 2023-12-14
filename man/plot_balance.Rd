@@ -9,7 +9,9 @@ plot_balance(
   treatment,
   confounders,
   compare = c("means", "variance", "covariance"),
-  estimand = c("ATE", "ATT", "ATC")
+  estimand = c("ATE", "ATT", "ATC"),
+  limit_continuous = NULL,
+  limit_catagorical = NULL
 )
 }
 \arguments{
@@ -22,6 +24,10 @@ plot_balance(
 \item{compare}{character of either means or variance denotes what to compare balance on}
 
 \item{estimand}{character of either ATE, ATT or ATC the causal estimand you are making inferences about}
+
+\item{limit_continuous}{integer that can be used to limit the plot to only show the limit_continuous most imbalanced variables}
+
+\item{limit_catagorical}{integer that can be used to limit the plot to only show the limit_categorical most imbalanced variables}
 }
 \value{
 ggplot object

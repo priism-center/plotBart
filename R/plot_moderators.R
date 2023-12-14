@@ -249,9 +249,7 @@ plot_moderator_c_bin <- function(.model, moderator,type = c('density', 'histogra
     as.data.frame() %>%
     as_tibble() %>%
     mutate(moderator = bins$subgroup)
-  check <- posterior %>%
-    group_by(moderator) %>%
-    summarise_all(mean)
+
   # marginalize
   posterior <- posterior %>%
     group_by(moderator) %>%

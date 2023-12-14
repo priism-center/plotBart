@@ -1,9 +1,15 @@
+# plotBART 0.1.26
+- new features for `plot_balance()`
+
+# plotBart 0.1.25
+- update SATE with bartCause changes
+
 # plotBart 0.1.24
-- update SATE wih bartCause changes
+- update SATE with bartCause changes
 
 # plotBart 0.1.23
 - added `plot_trank()` function
-- added adition paramaters to `plot_trace()`
+- added additional paramaters to `plot_trace()`
 
 # plotBart 0.1.22
 - minor bug fix

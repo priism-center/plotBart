@@ -6,7 +6,9 @@
 #' @param confounders character list of column names denoting the X columns of interest
 #' @param compare character of either means or variance denotes what to compare balance on
 #' @param estimand character of either ATE, ATT or ATC the causal estimand you are making inferences about
-
+#' @param limit_continuous integer that can be used to limit the plot to only show the limit_continuous most imbalanced variables
+#' @param limit_catagorical integer that can be used to limit the plot to only show the limit_categorical most imbalanced variables
+#'
 #' @author George Perrett & Joseph Marlo
 #'
 #' @return ggplot object
@@ -24,15 +26,17 @@
 #' labs(title = 'My new title')
 #'
 
-plot_balance <- function(.data, treatment, confounders, compare = c('means', 'variance', 'covariance'), estimand = c('ATE', 'ATT', 'ATC')){
+plot_balance <- function(.data, treatment, confounders, compare = c('means', 'variance', 'covariance'), estimand = c('ATE', 'ATT', 'ATC'), limit_continuous = NULL, limit_catagorical = NULL){
   if(missing(treatment)) stop('enter a string indicating the name of the treatment variable')
+  if(!is.integer(limit_continuous)&!is.null(limit_continuous)) stop('limit_continuous must be an integer')
+  if(!is.integer(limit_catagorical)&!is.null(limit_catagorical)) stop('limit_catagorical must be an integer')
   if('factor' %in% sapply(.data[, confounders], class)) stop('factor variables must be converted to numeric or logical indicator variables')
   if('character' %in% sapply(.data[, confounders], class)) stop('factor variables must be converted to numeric or logical indicator variables')
 
   if (length(table(.data[[treatment]])) != 2) stop("treatment must be binary")
   .data[[treatment]] <- coerce_to_logical_(.data[[treatment]])
 
-    # make sure arguments are set
+  # make sure arguments are set
   compare <- match.arg(compare)
   estimand <- match.arg(estimand)
   estimand <- toupper(estimand)
@@ -112,6 +116,24 @@ plot_balance <- function(.data, treatment, confounders, compare = c('means', 'va
            variance = if_else(variance > 4, 4, variance),
            variance = if_else(variance < .25, .25, variance)) %>%
      na.omit()
+
+   if(!is.null(limit_catagorical) ){
+    .data <- .data %>%
+      arrange(order) %>%
+      group_by(type) %>%
+      mutate(rank = row_number()) %>%
+      filter(rank < limit_catagorical | type == 'continuous') %>%
+      ungroup()
+   }
+
+   if(!is.null(limit_continuous)){
+     .data <- .data %>%
+       arrange(order) %>%
+       group_by(type) %>%
+       mutate(rank = row_number()) %>%
+       filter(rank < limit_continuous | type != 'continuous') %>%
+       ungroup()
+   }
 
    p1 <- .data %>%
      filter(type != 'continuous') %>%
