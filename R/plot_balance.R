@@ -122,7 +122,7 @@ plot_balance <- function(.data, treatment, confounders, compare = c('means', 'va
 
    if(!is.null(limit_catagorical) ){
     .data <- .data %>%
-      arrange(order) %>%
+      arrange(desc(order)) %>%
       group_by(type) %>%
       mutate(rank = row_number()) %>%
       filter(rank < limit_catagorical | type == 'continuous') %>%
@@ -131,7 +131,7 @@ plot_balance <- function(.data, treatment, confounders, compare = c('means', 'va
 
    if(!is.null(limit_continuous)){
      .data <- .data %>%
-       arrange(order) %>%
+       arrange(desc(order)) %>%
        group_by(type) %>%
        mutate(rank = row_number()) %>%
        filter(rank < limit_continuous | type != 'continuous') %>%
