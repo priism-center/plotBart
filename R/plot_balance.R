@@ -28,11 +28,14 @@
 
 plot_balance <- function(.data, treatment, confounders, compare = c('means', 'variance', 'covariance'), estimand = c('ATE', 'ATT', 'ATC'), limit_continuous = NULL, limit_catagorical = NULL){
   if(missing(treatment)) stop('enter a string indicating the name of the treatment variable')
-  if(!is.integer(limit_continuous)&!is.null(limit_continuous)) stop('limit_continuous must be an integer')
-  if(!is.integer(limit_catagorical)&!is.null(limit_catagorical)) stop('limit_catagorical must be an integer')
   if('factor' %in% sapply(.data[, confounders], class)) stop('factor variables must be converted to numeric or logical indicator variables')
   if('character' %in% sapply(.data[, confounders], class)) stop('factor variables must be converted to numeric or logical indicator variables')
-
+  if(!is.null(limit_continuous)){
+    if(limit_continuous != round(limit_continuous)) stop('limit_continuous must be a whole number that can be converted to numeric')
+  }
+  if(!is.null(limit_catagorical)){
+    if(limit_catagorical != round(limit_catagorical)&!is.null(limit_catagorical)) stop('limit_catagorical must be a whole number that can be converted to numeric')
+  }
   if (length(table(.data[[treatment]])) != 2) stop("treatment must be binary")
   .data[[treatment]] <- coerce_to_logical_(.data[[treatment]])
 
