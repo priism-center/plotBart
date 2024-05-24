@@ -659,6 +659,7 @@ rpart_ggplot_ <- function(.model){
 #' @import dplyr
 #' @importFrom bartCause extract
 #' @importFrom rpart rpart
+#' @import stats
 #'
 #' @examples
 #' \donttest{
@@ -677,7 +678,6 @@ table_moderator_c_bin <- function(.model, moderator, .name = 'bin'){
 
   validate_model_(.model)
   is_numeric_vector_(moderator)
-  type <- type[1]
 
   # adjust moderator to match estimand
   moderator <- adjust_for_estimand_(.model, moderator)
