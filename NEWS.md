@@ -1,3 +1,6 @@
+# plotBart 0.1.27
+- new function `table_moderator_c_bin()`
+
 # plotBART 0.1.26
 - new features for `plot_balance()`
 

@@ -60,10 +60,10 @@ plot_overlap_pScores <- function(.data, treatment, confounders, plot_type = c("h
     p <- ggplot() +
       geom_hline(yintercept = 0, linetype = 'dashed', color = 'grey60') +
       geom_histogram(data = filter(dat, Z == 1),
-                     aes(x = pscores, y = ..count.., fill = Z),
+                     aes(x = pscores, y = after_stat(count), fill = Z),
                      alpha = 0.8, color = 'black') +
       geom_histogram(data = filter(dat, Z == 0),
-                     aes(x = pscores, y = -..count.., fill = Z),
+                     aes(x = pscores, y = -after_stat(count), fill = Z),
                      alpha = 0.8, color = 'black') +
       scale_y_continuous(labels = function(lbl) abs(lbl)) +
       scale_fill_manual(values = c(4,2)) +

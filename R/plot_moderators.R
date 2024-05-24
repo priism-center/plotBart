@@ -256,6 +256,8 @@ plot_moderator_c_bin <- function(.model, moderator,type = c('density', 'histogra
     summarise_all(mean) %>%
     pivot_longer(cols = 2:ncol(posterior))
 
+
+
   # plot it
   p <- ggplot(posterior, aes(value, fill = moderator))
 
@@ -638,3 +640,99 @@ rpart_ggplot_ <- function(.model){
 
   return(p)
 }
+
+
+
+#' @title Auto-Bin a table of a continuous moderating variable into a discrete moderating variable
+#' @description Use a regression tree to optimally bin a continuous variable, this function will print out a table with estimates and 95% ci
+#'
+#' @param .model a model produced by `bartCause::bartc()`
+#' @param moderator the moderator as a vector
+#'@param .name sting representing the name of the moderating variable
+#'
+#' @author George Perrett
+#'
+#'
+#' @return a data.frame object
+#' @export
+#'
+#' @import dplyr
+#' @importFrom bartCause extract
+#' @importFrom rpart rpart
+#'
+#' @examples
+#' \donttest{
+#' data(lalonde)
+#' confounders <- c('age', 'educ', 'black', 'hisp', 'married', 'nodegr')
+#' model_results <- bartCause::bartc(
+#'  response = lalonde[['re78']],
+#'  treatment = lalonde[['treat']],
+#'  confounders = as.matrix(lalonde[, confounders]),
+#'  estimand = 'ate',
+#'  commonSuprule = 'none'
+#' )
+#' table_moderator_c_bin(model_results, lalonde$age, .name = 'age')
+#' }
+table_moderator_c_bin <- function(.model, moderator, .name = 'bin'){
+
+  validate_model_(.model)
+  is_numeric_vector_(moderator)
+  type <- type[1]
+
+  # adjust moderator to match estimand
+  moderator <- adjust_for_estimand_(.model, moderator)
+  estimand <- switch (.model$estimand,
+                      ate = 'CATE',
+                      att = 'CATT',
+                      atc = 'CATC'
+  )
+
+  # extract the posterior
+  posterior <- bartCause::extract(.model, 'icate')
+
+  # get icate point est
+  icate.m <- apply(posterior, 2, mean)
+
+  # fit regression tree
+  tree <- rpart::rpart(icate.m ~ moderator)
+
+  # get bins from regression tree
+  bins <- dplyr::tibble(splits = tree$where,
+                        x = moderator)
+
+  subgroups <- dplyr::tibble(splits = tree$where,
+                             x = moderator) %>%
+    dplyr::group_by(splits) %>%
+    dplyr::summarise(min = min(x), max = max(x)) %>%
+    dplyr::arrange(min) %>%
+    dplyr::mutate(subgroup = paste0(.name,':', round(min, 2) ,'-', round(max, 2)))
+
+  bins <- bins %>% dplyr::left_join(subgroups)
+
+  # roatate posterior
+  posterior <- posterior %>%
+    t() %>%
+    as.data.frame() %>%
+    as_tibble() %>%
+    mutate(moderator = bins$subgroup)
+
+  # marginalize
+  posterior <- posterior %>%
+    group_by(moderator) %>%
+    summarise_all(mean) %>%
+    pivot_longer(cols = 2:ncol(posterior))
+
+
+
+  posterior %>%
+    dplyr::group_by(moderator) |>
+    dplyr::mutate(
+      est = mean (value),
+      sd = sd(value),
+      lci = quantile(value, prob = .025),
+      uci = quantile(value, prob = .975)) %>%
+    dplyr::select(est, sd, lci, uci) %>%
+    dplyr::distinct()
+
+}
+
